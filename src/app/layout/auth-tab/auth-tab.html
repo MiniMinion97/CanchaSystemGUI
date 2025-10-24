@@ -1,0 +1,20 @@
+<div class="auth-trigger">
+  <span (click)="togglePanel('login')">Login</span> |
+  <span (click)="togglePanel('register')">Register</span>
+</div>
+
+<div class="auth-panel" [class.open]="isOpen">
+  <div class="auth-header">
+    <h3>{{ activeTab === 'login' ? 'Login' : 'Register' }}</h3>
+    <button class="close-btn" (click)="closePanel()">✖</button>
+  </div>
+
+  <div class="auth-body">
+    @if (activeTab === 'login') {
+      <app-login></app-login>
+    }
+    @if (activeTab === 'register') {
+      <app-register></app-register>
+    }    
+    </div>
+</div>

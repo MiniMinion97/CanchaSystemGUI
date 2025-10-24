@@ -1,0 +1,27 @@
+<form [formGroup] = "form" (ngSubmit) = "handleSubmit()">
+    <label>Nombre
+    <input type="text" formControlName="name">
+    </label>
+
+    <label>Apellido
+    <input type="text" formControlName="lastname">
+    </label>
+
+    <label>Nombre de usuario
+    <input type="text" formControlName="username">
+    </label>
+
+    <label>Contraseña
+    <input type="password" formControlName="password">
+    </label>
+
+    <label>Email
+    <input type="email" formControlName="mail">
+    </label>
+
+    <label>Teléfono
+    <input type="text" formControlName="cellphone">
+    </label>
+
+    <button type="submit">Registrarse</button>
+</form>

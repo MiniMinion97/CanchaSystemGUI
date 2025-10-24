@@ -1,0 +1,54 @@
+.auth-trigger {
+  position: fixed;
+  top: 20px;
+  right: 30px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #007bff;
+
+  span {
+    margin: 0 5px;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.auth-panel {
+  position: fixed;
+  top: 0;
+  right: -400px;
+  width: 350px;
+  height: 100vh;
+  background: #fff;
+  box-shadow: -3px 0 10px rgba(0, 0, 0, 0.2);
+  transition: right 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  padding: 1rem;
+
+  &.open {
+    right: 0;
+  }
+
+  .auth-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 0.5rem;
+  }
+
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+  }
+
+  .auth-body {
+    flex: 1;
+    margin-top: 1rem;
+  }
+}

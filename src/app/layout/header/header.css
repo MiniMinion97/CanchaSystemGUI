@@ -1,0 +1,21 @@
+
+header{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+nav{
+    width: 80%;
+    min-height: 8vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 20px;
+    border: black 1px solid;
+}
+
+a{
+    
+}

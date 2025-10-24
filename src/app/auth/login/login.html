@@ -1,0 +1,9 @@
+<form [formGroup] = "form" (ngSubmit) = "handleSubmit()">
+    <label>    Nombre de Usuario    
+        <input type="text" formControlName="username" />  
+    </label>  
+    <label>    Contraseña    
+        <input type="text" formControlName="password" />  
+    </label>  
+    <button type="submit">Iniciar sesión</button>
+</form>
