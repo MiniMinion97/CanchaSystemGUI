@@ -1,1 +1,15 @@
-<p>explore works!</p>
+
+@let establishments = this.establishments();
+
+@if (establishments) {
+  <main>
+    <section class="establishment-container">
+    @for (establishment of establishments; track establishment.id) {
+      <div class="establishment-item">
+        {{ establishment.name }}
+      </div>
+    }
+  </section>
+  </main>
+  
+}

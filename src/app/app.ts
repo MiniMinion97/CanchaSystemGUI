@@ -5,6 +5,7 @@ import { AuthTab } from './layout/auth-tab/auth-tab';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   imports: [RouterOutlet, Header, AuthTab],
   templateUrl: './app.html',
   styleUrl: './app.css'

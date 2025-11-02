@@ -1,8 +1,7 @@
 import { Component, inject, input, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators, FormGroup } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Service } from '../service';
-import { LoginRequest } from '../service';
+import { AuthService, LoginRequest } from '../services/authservice';
 
 
 
@@ -12,13 +11,13 @@ import { LoginRequest } from '../service';
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './login.html',
-  styleUrl: './login.css'
+  styleUrls: ['./login.css']
 })
 export class Login {
   private readonly formBuilder = inject(FormBuilder);
-  private readonly authService = inject(Service);
+  private readonly authService = inject(AuthService);
 
-  //readonly loginrequest = input<LoginRequest>();
+  readonly loginrequest = input<LoginRequest>();
 
   protected readonly form = this.formBuilder.nonNullable.group({
     username:["",Validators.required],
@@ -28,11 +27,16 @@ export class Login {
 
 
   handleSubmit(){
-    if (this.form.invalid) return;
-
-
+    if (!this.form.valid) return;
+    
     const loginrequest = this.form.getRawValue();
-    this.authService.login(loginrequest).subscribe
+    this.authService.login(loginrequest).subscribe({
+        next: (res) => {
+        console.log('Login successful:', res);}
+        ,
+        error: (err) => {
+        console.error('Login failed:', err);}
+    });
   }
 
 }

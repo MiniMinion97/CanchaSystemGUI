@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
+
 
 export interface LoginRequest {
   username: string;
@@ -15,44 +16,50 @@ export interface LoginResponse {
 
 export interface RegisterRequest {
   name: string;
-  lastname: string;
+  lastName: string;
   username: string;
   password: string;
   mail: string;
-  cellphone: string;
+  cellNumber: string;
 }
 
 @Injectable({
   providedIn: 'root'
 })
-export class Service {
+export class AuthService {
   private apiUrl = 'http://localhost:8080'; 
+  
+  loggedIn = signal<boolean>(!!localStorage.getItem('token'));
+  role = signal<string>(localStorage.getItem('role')!);
 
   constructor(private http: HttpClient) {}
 
   login(credentials: LoginRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, credentials)
-      .pipe(
+    return this.http.post<LoginResponse>(`${this.apiUrl}/auth/login`, credentials)
+      .pipe( 
         tap(res => {
           // Save token 
           localStorage.setItem('token', res.token);
           localStorage.setItem('username', res.username);
           localStorage.setItem('role', res.role);
+          this.loggedIn.set(true);
         })
       );
   }
 
   register(data: RegisterRequest): Observable<any> {
-    return this.http.post(`${this.apiUrl}/insertClient`, data);
+    return this.http.post(`${this.apiUrl}/client/insertClient`, data)
+    .pipe(
+      tap(() => this.loggedIn.set(true))
+    );
   }
 
   logout(): void {
     localStorage.clear();
+    this.loggedIn.set(false);
   }
 
-  isLoggedIn(): boolean {
-    return !!localStorage.getItem('token');
-  }
+  
 
   getToken(): string | null {
     return localStorage.getItem('token');

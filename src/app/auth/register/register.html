@@ -1,10 +1,10 @@
-<form [formGroup] = "form" (ngSubmit) = "handleSubmit()">
+<form [formGroup]="form" (ngSubmit)="handleSubmit()">
     <label>Nombre
     <input type="text" formControlName="name">
     </label>
 
     <label>Apellido
-    <input type="text" formControlName="lastname">
+    <input type="text" formControlName="lastName">
     </label>
 
     <label>Nombre de usuario
@@ -20,7 +20,7 @@
     </label>
 
     <label>Teléfono
-    <input type="text" formControlName="cellphone">
+    <input type="text" formControlName="cellNumber">
     </label>
 
     <button type="submit">Registrarse</button>

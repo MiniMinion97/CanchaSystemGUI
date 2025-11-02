@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Service } from '../service';
+import { AuthService, RegisterRequest } from '../services/authservice';
 
 
 @Component({
@@ -9,28 +9,35 @@ import { Service } from '../service';
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './register.html',
-  styleUrl: './register.css'
+  styleUrls: ['./register.css']
 })
 export class Register {
   private readonly formBuilder = inject(FormBuilder);
-    private readonly authService = inject(Service);
+    private readonly authService = inject(AuthService);
 
 
   protected readonly form = this.formBuilder.nonNullable.group({
     name: ["",Validators.required],
-    lastname:["",Validators.required],
+    lastName:["",Validators.required],
     username:["",Validators.required],
     password:["",Validators.required],
-    mail:["",Validators.required, Validators.email],
-    cellphone:["",Validators.required]
+    mail:["",[Validators.required, Validators.email]],
+    cellNumber:["",Validators.required]
   })
 
   handleSubmit(){ 
-        if (this.form.invalid) return;
 
+        if (this.form.invalid) return;
+        console.log("Formulario válido");
         const registerrequest = this.form.getRawValue()
 
-        this.authService.register(registerrequest).subscribe
+        this.authService.register(registerrequest).subscribe({
+            next: (res) => {
+            console.log('Registration successful:', res);}
+            ,
+            error: (err) => {
+            console.error('Registration failed:', err);}
+        });
 
   }
 }
