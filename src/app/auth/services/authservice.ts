@@ -51,7 +51,7 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/client/insertClient`, data)
     .pipe(
       tap(() => this.loggedIn.set(true))
-    );
+    ); 
   }
 
   logout(): void {

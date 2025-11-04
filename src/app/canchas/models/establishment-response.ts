@@ -1,5 +1,4 @@
-
-export interface Establishment {
+export interface EstablishmentResponse {
     id: number;
     name: string;
     brandId: number;
@@ -9,3 +8,4 @@ export interface Establishment {
     closingHour: Date;
     active: boolean;
 }
+
