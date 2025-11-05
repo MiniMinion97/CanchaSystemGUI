@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { AuthService } from '../../auth/services/authservice';
 
 @Component({
   selector: 'app-view',
@@ -7,5 +8,8 @@ import { Component } from '@angular/core';
   styleUrl: './view.css'
 })
 export class View {
+  private readonly authservice = inject(AuthService);
+  protected readonly role = this.authservice.getRole();
 
+  
 }

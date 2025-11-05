@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-client',
@@ -7,5 +8,17 @@ import { Component } from '@angular/core';
   styleUrl: './client.css'
 })
 export class Client {
+  private readonly router = inject(Router);
 
+  goToMyData(){
+    this.router.navigateByUrl("");
+  }
+
+  goToMyReservations(){
+    this.router.navigateByUrl("");
+  }
+
+  goToMyReviews(){
+    this.router.navigateByUrl("");
+  }
 }
