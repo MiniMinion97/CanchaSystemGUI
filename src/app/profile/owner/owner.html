@@ -3,4 +3,9 @@
     <section (click)="goToMyBrands()">Mis Marcas</section>
     <section (click)="goToMyEstablishments()">Mis Sucursales</section>
     <section (click)="goToMyCanchas()">Mis Canchas</section>
+    
+    <section (click)="toggleFormBrand()">Crear Marca</section>
+    @if (creating()){
+        <app-brand-form></app-brand-form>
+    }
 </main>

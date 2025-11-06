@@ -1,14 +1,16 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
+import { BrandForm } from '../../canchas/pages/brand-form/brand-form';
 
 @Component({
   selector: 'app-owner',
-  imports: [],
+  imports: [BrandForm],
   templateUrl: './owner.html',
   styleUrl: './owner.css'
 })
 export class Owner {
   private readonly router = inject(Router)
+  readonly creating = signal(false);
 
   goToMyData(){
     this.router.navigateByUrl("perfil/mis-datos");
@@ -24,5 +26,9 @@ export class Owner {
 
   goToMyCanchas(){
     this.router.navigateByUrl("perfil/mis-canchas");
+  }
+
+  toggleFormBrand(){
+    this.creating.update(value => !value);
   }
 }

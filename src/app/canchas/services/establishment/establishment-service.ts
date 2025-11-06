@@ -15,6 +15,9 @@ export class EstablishmentService {
     }
 
 
-
+    createEstablishment(establishment: EstablishmentResponse) {
+      // falta el back
+        return this.http.post<EstablishmentResponse>(`${this.url}/insert`, establishment);
+    }
 
 }
