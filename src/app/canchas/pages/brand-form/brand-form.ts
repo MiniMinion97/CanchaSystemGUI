@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { BrandService } from '../../services/brand/brand-service';
 
 @Component({
   selector: 'app-brand-form',
@@ -7,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './brand-form.css'
 })
 export class BrandForm {
-
+  private readonly brandService = inject(BrandService);
 }
