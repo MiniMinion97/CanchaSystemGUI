@@ -11,14 +11,14 @@ export class Client {
   private readonly router = inject(Router);
 
   goToMyData(){
-    this.router.navigateByUrl("");
+    this.router.navigateByUrl("perfil/mis-datos");
   }
 
   goToMyReservations(){
-    this.router.navigateByUrl("");
+    this.router.navigateByUrl("perfil/mis-reservas");
   }
 
   goToMyReviews(){
-    this.router.navigateByUrl("");
+    this.router.navigateByUrl("perfil/mis-reseñas");
   }
 }

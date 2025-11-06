@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { EstablishmentService } from '../../services/establishment-service';
+import { EstablishmentService } from '../../services/establishment/establishment-service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 

@@ -4,18 +4,23 @@ import { Client } from './profile/client/client';
 import { View } from './profile/view/view';
 import { MyDataComponent } from './profile/my-data/my-data.component';
 import { Details } from './canchas/pages/details/details';
+import { MyBrandsComponent } from './profile/owner/my-brands/my-brands.component';
+import { MyEstablishmentsComponent } from './profile/owner/my-establishments/my-establishments.component';
+import { MyCanchasComponent } from './profile/owner/my-canchas/my-canchas.component';
+import { MyReservationsComponent } from './profile/client/my-reservations/my-reservations.component';
+import { MyReviewsComponent } from './profile/client/my-reviews/my-reviews.component';
 
 export const routes: Routes = [
     {path: 'explorar', component: Explore},
     {path: 'perfil', component: View},
     {path: 'perfil/mis-datos',component: MyDataComponent},
-    {path: 'perfil/mis-marcas'},
-    {path: 'perfil/mis-sucursales'},
-    {path: 'perfil/mis-canchas'},
-    {path: 'perfil/mis-reservas'},
-    {path: 'perfil/mis-reservas'},
+    {path: 'perfil/mis-marcas', component: MyBrandsComponent},
+    {path: 'perfil/mis-sucursales', component: MyEstablishmentsComponent},
+    {path: 'perfil/mis-canchas', component: MyCanchasComponent},
+    {path: 'perfil/mis-reseñas', component: MyReviewsComponent},
+    {path: 'perfil/mis-reservas',component: MyReservationsComponent},
     {path: 'explorar/detalles/:id', component: Details},
-    {path: 'perfil/mis-marcas'},
+    //{path: 'perfil/mis-marcas'},
 
 
     

@@ -1,12 +1,18 @@
-
-@if(this.role === "ROLE_CLIENT"){
+@if(this.logged()){
+    @if(this.role === "ROLE_CLIENT"){
     <app-client></app-client>
+    }
+
+    @if(this.role === "ROLE_OWNER"){
+        <app-owner></app-owner>
+    }
+
+    @if(this.role === "ROLE_ADMIN"){
+        <app-admin></app-admin>
+    }
+}
+@else {
+    <span>Por favor regístrese o inicie sesión</span>
 }
 
-@if(this.role === "ROLE_OWNER"){
-    <app-owner></app-owner>
-}
 
-@if(this.role === "ROLE_ADMIN"){
-    <app-admin></app-admin>
-}

@@ -15,14 +15,14 @@ export class Owner {
   }
 
   goToMyBrands(){
-    this.router.navigateByUrl("");
+    this.router.navigateByUrl("perfil/mis-marcas");
   }
 
   goToMyEstablishments(){
-    this.router.navigateByUrl("");
+    this.router.navigateByUrl("perfil/mis-sucursales");
   }
 
   goToMyCanchas(){
-    this.router.navigateByUrl("");
+    this.router.navigateByUrl("perfil/mis-canchas");
   }
 }
