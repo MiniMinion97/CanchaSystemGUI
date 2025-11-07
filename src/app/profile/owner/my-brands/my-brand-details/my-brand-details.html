@@ -5,7 +5,7 @@
             <h1>{{brand.brandName}}</h1>
             <button (click)="toggleCreate()">crear establecimiento </button>
             @if (creating()){
-                <app-establishment-form></app-establishment-form>
+                <app-establishment-form [brandId]="brand.id"></app-establishment-form>
             }
     </div>
 }

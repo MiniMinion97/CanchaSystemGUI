@@ -17,8 +17,7 @@ export class MyBrandDetails {
 
   private readonly id = this.route.snapshot.paramMap.get('id');
 
-  private readonly brandSignal =toSignal(this.service.getBrand(Number(this.id!)));
-  protected readonly brand = linkedSignal(()=> this.brandSignal());
+  readonly brand = toSignal(this.service.getBrand(Number(this.id!)), { initialValue: null });
 
   readonly creating = signal(false);
 

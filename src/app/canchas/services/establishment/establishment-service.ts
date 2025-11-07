@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { EstablishmentResponse } from '../../models/establishment-response';
+import { EstablishmentRequest } from '../../models/establishment-request';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +16,7 @@ export class EstablishmentService {
     }
 
 
-    createEstablishment(establishment: EstablishmentResponse) {
-      // falta el back
+    createEstablishment(establishment: EstablishmentRequest) {
         return this.http.post<EstablishmentResponse>(`${this.url}/insert`, establishment);
     }
 

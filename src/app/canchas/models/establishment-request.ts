@@ -4,4 +4,5 @@ export interface EstablishmentRequest {
     canShower: boolean;
     openingHour: Date;
     closingHour: Date;
+    brandId: number|string;
 }

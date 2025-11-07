@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { EstablishmentService } from '../../services/establishment/establishment-service';
 
@@ -19,12 +19,16 @@ export class EstablishmentForm {
     closingHour: [new Date()]
   });
 
+
+  readonly brandId = input<number>();
   handleSubmit() {
     if (!this.form.valid) return;
     const establishmentData = this.form.getRawValue();
-    const ownerId = localStorage.getItem('userId')!;
     
-    // hace falta en back el service completo de establishment
+    this.establishmentService.createEstablishment({ ...establishmentData, brandId: this.brandId()! }).subscribe({  
+      next: (res) => console.log('Establecimiento creado', res),
+      error: (err) => console.error('Error al crear establecimiento', err)
+    });
   }
 
 }
