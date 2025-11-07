@@ -25,6 +25,8 @@ export class EstablishmentForm {
     if (!this.form.valid) return;
     const establishmentData = this.form.getRawValue();
     
+    console.log("🟡 Enviando establecimiento al backend:", establishmentData);
+
     this.establishmentService.createEstablishment({ ...establishmentData, brandId: this.brandId()! }).subscribe({  
       next: (res) => console.log('Establecimiento creado', res),
       error: (err) => console.error('Error al crear establecimiento', err)

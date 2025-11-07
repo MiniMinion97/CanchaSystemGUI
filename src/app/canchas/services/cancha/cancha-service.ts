@@ -6,7 +6,7 @@ import { CanchaRequest } from '../../models/cancha-request';
 @Injectable({
   providedIn: 'root'
 })
-export class Cancha {
+export class CanchaService {
     private readonly http = inject(HttpClient);
     private readonly url = "http://localhost:8080/cancha";
 
@@ -26,11 +26,12 @@ export class Cancha {
         return this.http.get<CanchaResponse[]>(`${this.url}/getCanchasByEstablishmentId/${establishmentId}`);
     }
 
-    createCancha(cancha: Cancha){
-        return this.http.post<CanchaRequest>(`${this.url}/insert`, cancha);
+    createCancha(cancha: CanchaRequest){
+        console.log('POST /cancha ->', cancha);
+        return this.http.post<CanchaResponse>(`${this.url}/insert`, cancha);
     }
 
-    updateCancha(id: number, cancha:Cancha){
+    updateCancha(id: number, cancha:CanchaRequest){
       return this.http.put<CanchaResponse>(`${this.url}/update`, cancha);
     }
 

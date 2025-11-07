@@ -1,11 +1,41 @@
 @let brand = this.brand();
+@let establishments = this.esblishments();
 
-@if (brand){
-    <div class="brand">
-            <h1>{{brand.brandName}}</h1>
-            <button (click)="toggleCreate()">crear establecimiento </button>
-            @if (creating()){
-                <app-establishment-form [brandId]="brand.id"></app-establishment-form>
-            }
-    </div>
+@if (brand) {
+  <div class="brand">
+    <h1>{{ brand.brandName }}</h1>
+
+    <button (click)="toggleCreate()">Crear establecimiento</button>
+
+    @if (creating()) {
+      <app-establishment-form [brandId]="brand.id"></app-establishment-form>
+    }
+
+    <hr />
+
+    <h2>Establecimientos</h2>
+
+    @if (establishments.length > 0) {
+      <div class="establishment-list">
+        @for (est of establishments; track est.id) {
+          <div class="establishment-card">
+            <h3>{{ est.name }}</h3>
+            <p>
+              🕒 Horario: 
+              {{ est.openingHour}} - 
+              {{ est.closingHour}}
+            </p>
+            <p [class.active]="est.active" [class.inactive]="!est.active">
+              Estado: {{ est.active ? 'Activo' : 'Inactivo' }}
+            </p>
+
+            <button (click)="handleDetails(est.id)">Ver detalles &rightarrow;</button>
+          </div>
+        }
+
+      </div>
+    } @else {
+      <p class="empty">No hay establecimientos registrados aún.</p>
+    }
+  </div>
 }

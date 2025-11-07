@@ -1,0 +1,49 @@
+@let est = this.est();
+
+@if (est) {
+  <div class="establishment-details">
+    <h1>{{ est.name }}</h1>
+
+    <p>
+      🕒 Horario:
+      {{ est.openingHour }} -
+      {{ est.closingHour }}
+    </p>
+
+    <p [class.active]="est.active" [class.inactive]="!est.active">
+      Estado: {{ est.active ? 'Activo' : 'Inactivo' }}
+    </p>
+
+    <p>
+      🚿 Duchas: {{ est.canShower ? 'Disponible' : 'No disponible' }}
+    </p>
+
+    <p>
+      📍 Dirección: {{ est.address }}
+    </p>
+
+    <button (click)="toggleCreate()">Crear cancha</button>
+
+    @if (creating()) {
+      <app-cancha-form [establishmentId]="est.id"></app-cancha-form>
+    }
+
+    <hr />
+
+    <h2>⚽ Canchas del establecimiento</h2>
+
+    @if (this.canchas().length > 0) {
+      <div class="canchas-list">
+        @for (cancha of this.canchas(); track cancha.id) {
+          <div class="cancha-card">
+            <h3>{{ cancha.canchaType.replace('_', ' ') }}</h3>
+            <p>💵 Precio: ${{ cancha.totalAmount }}</p>
+            <p>🏠 Techo: {{ cancha.hasRoof ? 'Sí' : 'No' }}</p>
+          </div>
+        }
+      </div>
+    } @else {
+      <p class="no-canchas">No hay canchas registradas aún.</p>
+    }
+  </div>
+}

@@ -1,1 +1,31 @@
-<p>cancha-form works!</p>
+<form [formGroup]="form" (ngSubmit)="handleSubmit()">
+
+  <label>
+    Total Amount
+    <input type="number" formControlName="totalAmount" />
+  </label>
+
+  <label>
+    Has Roof
+    <input type="checkbox" formControlName="hasRoof" />
+  </label>
+
+ <label>
+  Cancha Type
+  <select formControlName="canchaType">
+    <option value="">-- Select Type --</option>
+    <option value="FUTBOL_5">FUTBOL 5 (10)</option>
+    <option value="FUTBOL_7">FUTBOL 7 (14)</option>
+    <option value="FUTBOL_9">FUTBOL 9 (18)</option>
+    <option value="FUTBOL_11">FUTBOL 11 (22)</option>
+  </select>
+</label>
+
+
+  <label>
+    Working
+    <input type="checkbox" formControlName="working" />
+  </label>
+
+  <button type="submit">Crear cancha</button>
+</form>

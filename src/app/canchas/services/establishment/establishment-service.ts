@@ -15,6 +15,13 @@ export class EstablishmentService {
         return this.http.get<EstablishmentResponse[]>(`${this.url}/findAllActive`);
     }
 
+     getEstablishment(id: number) {    
+        return this.http.get<EstablishmentResponse>(`${this.url}/findEstablishment/${id}`);
+      }
+
+    getEstablishmentsByBrand(id: number){
+        return this.http.get<EstablishmentResponse[]>(`${this.url}/findAllEstablishmentsByBrand/${id}`);
+    }
 
     createEstablishment(establishment: EstablishmentRequest) {
         return this.http.post<EstablishmentResponse>(`${this.url}/insert`, establishment);
