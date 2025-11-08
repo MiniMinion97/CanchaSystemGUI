@@ -9,12 +9,15 @@ import { MyEstablishmentsComponent } from './profile/owner/my-establishments/my-
 import { MyCanchasComponent } from './profile/owner/my-canchas/my-canchas.component';
 import { MyReservationsComponent } from './profile/client/my-reservations/my-reservations.component';
 import { MyReviewsComponent } from './profile/client/my-reviews/my-reviews.component';
+import { Component } from '@angular/compiler';
+import { MyBrandDetails } from './profile/owner/my-brands/my-brand-details/my-brand-details';
 
 export const routes: Routes = [
     {path: 'explorar', component: Explore},
     {path: 'perfil', component: View},
     {path: 'perfil/mis-datos',component: MyDataComponent},
     {path: 'perfil/mis-marcas', component: MyBrandsComponent},
+    {path: 'perfil/mis-marcas/:id', component: MyBrandDetails},
     {path: 'perfil/mis-sucursales', component: MyEstablishmentsComponent},
     {path: 'perfil/mis-canchas', component: MyCanchasComponent},
     {path: 'perfil/mis-reseñas', component: MyReviewsComponent},

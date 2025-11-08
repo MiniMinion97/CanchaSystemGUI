@@ -12,6 +12,7 @@ export interface LoginResponse {
   token: string;
   role: string;
   username: string;
+  id: string;
 } 
 
 export interface RegisterRequest {
@@ -42,13 +43,22 @@ export class AuthService {
           localStorage.setItem('token', res.token);
           localStorage.setItem('username', res.username);
           localStorage.setItem('role', res.role);
+          localStorage.setItem('userId', res.id); 
           this.loggedIn.set(true);
+          this.role.set(res.role); // te falto esto Ian para actualizar el role signal
         })
       );
   }
 
   register(data: RegisterRequest): Observable<any> {
     return this.http.post(`${this.apiUrl}/client/insertClient`, data)
+    .pipe(
+      tap(() => this.loggedIn.set(true))
+    ); 
+  }
+
+  registerOwner(data: RegisterRequest): Observable<any> {
+    return this.http.post(`${this.apiUrl}/owner/insert`, data)
     .pipe(
       tap(() => this.loggedIn.set(true))
     ); 

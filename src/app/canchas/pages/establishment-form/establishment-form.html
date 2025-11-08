@@ -1,1 +1,25 @@
-<p>establishment-form works!</p>
+<form [formGroup] = "form" (ngSubmit) = "handleSubmit()">
+    <label>    Nombre establecimiento  
+        <input type="text" formControlName="name" />  
+    </label>  
+
+    <label>    Direccion 
+        <input type="text" formControlName="address" />  
+    </label> 
+
+
+    <label>    Tiene duchas?
+        <input type="checkbox" formControlName="canShower" />  
+    </label> 
+
+    <label>    Hora apertura  
+        <input type="time" formControlName="openingHour" /> 
+    </label> 
+
+    <label>    Hora cierre  
+        <input type="time" formControlName="closingHour" />
+    </label>
+    <button type="submit">Crear establecimiento</button>
+    
+</form>
+

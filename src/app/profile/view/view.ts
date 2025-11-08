@@ -15,6 +15,7 @@ export class View {
   protected readonly role = this.authservice.getRole();
 
   protected logged = this.authservice.loggedIn;
+  
 
   
 }
