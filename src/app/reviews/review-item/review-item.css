@@ -1,0 +1,45 @@
+.review-card {
+  border-bottom: 1px solid #ddd;
+  padding: 1rem 0;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.review-meta {
+  display: flex;
+  gap: 0.75rem;
+  align-items: baseline;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.review-rating .star {
+  color: #ccc;
+  font-size: 1.2rem;
+}
+.review-rating .star.filled {
+  color: #f5b301;
+}
+
+.review-message {
+  margin: 0.5rem 0;
+  white-space: pre-wrap;
+}
+
+.review-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+.review-actions button {
+  border: none;
+  background: none;
+  color: #007bff;
+  cursor: pointer;
+}
+.review-actions button:hover {
+  text-decoration: underline;
+}

@@ -1,1 +1,26 @@
-<p>form works!</p>
+@let stars = [5, 4, 3, 2, 1];
+
+<main>
+  <form [formGroup]="form" (ngSubmit)="handleSubmit()">
+    <div class="rating">
+      @for(star of stars; track $index){
+        <input
+          type="radio"
+          [id]="'star' + star"
+          formControlName="rating"
+          [value]="star"
+        />
+        <label [for]="'star' + star" [title]="star + ' stars'">&#9733;</label>
+      }  
+    </div>
+
+    <textarea
+      formControlName="message"
+      placeholder="Write your review here..."
+    ></textarea>
+
+    <button type="submit" [disabled]="form.invalid">
+      {{ isEditing() ? 'Update Review' : 'Submit Review' }}
+    </button>
+  </form>
+</main>

@@ -4,4 +4,6 @@ export interface ReviewResponse {
     message?: string;
     establishmentId: number;
     clientId: string;
+    clientName?: string;
+    createdAt?: string;
 }

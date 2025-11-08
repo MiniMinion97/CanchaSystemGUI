@@ -1,0 +1,22 @@
+.rating {
+  unicode-bidi: bidi-override;
+  direction: rtl; /* Allows stars to be ordered from right to left for easier selection */
+  display: inline-block;
+  font-size: 30px; /* Adjust star size */
+}
+
+.rating input {
+  display: none; /* Hide the default radio buttons */
+}
+
+.rating label {
+  cursor: pointer;
+  color: #ccc; /* Default star color */
+  padding: 0 2px;
+}
+
+.rating input:checked ~ label,
+.rating label:hover,
+.rating label:hover ~ label {
+  color: rgb(255, 242, 0); /* Color for selected/hovered stars */
+}

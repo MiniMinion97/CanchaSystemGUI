@@ -17,4 +17,7 @@ export class Explore {
   protected readonly establishments = toSignal(this.establishmentService.getEstablishments(),
     { initialValue: [] });
 
+  protected navigateToEstablishmentDetails(establishmentId: number): void {
+    this.router.navigateByUrl(`explorar/detalles/${establishmentId}`);
+  }
 }

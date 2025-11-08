@@ -14,11 +14,15 @@ export class ReviewService {
     return this.http.get<ReviewResponse[]>(`${this.url}/byEstablishment/${establishmentId}`);
   }
 
-  createReview(review: ReviewRequest) {
-    return this.http.post<ReviewRequest>(`${this.url}/insert`, review);
+  getReviewsByClient(clientId: number) {
+    return this.http.get<ReviewResponse[]>(`${this.url}/findReviewsByClient/${clientId}`);
   }
 
-  updateReview(id: number, review: ReviewResponse) {
+  createReview(review: ReviewRequest) {
+    return this.http.post<ReviewResponse>(`${this.url}/insert`, review);
+  }
+
+  updateReview(id: number, review: ReviewRequest) {
     return this.http.put<ReviewResponse>(`${this.url}/update`, review);
   }
 

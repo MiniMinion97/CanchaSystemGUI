@@ -14,6 +14,10 @@ export class EstablishmentService {
         return this.http.get<EstablishmentResponse[]>(`${this.url}/findAllActive`);
     }
 
+    getEstablishmentById(establishmentId: number){
+        return this.http.get<EstablishmentResponse>(`${this.url}/findById/${establishmentId}`);
+    }
+
 
 
 
