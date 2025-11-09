@@ -24,10 +24,16 @@
         </section>
     </div>
     
+    @if(loggedIn() && role() === 'ROLE_CLIENT'){
+        <section id="reservationSection">
+            <app-make
+                [establishmentId]="establishmentId"
+                (reserved)="onReservationCreated($event)"
+            ></app-make>
+        </section>
+    }
     
-    <section id="reservationSection">
-        
-    </section>
+
 </main>
 
 

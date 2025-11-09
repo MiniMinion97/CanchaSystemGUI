@@ -1,7 +1,8 @@
-import { Injectable,inject } from '@angular/core';
+import { Injectable,inject, } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ReservationResponse } from '../../models/reservation-response';
 import { ReservationRequest } from '../../models/reservation-request';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +27,10 @@ export class Reservation {
     return this.http.get<ReservationResponse[]>(`${this.url}/getReservationsByCanchaId/${establishmentId}`);
   }
 
+  getAvailableHours(establishmentId: number, date: string) {
+        return this.http.get<any>(`${this.url}/getAvailableHours/${establishmentId}/${date}`);
+  }
+
   createReservation(reservation: ReservationRequest) {
     return this.http.post<ReservationRequest>(`${this.url}/insert`, reservation);
   }
@@ -34,9 +39,7 @@ export class Reservation {
     return this.http.put<ReservationResponse>(`${this.url}/update`, reservation);
   }
 
-  getAvailableHours(establishmentId: number, date: Date) {
-    return this.http.get<any>(`${this.url}/getAvailableHours/${establishmentId}/${date}`);
-  }
+  
 
 
 

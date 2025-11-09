@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { EstablishmentResponse } from '../../models/establishment-response';
 import { EstablishmentRequest } from '../../models/establishment-request';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,9 @@ export class EstablishmentService {
         return this.http.get<EstablishmentResponse>(`${this.url}/find/${establishmentId}`);
     }
 
+    getCanchaTypes(establishmentId: number): Observable<string[]> {
+        return this.http.get<string[]>(`${this.url}/getCanchaTypes/${establishmentId}`);
+    }
 
     createEstablishment(establishment: EstablishmentRequest) {
         return this.http.post<EstablishmentResponse>(`${this.url}/insert`, establishment);
