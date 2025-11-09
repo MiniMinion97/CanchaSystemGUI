@@ -7,10 +7,11 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { Form } from '../../../reviews/form/form';
 import { ReviewList } from '../../../reviews/review-list/review-list';
 import { ReviewResponse } from '../../../reviews/models/review-response';
+import { Make } from '../../../reservation/pages/make/make';
 
 @Component({
   selector: 'app-details',
-  imports: [Form, ReviewList],
+  imports: [Form, ReviewList, Make],
   templateUrl: './details.html',
   styleUrl: './details.css'
 })
@@ -26,7 +27,7 @@ export class Details {
   protected readonly role = this.authService.role;
   protected readonly clientId = this.authService.clientId;
 
-  protected readonly establishmentId = this.route.snapshot.paramMap.get('id');
+  protected readonly establishmentId = Number(this.route.snapshot.paramMap.get('id'));
   protected readonly establishmentSource = toSignal(this.establishmentService.getEstablishmentById(Number(this.establishmentId)));
   protected readonly establishment = linkedSignal(() => this.establishmentSource());
 
@@ -83,4 +84,9 @@ export class Details {
       this.reviews.set(filtered);
     });
   }
+
+  protected onReservationCreated(reservation: any) {
+  console.log('Reservation created:', reservation);
+  // You could call ReservationService.createReservation(reservation) here
+}
 }

@@ -3,6 +3,7 @@ import { ReviewService } from '../review-service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ReviewResponse } from '../models/review-response';
 import { ReviewRequest } from '../models/review-request';
+import { AuthService } from '../../auth/services/authservice';
 
 @Component({
   selector: 'app-form',
@@ -12,9 +13,11 @@ import { ReviewRequest } from '../models/review-request';
 })
 export class Form {
   private readonly reviewService = inject(ReviewService);
+  private readonly authService = inject(AuthService);
 
   private readonly establishmentId = 1; // Example establishment ID
-  private readonly clientId = 1; // Example client ID
+  private readonly clientId = this.authService.clientId(); // Example client ID
+  private readonly clientName = 'John Doe'; // Example client name
 
   //protected readonly reviewId = 1; // Example review ID
 
@@ -40,7 +43,7 @@ export class Form {
         this.form.reset({
           rating: 0,
           message: '',
-          clientId: this.clientId.toString(),
+          clientId: this.clientId,
           establishmentId: this.establishmentId,
         });
       }
@@ -50,37 +53,42 @@ export class Form {
   protected readonly form = this.formbuilder.nonNullable.group({
     rating: [0, [Validators.required, Validators.min(1), Validators.max(5)]],
     message: [''],
-    clientId: [this.clientId.toString()],
+    clientId: [this.clientId],
     establishmentId: [this.establishmentId]
   });
 
   
   handleSubmit() {
-    if (this.form.invalid) return;
+  if (this.form.invalid) return;
+    
+  const reviewData: ReviewRequest = {
+    ...this.form.getRawValue(),
+    clientName: this.clientName, // ✅ optionally set from logged-in user
+    createdAt: new Date(), // optional
+    clientId: this.clientId!
+  };
 
-    const reviewData: ReviewRequest = this.form.getRawValue();
+  console.log(reviewData);
 
-    if (this.isEditing() && this.review()) {
-      // Update existing review
-      
-      const reviewId = this.review()!.id;
-      this.reviewService.updateReview(reviewId, reviewData).subscribe((updatedReview) => {
-        this.edited.emit(updatedReview);
+
+  if (this.isEditing() && this.review()) {
+    const reviewId = this.review()!.id;
+    this.reviewService.updateReview(reviewId, reviewData).subscribe((updatedReview) => {
+      this.edited.emit(updatedReview);
+    });
+  } else {
+    this.reviewService.createReview(reviewData).subscribe((newReview) => {
+      this.created.emit(newReview);
+      this.form.reset({
+        rating: 0,
+        message: '',
+        clientId: this.clientId,
+        establishmentId: this.establishmentId,
       });
-
-    } else {
-      // Create new review
-      this.reviewService.createReview(reviewData).subscribe((newReview) => {
-        this.created.emit(newReview);
-        this.form.reset({
-          rating: 0,
-          message: '',
-          clientId: this.clientId.toString(),
-          establishmentId: this.establishmentId,
-        });
-      });
-    }
+    });
   }
+}
+
 
   get rating(){
     return this.form.controls.rating;

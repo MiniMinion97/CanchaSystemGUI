@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { EstablishmentResponse } from '../../models/establishment-response';
 import { EstablishmentRequest } from '../../models/establishment-request';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
