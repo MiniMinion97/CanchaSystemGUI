@@ -11,7 +11,7 @@ export class ReviewService {
   private readonly url = "http://localhost:8080/review";
   
   getReviewsByEstablishment(establishmentId: number) {
-    return this.http.get<ReviewResponse[]>(`${this.url}/byEstablishment/${establishmentId}`);
+    return this.http.get<ReviewResponse[]>(`${this.url}/findReviewsByEstablishmentId/${establishmentId}`);
   }
 
   getReviewsByClient(clientId: number) {

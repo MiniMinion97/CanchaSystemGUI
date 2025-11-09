@@ -1,1 +1,33 @@
+<main>
+    <div>
+        <section id="establishmentSection">
+
+        </section>
+
+        <section id="reviewSection">
+            @if(loggedIn() && role() === 'ROLE_CLIENT'){
+                <app-form
+                    [isEditing]="!!editingReview"
+                    [review]="editingReview()"
+                    (edited)="onReviewEdited($event)"
+                    (created)="onReviewCreated($event)"
+                ></app-form>
+            }
+            @if(this.reviews()){
+                <app-review-list
+                    [reviews]="reviews()!"
+                    [currentClientId]="clientId()!"
+                    (edit)="startEdit($event)"
+                    (delete)="deleteReview($event)"
+                ></app-review-list>
+            }
+        </section>
+    </div>
+    
+    
+    <section id="reservationSection">
+        
+    </section>
+</main>
+
 

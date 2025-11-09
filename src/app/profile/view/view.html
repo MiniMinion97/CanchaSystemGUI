@@ -1,13 +1,13 @@
 @if(this.logged()){
-    @if(this.role === "ROLE_CLIENT"){
+    @if(this.role() === "ROLE_CLIENT"){
     <app-client></app-client>
     }
 
-    @if(this.role === "ROLE_OWNER"){
+    @if(this.role() === "ROLE_OWNER"){
         <app-owner></app-owner>
     }
 
-    @if(this.role === "ROLE_ADMIN"){
+    @if(this.role() === "ROLE_ADMIN"){
         <app-admin></app-admin>
     }
 }

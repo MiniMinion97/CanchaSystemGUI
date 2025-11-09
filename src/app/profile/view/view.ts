@@ -12,7 +12,7 @@ import { Admin } from '../admin/admin';
 })
 export class View {
   private readonly authservice = inject(AuthService);
-  protected readonly role = this.authservice.getRole();
+  protected readonly role = this.authservice.role;
 
   protected logged = this.authservice.loggedIn;
   

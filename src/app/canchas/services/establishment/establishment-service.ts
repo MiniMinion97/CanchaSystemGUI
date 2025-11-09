@@ -12,11 +12,11 @@ export class EstablishmentService {
     private readonly url = "http://localhost:8080/establishment";
 
     getEstablishments(){
-        return this.http.get<EstablishmentResponse[]>(`${this.url}/findAllActive`);
+        return this.http.get<EstablishmentResponse[]>(`${this.url}/findall`);
     }
 
     getEstablishmentById(establishmentId: number){
-        return this.http.get<EstablishmentResponse>(`${this.url}/findById/${establishmentId}`);
+        return this.http.get<EstablishmentResponse>(`${this.url}/find/${establishmentId}`);
     }
 
 

@@ -32,6 +32,7 @@ export class AuthService {
   
   loggedIn = signal<boolean>(!!localStorage.getItem('token'));
   role = signal<string>(localStorage.getItem('role')!);
+  clientId = signal<string | null>(localStorage.getItem('userId'));
 
   constructor(private http: HttpClient) {}
 
@@ -77,5 +78,9 @@ export class AuthService {
 
   getRole(): string | null {
     return localStorage.getItem('role');
+  }
+
+  getCurrentClientId(): string | null {
+    return localStorage.getItem('userId');
   }
 }
