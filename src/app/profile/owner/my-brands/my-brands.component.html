@@ -1,11 +1,16 @@
 
 @let brands = this.brands();
+@let loading = this.loading();
 
-@if (brands) {
+
+@if (loading) {
+  <p>Cargando marcas...</p>
+}@else{
+  @if (brands.length > 0) {
   <main>
-    <section class="establishment-container">
+    <section class="brand-container">
     @for (brand of brands; track brand.id) {
-      <table class="establishment-item">
+      <table class="brand-item">
         <thead>
             <tr>
                  <th>nombre</th>
@@ -27,4 +32,8 @@
   </section>
   </main>
   
+}@else {
+  <p>No tenes marcas registradas</p>
+}
+
 }

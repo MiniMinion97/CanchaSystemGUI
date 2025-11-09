@@ -42,25 +42,11 @@
     <hr />
 
     <button (click)="toggleShow()">
-      {{ showAll() ? 'Esconder establecimientos' : 'Mostrar establecimientos' }}
+      {{ showAll() ? 'Esconder canchas' : 'Mostrar canchas' }}
     </button>
     @if (this.showAll()){
     <h2>⚽ Canchas del establecimiento</h2>
-    @if (this.canchas().length > 0) {
-      <div class="canchas-list">
-        @for (cancha of this.canchas(); track cancha.id) {
-          <div class="cancha-card">
-            <h3>{{ cancha.canchaType.replace('_', ' ') }}</h3>
-            <p>💵 Precio: ${{ cancha.totalAmount }}</p>
-            <p>🏠 Techo: {{ cancha.hasRoof ? 'Sí' : 'No' }}</p>
-          </div>
-          <button (click)="handleDetails(cancha.id)">Detalles &rightarrow;</button>
-
-        }
-      </div>
-    } @else {
-      <p class="no-canchas">No hay canchas registradas aún.</p>
-    }
+    <app-my-canchas [idEst]="est.id" [isInsideEst]="true"></app-my-canchas>
     }
     
 

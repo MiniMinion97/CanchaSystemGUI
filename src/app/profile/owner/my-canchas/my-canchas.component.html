@@ -1,1 +1,26 @@
-<p>my-canchas works!</p>
+@let canchas = this.canchas();
+@let loading = this.loading();
+
+
+@if (loading) {
+  <p>Cargando canchas...</p>
+}@else {
+    @if(canchas){
+    @if (this.canchas().length > 0) {
+      <div class="canchas-list">
+        @for (cancha of this.canchas(); track cancha.id) {
+          <div class="cancha-card">
+            <h3>{{ cancha.canchaType.replace('_', ' ') }}</h3>
+            <p>💵 Precio: ${{ cancha.totalAmount }}</p>
+            <p>🏠 Techo: {{ cancha.hasRoof ? 'Sí' : 'No' }}</p>
+          </div>
+          <button (click)="handleDetails(cancha.id)">Detalles &rightarrow;</button>
+
+        }
+      </div>
+    } @else {
+      <p class="no-canchas">No hay canchas registradas aún.</p>
+    }
+}
+
+}

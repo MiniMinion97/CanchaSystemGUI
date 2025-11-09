@@ -7,10 +7,11 @@ import { BrandForm } from '../../../../canchas/pages/brand-form/brand-form';
 import { BrandRequest } from '../../../../canchas/models/brand-request';
 import { BrandResponse } from '../../../../canchas/models/brand-response'; // ✅ importante
 import { toSignal } from '@angular/core/rxjs-interop';
+import { MyEstablishmentsComponent } from '../../my-establishments/my-establishments.component';
 
 @Component({
   selector: 'app-my-brand-details',
-  imports: [EstablishmentForm, BrandForm],
+  imports: [EstablishmentForm, BrandForm,MyEstablishmentsComponent],
   templateUrl: './my-brand-details.html',
   styleUrl: './my-brand-details.css'
 })

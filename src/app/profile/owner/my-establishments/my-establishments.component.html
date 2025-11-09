@@ -1,1 +1,26 @@
-<p>my-establishments works!</p>
+@let establishments = this.establishments();
+@let loading = this.loading();
+
+@if (loading) {
+  <p>Cargando establecimientos...</p>
+} @else {
+  @if (establishments.length > 0) {
+    <div class="establishment-list">
+      @for (est of establishments; track est.id) {
+        <div class="establishment-card">
+          <h3>{{ est.name }}</h3>
+          <p>
+            🕒 Horario:
+            {{ est.openingHour }} - {{ est.closingHour }}
+          </p>
+          <p [class.active]="est.active" [class.inactive]="!est.active">
+            Estado: {{ est.active ? 'Activo' : 'Inactivo' }}
+          </p>
+          <button (click)="handleDetails(est.id)">Ver detalles →</button>
+        </div>
+      }
+    </div>
+  } @else {
+    <p>No tienes establecimientos.</p>
+  }
+}

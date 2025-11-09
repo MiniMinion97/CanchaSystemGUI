@@ -7,10 +7,11 @@ import { CanchaService } from '../../../../canchas/services/cancha/cancha-servic
 import { EstablishmentForm } from '../../../../canchas/pages/establishment-form/establishment-form';
 import { EstablishmentResponse } from '../../../../canchas/models/establishment-response';
 import { EstablishmentRequest } from '../../../../canchas/models/establishment-request';
+import { MyCanchasComponent } from '../../my-canchas/my-canchas.component';
 
 @Component({
   selector: 'app-my-establishment-details',
-  imports: [CanchaForm,EstablishmentForm],
+  imports: [CanchaForm,EstablishmentForm,MyCanchasComponent],
   templateUrl: './my-establishment-details.html',
   styleUrl: './my-establishment-details.css'
 })

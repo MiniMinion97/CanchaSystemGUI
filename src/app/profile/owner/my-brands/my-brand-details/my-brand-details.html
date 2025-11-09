@@ -12,48 +12,35 @@
     }
 
     <hr />
+
     <div class="btnActions">
-        <button (click)="handleDelete()">Borrar</button>
-        <button (click)="toggleEdit()">Editar</button>
+      <button (click)="handleDelete()">Borrar</button>
+      <button (click)="toggleEdit()">Editar</button>
 
-         @if (isEditing()) {
-        <app-brand-form [brandData]="brand" [brandId]="brand.id" [isEditing]="true" (brandEdited)="handleEdit($event)"></app-brand-form>
+      @if (isEditing()) {
+        <app-brand-form 
+          [brandData]="brand" 
+          [brandId]="brand.id" 
+          [isEditing]="true" 
+          (brandEdited)="handleEdit($event)">
+        </app-brand-form>
       }
-      </div>
+    </div>
 
-      <hr />
+    <hr />
 
-    <h2>Establecimientos</h2>
-<button (click)="toggleShow()">
-  {{ showAll() ? 'Mostrar establecimientos' : 'Esconder establecimientos' }}
-</button>
-    @if (!this.showAll()){
-@if (establishments.length > 0) {
-      <div class="establishment-list">
-        @for (est of establishments; track est.id) {
-          <div class="establishment-card">
-            <h3>{{ est.name }}</h3>
-            <p>
-              🕒 Horario: 
-              {{ est.openingHour}} - 
-              {{ est.closingHour}}
-            </p>
-            <p [class.active]="est.active" [class.inactive]="!est.active">
-              Estado: {{ est.active ? 'Activo' : 'Inactivo' }}
-            </p>
-
-            <button (click)="handleDetails(est.id)">Ver detalles &rightarrow;</button>
-          </div>
-        }
-
-      
-     
-
-      </div>
-    } @else {
-      <p class="empty">No hay establecimientos registrados aún.</p>
-    }
-    }
     
+
+    <button (click)="toggleShow()">
+      {{ showAll() ? 'Esconder establecimientos' : 'Mostrar establecimientos' }}
+    </button>
+
+    @if (showAll()) {
+      <h2>Establecimientos</h2>
+      <app-my-establishments 
+        [idBrand]="brand.id" 
+        [isInsideBrand]="true">
+      </app-my-establishments>
+    }
   </div>
 }
