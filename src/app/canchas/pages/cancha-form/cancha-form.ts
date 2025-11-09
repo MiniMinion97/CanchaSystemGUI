@@ -1,6 +1,7 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, effect, inject, input, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { CanchaService } from '../../services/cancha/cancha-service';
+import { CanchaRequest } from '../../models/cancha-request';
 
 @Component({
   selector: 'app-cancha-form',
@@ -19,12 +20,41 @@ export class CanchaForm {
   });
 
   readonly establishmentId = input<number>();
+  readonly canchaData = input<CanchaRequest>();
+  readonly isEditing = input(false);
+  readonly canchaEdited = output<CanchaRequest>();
+  readonly canchaId = input<number>();
+
+
+
+  
+  constructor() {
+    effect(() => {
+        if (this.isEditing() && this.canchaData()) {
+          this.form.patchValue(this.canchaData()!);
+        }
+      });
+  }
+
   handleSubmit() {
     if (!this.form.valid) return;
     const canchaData = this.form.getRawValue();
-      this.canchaService.createCancha({ ...canchaData, establishmentId: this.establishmentId()! }).subscribe({  
+
+    if(this.isEditing()){
+  this.canchaService.updateCancha(this.canchaId()!, { ...canchaData, establishmentId: this.establishmentId()! }).subscribe({
+        next: (res) => {
+          console.log('Establecimiento actualizado', res);
+          this.canchaEdited.emit(res);
+        },
+        error: (err) => console.error('Error al actualizar establecimiento', err)
+      });
+      return;
+    }else{
+       this.canchaService.createCancha({ ...canchaData, establishmentId: this.establishmentId()! }).subscribe({  
       next: (res) => console.log('Establecimiento creado', res),
       error: (err) => console.error('Error al crear establecimiento', err)
     });
+    }
+     
   }
 }

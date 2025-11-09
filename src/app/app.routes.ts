@@ -12,6 +12,7 @@ import { MyReviewsComponent } from './profile/client/my-reviews/my-reviews.compo
 import { Component } from '@angular/compiler';
 import { MyBrandDetails } from './profile/owner/my-brands/my-brand-details/my-brand-details';
 import { MyEstablishmentDetails } from './profile/owner/my-establishments/my-establishment-details/my-establishment-details';
+import { MyCanchaDetails } from './profile/owner/my-canchas/my-cancha-details/my-cancha-details';
 
 export const routes: Routes = [
     {path: 'explorar', component: Explore},
@@ -25,7 +26,7 @@ export const routes: Routes = [
     {path: 'perfil/mis-sucursales/:id', component: MyEstablishmentDetails},
 
     {path: 'perfil/mis-canchas', component: MyCanchasComponent},
-    {path: 'perfil/mis-canchas/:id', component: MyCanchasComponent},
+    {path: 'perfil/mis-canchas/:id', component: MyCanchaDetails},
 
 
     {path: 'perfil/mis-reseñas', component: MyReviewsComponent},

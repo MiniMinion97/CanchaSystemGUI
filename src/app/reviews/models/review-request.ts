@@ -3,4 +3,6 @@ export interface ReviewRequest {
     message?: string;
     establishmentId: number;
     clientId: string;
+   // clientName: string;   // agregar después !!
+   // createdAt: Date;      // agregar después !!
 }

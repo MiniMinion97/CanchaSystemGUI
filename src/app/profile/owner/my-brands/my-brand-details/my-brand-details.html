@@ -1,5 +1,5 @@
 @let brand = this.brand();
-@let establishments = this.esblishments();
+@let establishments = this.establishments();
 
 @if (brand) {
   <div class="brand">
@@ -12,10 +12,23 @@
     }
 
     <hr />
+    <div class="btnActions">
+        <button (click)="handleDelete()">Borrar</button>
+        <button (click)="toggleEdit()">Editar</button>
+
+         @if (isEditing()) {
+        <app-brand-form [brandData]="brand" [brandId]="brand.id" [isEditing]="true" (brandEdited)="handleEdit($event)"></app-brand-form>
+      }
+      </div>
+
+      <hr />
 
     <h2>Establecimientos</h2>
-
-    @if (establishments.length > 0) {
+<button (click)="toggleShow()">
+  {{ showAll() ? 'Mostrar establecimientos' : 'Esconder establecimientos' }}
+</button>
+    @if (!this.showAll()){
+@if (establishments.length > 0) {
       <div class="establishment-list">
         @for (est of establishments; track est.id) {
           <div class="establishment-card">
@@ -33,9 +46,14 @@
           </div>
         }
 
+      
+     
+
       </div>
     } @else {
       <p class="empty">No hay establecimientos registrados aún.</p>
     }
+    }
+    
   </div>
 }

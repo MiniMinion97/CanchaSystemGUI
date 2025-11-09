@@ -32,10 +32,10 @@ export class CanchaService {
     }
 
     updateCancha(id: number, cancha:CanchaRequest){
-      return this.http.put<CanchaResponse>(`${this.url}/update`, cancha);
+      return this.http.put<CanchaResponse>(`${this.url}/update/${id}`, cancha);
     }
 
     deleteCancha(id: number){
-
+        return this.http.delete<void>(`${this.url}/dropCanchaById/${id}`);
     }
 }

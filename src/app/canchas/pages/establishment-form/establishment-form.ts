@@ -1,6 +1,7 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, effect, inject, input, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { EstablishmentService } from '../../services/establishment/establishment-service';
+import { EstablishmentRequest } from '../../models/establishment-request';
 
 @Component({
   selector: 'app-establishment-form',
@@ -18,19 +19,45 @@ export class EstablishmentForm {
     openingHour: [new Date()],
     closingHour: [new Date()]
   });
-
-
+  
   readonly brandId = input<number>();
+  readonly estData = input<EstablishmentRequest>();
+  readonly isEditing = input(false);
+  readonly estEdited = output<EstablishmentRequest>();
+  readonly estId = input<number>();
+
+
+
+     constructor() {
+    effect(() => {
+      if (this.isEditing() && this.estData()) {
+        this.form.patchValue(this.estData()!);
+      }
+    });
+  }
+
   handleSubmit() {
     if (!this.form.valid) return;
     const establishmentData = this.form.getRawValue();
     
     console.log("🟡 Enviando establecimiento al backend:", establishmentData);
 
-    this.establishmentService.createEstablishment({ ...establishmentData, brandId: this.brandId()! }).subscribe({  
+    if (this.isEditing()) {
+      this.establishmentService.updateEstablishment(this.estId()!, { ...establishmentData, brandId: this.brandId()! }).subscribe({
+        next: (res) => {
+          console.log('Establecimiento actualizado', res);
+          this.estEdited.emit(res);
+        },
+        error: (err) => console.error('Error al actualizar establecimiento', err)
+      });
+      return;
+    }else{
+          this.establishmentService.createEstablishment({ ...establishmentData, brandId: this.brandId()! }).subscribe({  
       next: (res) => console.log('Establecimiento creado', res),
       error: (err) => console.error('Error al crear establecimiento', err)
     });
+    }
+
   }
 
 }

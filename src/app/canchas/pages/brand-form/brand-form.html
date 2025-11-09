@@ -2,6 +2,8 @@
     <label>    Nombre marca  
         <input type="text" formControlName="brandName" />  
     </label>  
-    <button type="submit">Crear marca</button>
+    <button type="submit">
+         {{this.isEditing() ? 'Editar marca':'Crear marca'}}
+    </button>
     
 </form>

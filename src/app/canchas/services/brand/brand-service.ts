@@ -30,8 +30,12 @@ export class BrandService {
   }
 
   updateBrand(id: number, brand: BrandRequest) {
-    return this.http.put<BrandResponse>(`${this.url}/update`, brand);
+  return this.http.put<BrandResponse>(`${this.url}/update/${id}`, brand);
   }
 
-  
+
+
+  deleteBrand(id: number) {
+    return this.http.delete<void>(`${this.url}/deleteCanchaBrand/${id}`);
+  }
 }

@@ -27,5 +27,7 @@
     <input type="checkbox" formControlName="working" />
   </label>
 
-  <button type="submit">Crear cancha</button>
+  <button type="submit">
+    {{this.isEditing() ? 'Editar cancha' : 'Crear cancha'}}
+  </button>
 </form>

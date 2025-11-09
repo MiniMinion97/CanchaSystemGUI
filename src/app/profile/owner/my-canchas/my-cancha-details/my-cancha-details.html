@@ -1,1 +1,22 @@
-<p>my-cancha-details works!</p>
+@let cancha = this.cancha();
+
+@if (cancha) {
+    <div class="cancha-details">
+        <h1>Detalles de la cancha</h1>
+    
+        <p>⚽ Tipo de cancha: {{ cancha.canchaType.replace('_', ' ') }}</p>
+        <p>💵 Precio: ${{ cancha.totalAmount }}</p>
+        <p>🏠 Techo: {{ cancha.hasRoof ? 'Sí' : 'No' }}</p>
+        <p>
+            Estado: {{ cancha.working ? 'En funcionamiento' : 'Fuera de servicio' }}
+        </p>
+        <div class="btnActions">
+            <button (click)="handleDelete()">Borrar</button>
+            <button (click)="toggleEdit()">Editar</button>
+    
+            @if (isEditing()) {
+                <app-cancha-form [canchaData]="cancha" [canchaId]="cancha.id" [isEditing]="true" (canchaEdited)="handleEdit($event)"></app-cancha-form>
+            }
+        </div>    
+    </div>
+}

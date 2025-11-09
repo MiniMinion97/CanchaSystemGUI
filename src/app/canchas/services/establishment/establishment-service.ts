@@ -19,16 +19,21 @@ export class EstablishmentService {
         return this.http.get<EstablishmentResponse>(`${this.url}/find/${establishmentId}`);
     }
 
-     getEstablishment(id: number) {    
-        return this.http.get<EstablishmentResponse>(`${this.url}/findEstablishment/${id}`);
-      }
-
     getEstablishmentsByBrand(id: number){
-        return this.http.get<EstablishmentResponse[]>(`${this.url}/findAllEstablishmentsByBrand/${id}`);
+        return this.http.get<EstablishmentResponse[]>(`${this.url}/getEstablishmentsByBrandId/${id}`);
     }
 
     createEstablishment(establishment: EstablishmentRequest) {
         return this.http.post<EstablishmentResponse>(`${this.url}/insert`, establishment);
     }
+
+    updateEstablishment(id: number, establishment: EstablishmentRequest){
+        return this.http.put<EstablishmentResponse>(`${this.url}/update/${id}`, establishment);
+    }
+
+    deleteEstablishment(id: number){
+        return this.http.delete<void>(`${this.url}/delete/${id}`);
+    }
+
 
 }

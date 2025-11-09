@@ -19,7 +19,9 @@
     <label>    Hora cierre  
         <input type="time" formControlName="closingHour" />
     </label>
-    <button type="submit">Crear establecimiento</button>
+    <button type="submit">
+          {{this.isEditing() ? 'Editar establecimiento' : 'Crear establecimiento'}}
+    </button>
     
 </form>
 

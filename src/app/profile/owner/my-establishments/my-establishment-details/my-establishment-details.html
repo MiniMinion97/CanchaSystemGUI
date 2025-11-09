@@ -30,8 +30,22 @@
 
     <hr />
 
-    <h2>⚽ Canchas del establecimiento</h2>
+     <div class="btnActions">
+        <button (click)="handleDelete()">Borrar</button>
+        <button (click)="toggleEdit()">Editar</button>
 
+         @if (isEditing()) {
+        <app-establishment-form  [brandId]="est.brandId" [estData]="est" [estId]="est.id" [isEditing]="true" (estEdited)="handleEdit($event)"></app-establishment-form>
+      }
+      </div>
+
+    <hr />
+
+    <button (click)="toggleShow()">
+      {{ showAll() ? 'Esconder establecimientos' : 'Mostrar establecimientos' }}
+    </button>
+    @if (this.showAll()){
+    <h2>⚽ Canchas del establecimiento</h2>
     @if (this.canchas().length > 0) {
       <div class="canchas-list">
         @for (cancha of this.canchas(); track cancha.id) {
@@ -40,10 +54,16 @@
             <p>💵 Precio: ${{ cancha.totalAmount }}</p>
             <p>🏠 Techo: {{ cancha.hasRoof ? 'Sí' : 'No' }}</p>
           </div>
+          <button (click)="handleDetails(cancha.id)">Detalles &rightarrow;</button>
+
         }
       </div>
     } @else {
       <p class="no-canchas">No hay canchas registradas aún.</p>
     }
+    }
+    
+
+    
   </div>
 }
