@@ -1,0 +1,26 @@
+<article class="review-card">
+  <header class="review-header">
+    <div class="review-meta">
+      <span class="review-user">{{ review()!.clientName || 'Anonymous' }}</span>
+      <span class="review-date">
+        {{ review()!.createdAt | date: 'shortDate' }}
+      </span>
+    </div>
+
+    <div class="review-rating">
+        @for(star of this.stars; track $index){
+            <span class="star" [class.filled]="star <= review()!.rating">★</span>
+        }
+    </div>
+  </header>
+
+  <p class="review-message">{{ review()!.message }}</p>
+
+  @if(isOwner()){
+    <footer class="review-actions">
+    <button (click)="edit.emit(review()!)">Edit</button>
+    <button (click)="delete.emit(review()!.id)">Delete</button>
+  </footer>
+  }
+  
+</article>

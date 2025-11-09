@@ -11,14 +11,18 @@ export class ReviewService {
   private readonly url = "http://localhost:8080/review";
   
   getReviewsByEstablishment(establishmentId: number) {
-    return this.http.get<ReviewResponse[]>(`${this.url}/byEstablishment/${establishmentId}`);
+    return this.http.get<ReviewResponse[]>(`${this.url}/findReviewsByEstablishmentId/${establishmentId}`);
+  }
+
+  getReviewsByClient(clientId: number) {
+    return this.http.get<ReviewResponse[]>(`${this.url}/findReviewsByClient/${clientId}`);
   }
 
   createReview(review: ReviewRequest) {
-    return this.http.post<ReviewRequest>(`${this.url}/insert`, review);
+    return this.http.post<ReviewResponse>(`${this.url}/insert`, review);
   }
 
-  updateReview(id: number, review: ReviewResponse) {
+  updateReview(id: number, review: ReviewRequest) {
     return this.http.put<ReviewResponse>(`${this.url}/update`, review);
   }
 
