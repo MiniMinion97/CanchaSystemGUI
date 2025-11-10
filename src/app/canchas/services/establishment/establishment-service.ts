@@ -24,6 +24,10 @@ export class EstablishmentService {
         return this.http.get<EstablishmentResponse[]>(`${this.url}/getEstablishmentsByBrandId/${id}`);
     }
 
+     getCanchaTypes(establishmentId: number): Observable<string[]> {
+        return this.http.get<string[]>(`${this.url}/getCanchaTypes/${establishmentId}`);
+    }
+
     createEstablishment(establishment: EstablishmentRequest) {
         return this.http.post<EstablishmentResponse>(`${this.url}/insert`, establishment);
     }

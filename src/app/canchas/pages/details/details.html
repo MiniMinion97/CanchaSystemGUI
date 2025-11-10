@@ -16,7 +16,6 @@
             @if(this.reviews()){
                 <app-review-list
                     [reviews]="reviews()!"
-                    [currentClientId]="clientId()!"
                     (edit)="startEdit($event)"
                     (delete)="deleteReview($event)"
                 ></app-review-list>

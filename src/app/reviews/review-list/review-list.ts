@@ -12,7 +12,9 @@ import { ReviewItem } from '../review-item/review-item';
 })
 export class ReviewList {
   readonly reviews = input<ReviewResponse[]>([]);
-  readonly currentClientId = input<string>();
   readonly edit = output<ReviewResponse>();
   readonly delete = output<number>();
+
+
+
 }

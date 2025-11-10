@@ -3,7 +3,7 @@ export interface ReviewRequest {
     message?: string;
     establishmentId: number;
     clientName?: string;
-    createdAt?: Date;
+    createdAt?: string;
     clientId: string;
    // clientName: string;   // agregar después !!
    // createdAt: Date;      // agregar después !!

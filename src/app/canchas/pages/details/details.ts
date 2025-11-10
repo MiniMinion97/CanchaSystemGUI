@@ -1,9 +1,8 @@
-import { Component, inject, linkedSignal, signal } from '@angular/core';
+import { Component, inject, signal, effect } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EstablishmentService } from '../../services/establishment/establishment-service';
 import { ReviewService } from '../../../reviews/review-service';
 import { AuthService } from '../../../auth/services/authservice';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { Form } from '../../../reviews/form/form';
 import { ReviewList } from '../../../reviews/review-list/review-list';
 import { ReviewResponse } from '../../../reviews/models/review-response';
@@ -16,7 +15,6 @@ import { Make } from '../../../reservation/pages/make/make';
   styleUrl: './details.css'
 })
 export class Details {
-
   private readonly establishmentService = inject(EstablishmentService);
   private readonly reviewService = inject(ReviewService);
   private readonly authService = inject(AuthService);
@@ -25,36 +23,37 @@ export class Details {
 
   protected readonly loggedIn = this.authService.loggedIn;
   protected readonly role = this.authService.role;
-  protected readonly clientId = this.authService.clientId;
 
   protected readonly establishmentId = Number(this.route.snapshot.paramMap.get('id'));
-  protected readonly establishmentSource = toSignal(this.establishmentService.getEstablishmentById(Number(this.establishmentId)));
-  protected readonly establishment = linkedSignal(() => this.establishmentSource());
 
+  // ✅ Mutable signal para establecimiento
+  protected readonly establishment = signal<any | null>(null);
+
+  // ✅ Mutable signal para reviews
   protected readonly reviews = signal<ReviewResponse[]>([]);
+
   protected readonly editingReview = signal<ReviewResponse | null>(null);
 
   constructor() {
+    // Cargar datos al iniciar el componente
+    this.loadEstablishment();
     this.loadReviews();
   }
 
-  /** Load all reviews for this establishment */
-  private loadReviews() {
-  this.reviewService
-    .getReviewsByEstablishment(Number(this.establishmentId))
-    .subscribe({
-      next: (res) => this.reviews.set(res),
-      error: (err) => {
-        if (err.status === 404) {
-          console.warn('No reviews found for this establishment.');
-          this.reviews.set([]); // just set empty list
-        } else {
-          console.error('Error loading reviews:', err);
-        }
-      }
+  private loadEstablishment() {
+    
+    this.establishmentService.getEstablishmentById(this.establishmentId).subscribe({
+      next: (data) => this.establishment.set(data),
+      error: (err) => console.error('Error loading establishment', err)
     });
-}
+  }
 
+  private loadReviews() {
+    this.reviewService.getReviewsByEstablishment(this.establishmentId).subscribe({
+      next: (data) => this.reviews.set(data),
+      error: (err) => console.error('Error loading reviews', err)
+    });
+  }
 
   /** Called when a user clicks edit on a review */
   protected startEdit(review: ReviewResponse) {
@@ -63,15 +62,15 @@ export class Details {
 
   /** Called when a review form emits `edited` */
   protected onReviewEdited(updated: ReviewResponse) {
-    // Update local review list
-    const updatedList = this.reviews().map((r) => (r.id === updated.id ? updated : r));
+    const updatedList = this.reviews().map((r) =>
+      r.id === updated.id ? updated : r
+    );
     this.reviews.set(updatedList);
     this.editingReview.set(null);
   }
 
   /** Called when a review form emits `created` */
   protected onReviewCreated(newReview: ReviewResponse) {
-    // Add new review to top of list
     this.reviews.set([newReview, ...this.reviews()]);
   }
 
@@ -86,7 +85,6 @@ export class Details {
   }
 
   protected onReservationCreated(reservation: any) {
-  console.log('Reservation created:', reservation);
-  // You could call ReservationService.createReservation(reservation) here
-}
+    console.log('Reservation created:', reservation);
+  }
 }

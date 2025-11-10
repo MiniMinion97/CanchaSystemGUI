@@ -1,4 +1,4 @@
-import { Component, input, output, inject } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { ReviewResponse } from '../models/review-response';
 
@@ -11,14 +11,20 @@ import { ReviewResponse } from '../models/review-response';
 })
 export class ReviewItem {
   readonly review = input<ReviewResponse>();
-  readonly currentClientId = input<string>(); // from auth context
   readonly edit = output<ReviewResponse>();
   readonly delete = output<number>();
 
+  protected clientId = localStorage.getItem('userId')!;
   protected readonly stars = [1, 2, 3, 4, 5];
 
+  /** Devuelve true si el review pertenece al usuario logueado */
   isOwner(): boolean {
-    return this.review()?.clientId === this.currentClientId();
+    const review = this.review();
+
+    // Aseguramos que no rompa si algo es null/undefined
+    const reviewClientId = review?.client?.id ?? null;
+    const currentClientId = this.clientId ?? null;
+
+    return reviewClientId === currentClientId;
   }
 }
-

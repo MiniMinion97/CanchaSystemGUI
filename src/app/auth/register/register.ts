@@ -30,7 +30,7 @@ export class Register {
         if (this.form.invalid) return;
         console.log("Formulario válido");
         const registerrequest = this.form.getRawValue()
-
+/*
         this.authService.registerOwner(registerrequest).subscribe({
             next: (res) => {
             console.log('Registration successful:', res);}
@@ -38,7 +38,7 @@ export class Register {
             error: (err) => {
             console.error('Registration failed:', err);}
         });
-/*
+*/
         this.authService.register(registerrequest).subscribe({
             next: (res) => {
             console.log('Registration successful:', res);}
@@ -48,6 +48,6 @@ export class Register {
         });
 
   }
-        */
+        
       }
-}
+

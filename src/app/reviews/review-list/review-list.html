@@ -6,14 +6,12 @@
         @for(review of reviews; track review.id){
             <app-review-item 
                 [review]="review"
-                [currentClientId]="currentClientId()"
                 (edit)="edit.emit($event)"
                 (delete)="delete.emit($event)">
             </app-review-item>
         }
     </section>
-}
-@else {
+}@else {
     <span>Todavia no hay reseñas, sé el primero en compartir tu experiencia</span>
 }
 </main>
