@@ -1,1 +1,35 @@
-<p>my-reservations works!</p>
+@let reservations = this.reservations();
+@let loading = this.loading();
+
+@if (loading) {
+  <p>Cargando reservas...</p>
+} @else {
+  @if (reservations) {
+    @if (this.reservations().length > 0) {
+      <div class="reservations-list">
+        @for (r of this.reservations(); track r.id) {
+          <div class="reservation-card">
+            <div class="reservation-info">
+              <h3>Reserva #{{ r.id }}</h3>
+              <p>📅 Fecha de reserva: {{ r.reservationDate }}</p>
+              <p>⚽ Fecha del partido: {{ r.matchDate }}</p>
+              <p>💵 Seña: ${{ r.deposit }}</p>
+              <p>
+                🟢 Estado: 
+                <span>
+                    {{r.status ? 'activa' : 'inactiva'}}
+                </span>
+              </p>
+            </div>
+
+            <button class="details-btn" (click)="handleDetals(r.id)">
+              Ver detalles &rightarrow;
+            </button>
+          </div>
+        }
+      </div>
+    } @else {
+      <p class="no-reservations">No tenés reservas registradas aún.</p>
+    }
+  }
+}

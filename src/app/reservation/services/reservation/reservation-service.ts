@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class Reservation {
+export class ReservationService {
   private readonly url = "http://localhost:8080/reservation";
   private readonly http = inject(HttpClient);
 
@@ -19,8 +19,8 @@ export class Reservation {
     return this.http.get<ReservationResponse>(`${this.url}/${id}`);
   }
 
-  getReservationsByClient(clientId: number) {
-    return this.http.get<ReservationResponse[]>(`${this.url}/findReservationsByClient`);
+  getReservationsByClient(id: string) {
+    return this.http.get<ReservationResponse[]>(`${this.url}/findReservationsByClientId/${id}`);
   }
 
   getReservationsByEstablishment(establishmentId: number) {

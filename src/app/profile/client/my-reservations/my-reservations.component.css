@@ -1,0 +1,75 @@
+.reservations-list {
+  padding-top: 130px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 24px auto;
+  max-width: 700px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.reservation-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 18px 20px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.reservation-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(0,0,0,0.15);
+}
+
+.reservation-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.reservation-info h3 {
+  margin: 0 0 6px;
+  color: #222;
+  font-weight: 600;
+}
+
+.reservation-info p {
+  margin: 0;
+  color: #444;
+  font-size: 0.95rem;
+}
+
+.status-active {
+  color: #2ecc71;
+  font-weight: 600;
+}
+
+.status-inactive {
+  color: #e74c3c;
+  font-weight: 600;
+}
+
+.details-btn {
+  background: #0078ff;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.3s;
+}
+
+.details-btn:hover {
+  background: #005fd1;
+}
+
+.no-reservations {
+  text-align: center;
+  color: #777;
+  margin-top: 40px;
+  font-style: italic;
+}

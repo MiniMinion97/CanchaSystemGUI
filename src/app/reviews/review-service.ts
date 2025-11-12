@@ -14,7 +14,7 @@ export class ReviewService {
     return this.http.get<ReviewResponse[]>(`${this.url}/findReviewsByEstablishmentId/${establishmentId}`);
   }
 
-  getReviewsByClient(clientId: number) {
+  getReviewsByClient(clientId: string) {
     return this.http.get<ReviewResponse[]>(`${this.url}/findReviewsByClientId/${clientId}`);
   }
 

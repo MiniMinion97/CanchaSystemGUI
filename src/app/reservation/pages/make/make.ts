@@ -1,7 +1,7 @@
 import { Component, inject, input, output, signal, effect } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Reservation } from '../../services/reservation/reservation';
+import { ReservationService } from '../../services/reservation/reservation-service';
 import { EstablishmentService } from '../../../canchas/services/establishment/establishment-service';
 
 @Component({
@@ -12,23 +12,26 @@ import { EstablishmentService } from '../../../canchas/services/establishment/es
 })
 export class Make {
   private readonly fb = inject(FormBuilder);
-  private readonly reservationService = inject(Reservation);
+  private readonly reservationService = inject(ReservationService);
   private readonly establishmentService = inject(EstablishmentService);
 
   readonly establishmentId = input<number>();
   readonly reserved = output<any>();
 
-  readonly canchaTypes = signal<string[]>([]);
   readonly availableHours = signal<string[]>([]);
   readonly loading = signal(false);
 
   protected readonly today = new Date().toISOString().split('T')[0];
 
-  readonly form = this.fb.nonNullable.group({
-    canchaType: ['', Validators.required],
-    date: ['', Validators.required],
-    hour: ['', Validators.required]
-  });
+readonly canchaTypes = signal<{ id: number; type: string }[]>([]);
+
+readonly form = this.fb.nonNullable.group({
+  canchaId: [null as number | null, Validators.required],
+  date: ['', Validators.required],
+  hour: ['', Validators.required]
+});
+
+
 
   constructor() {
     // Load cancha types when establishmentId changes
@@ -52,11 +55,13 @@ export class Make {
     });
   }
 
-  private loadCanchaTypes(establishmentId: number) {
-    this.establishmentService.getCanchaTypes(establishmentId).subscribe((types) => {
-      this.canchaTypes.set(types);
-    });
-  }
+private loadCanchaTypes(establishmentId: number) {
+  this.establishmentService.getCanchaTypes(establishmentId).subscribe((types) => {
+    this.canchaTypes.set(types);
+  });
+}
+
+
 
   // ✅ Fix argument type and Object.values() issue
   private loadAvailableHours(establishmentId: number, date: string) {
@@ -76,7 +81,67 @@ export class Make {
   }
 
   handleSubmit() {
-    if (this.form.invalid) return;
-    this.reserved.emit(this.form.value);
+  if (this.form.invalid) {
+    console.warn('Formulario inválido:', this.form.value);
+    return;
   }
+
+  const clientId = localStorage.getItem('userId')!;
+  if (!clientId) {
+    console.error('No se encontró clientId en localStorage');
+    return;
+  }
+
+  const formValue = this.form.getRawValue();
+  const establishmentId = this.establishmentId()!;
+  const selectedDate = formValue.date;
+  const selectedHour = formValue.hour;
+
+  // ✅ Validar antes de continuar
+  if (!selectedDate || !selectedHour) {
+    console.error('Falta fecha u hora');
+    return;
+  }
+
+  // 🕐 Combinar fecha y hora correctamente
+  const matchDate = new Date(`${selectedDate}`);
+
+  if (isNaN(matchDate.getTime())) {
+    console.error('matchDate inválido:', matchDate);
+    return;
+  }
+
+  // ✅ Si tu formulario tiene canchaId
+const selectedCanchaId = formValue.canchaId;
+
+
+  if (!selectedCanchaId) {
+    console.error('No se encontró la cancha seleccionada');
+    return;
+  }
+
+  const reservationRequest = {
+    establishmentId: establishmentId,
+    canchaId: selectedCanchaId,
+    reservationDate: new Date(),
+    reservationStatus: "PENDING",
+    matchDate: matchDate,
+  };
+
+  console.log('Reserva enviada:', reservationRequest);
+
+  this.reservationService.createReservation(reservationRequest).subscribe({
+    next: (response) => {
+      console.log('Reserva creada:', response);
+      this.reserved.emit(response);
+      this.form.reset();
+    },
+    error: (err) => {
+      console.error('Error al crear reserva:', err);
+    },
+  });
+}
+
+
+
 }

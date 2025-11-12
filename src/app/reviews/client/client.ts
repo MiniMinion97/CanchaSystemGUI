@@ -13,7 +13,7 @@ export class Client {
   private readonly authservice = inject(AuthService);
   private readonly reviewservice = inject(ReviewService);
 
-  protected readonly clientId = 1; // auth service get id
+  protected readonly clientId = localStorage.getItem('userId')!; // auth service get id
 
   protected readonly reviews = toSignal(this.reviewservice.getReviewsByClient(this.clientId)); 
   

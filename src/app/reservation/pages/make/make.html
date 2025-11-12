@@ -1,44 +1,46 @@
 <form [formGroup]="form" (ngSubmit)="handleSubmit()" class="reservation-form">
-  <!-- Cancha Type -->
+  <!-- Tipo de cancha -->
   <fieldset>
-    <legend>Choose Cancha Type</legend>
-        @for(type of canchaTypes(); track $index){
-            <div>
-                <input
-                    type="radio"
-                    [id]="type"
-                    formControlName="canchaType"
-                    [value]="type"
-                />
-                <label [for]="type">{{ type }}</label>
-            </div>
-        }
+    <legend>Seleccionar tipo de cancha</legend>
+    @for (cancha of canchaTypes(); track cancha.id) {
+      <div class="radio-option">
+        <input
+          type="radio"
+          [id]="'cancha-' + cancha.id"
+          formControlName="canchaId"
+          [value]="cancha.id"
+        />
+        <label [for]="'cancha-' + cancha.id">{{ cancha.type }}</label>
+      </div>
+    }
   </fieldset>
 
-  <!-- Date Picker -->
-  <label for="date">Select Date:</label>
-  <input
-    id="date"
-    type="date"
-    formControlName="date"
-    [min]="today"
-  />
+  <!-- Fecha -->
+  <div class="form-group">
+    <label for="date">Seleccionar fecha:</label>
+    <input
+      id="date"
+      type="date"
+      formControlName="date"
+      [min]="today"
+    />
+  </div>
 
-  <!-- Hours -->
-   @if(availableHours().length){
-    <div>
-        <label for="hour">Available Hours:</label>
-        <select id="hour" formControlName="hour">
-            @for(hour of availableHours(); track $index){
-                <option [value]="hour">{{ hour }}</option>
-            }
-        </select>  
+  <!-- Horarios disponibles -->
+  @if (availableHours().length) {
+    <div class="form-group">
+      <label for="hour">Horarios disponibles:</label>
+      <select id="hour" formControlName="hour">
+        @for (hour of availableHours(); track $index) {
+          <option [value]="hour">{{ hour }}</option>
+        }
+      </select>
     </div>
-   }
-  
-   @if(loading()){
-        <p>Cargando horarios disponibles ...</p>     
-   }
-  
+  }
+
+  @if (loading()) {
+    <p class="loading-text">Cargando horarios disponibles...</p>
+  }
+
   <button type="submit" [disabled]="form.invalid">Hacer reserva</button>
 </form>

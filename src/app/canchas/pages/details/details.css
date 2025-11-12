@@ -1,11 +1,71 @@
-main{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+/* RESET de reglas conflictivas (quita cualquier main > div { display: row ... } anterior) */
+
+/* Layout principal: columna, todo apilado verticalmente */
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;     /* centra horizontalmente los elementos directos */
+  gap: 1.5rem;
+   padding-top: 130px;
+  background: #f7f7f7;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-section{
-    height: 80vh;
-    width: 40vw;
+/* SECCION DE RESERVA: centrada y con ancho limitado */
+#reservationSection {
+ 
+  width: 60%;
+  max-width: 720px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  padding: 1.5rem;
+  text-align: center;
+}
+
+/* CONTENEDOR de contenido debajo (establecimiento + reviews) */
+.content-container {
+  width: 100%;
+  max-width: 1100px;   /* limita el ancho general */
+  display: flex;
+  flex-direction: column;  /* apilado vertical: establishment arriba, reviews abajo */
+  gap: 1.5rem;
+  box-sizing: border-box;
+  padding: 0 1rem;
+}
+
+/* Cada sección dentro del contenedor ocupa el 100% del contenedor (no centradas en el medio) */
+#establishmentSection,
+#reviewSection {
+  width: 100%;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+  padding: 1rem;
+  box-sizing: border-box;
+  text-align: left;   /* reviews no centradas */
+}
+
+/* Si querés que el formulario dentro del reviewSection no esté arriba (si ya tenés un form dentro),
+   podés añadir un pequeño margen: */
+#reviewSection app-form {
+  margin-bottom: 1rem;
+}
+
+/* Responsivo: en pantallas chicas todo se ajusta */
+@media (max-width: 900px) {
+  #reservationSection {
+    width: 95%;
+    padding: 1rem;
+  }
+
+  .content-container {
+    padding: 0 0.75rem;
+  }
+
+  #establishmentSection,
+  #reviewSection {
+    padding: 0.75rem;
+  }
 }

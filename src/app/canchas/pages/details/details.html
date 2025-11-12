@@ -1,38 +1,34 @@
 <main>
-    <div>
-        <section id="establishmentSection">
+  <!-- RESERVA: primera, arriba y centrada -->
+  @if(loggedIn() && role() === 'ROLE_CLIENT'){
+    <section id="reservationSection">
+      <app-make
+        [establishmentId]="establishmentId"
+        (reserved)="onReservationCreated($event)"
+      ></app-make>
+    </section>
+  }
 
-        </section>
+  <!-- Contenedor para establishment + reviews (debajo) -->
+  <div class="content-container">
+ 
+    <section id="reviewSection">
+      @if(loggedIn() && role() === 'ROLE_CLIENT'){
+        <app-form
+          [isEditing]="!!editingReview"
+          [review]="editingReview()"
+          (edited)="onReviewEdited($event)"
+          (created)="onReviewCreated($event)"
+        ></app-form>
+      }
 
-        <section id="reviewSection">
-            @if(loggedIn() && role() === 'ROLE_CLIENT'){
-                <app-form
-                    [isEditing]="!!editingReview"
-                    [review]="editingReview()"
-                    (edited)="onReviewEdited($event)"
-                    (created)="onReviewCreated($event)"
-                ></app-form>
-            }
-            @if(this.reviews()){
-                <app-review-list
-                    [reviews]="reviews()!"
-                    (edit)="startEdit($event)"
-                    (delete)="deleteReview($event)"
-                ></app-review-list>
-            }
-        </section>
-    </div>
-    
-    @if(loggedIn() && role() === 'ROLE_CLIENT'){
-        <section id="reservationSection">
-            <app-make
-                [establishmentId]="establishmentId"
-                (reserved)="onReservationCreated($event)"
-            ></app-make>
-        </section>
-    }
-    
-
+      @if(this.reviews()){
+        <app-review-list
+          [reviews]="reviews()!"
+          (edit)="startEdit($event)"
+          (delete)="deleteReview($event)"
+        ></app-review-list>
+      }
+    </section>
+  </div>
 </main>
-
-
