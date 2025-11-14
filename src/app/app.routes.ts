@@ -13,6 +13,7 @@ import { Component } from '@angular/compiler';
 import { MyBrandDetails } from './profile/owner/my-brands/my-brand-details/my-brand-details';
 import { MyEstablishmentDetails } from './profile/owner/my-establishments/my-establishment-details/my-establishment-details';
 import { MyCanchaDetails } from './profile/owner/my-canchas/my-cancha-details/my-cancha-details';
+import { MyReservationDetails } from './profile/client/my-reservations/my-reservation-details/my-reservation-details';
 
 export const routes: Routes = [
     {path: 'explorar', component: Explore},
@@ -30,7 +31,10 @@ export const routes: Routes = [
 
 
     {path: 'perfil/mis-reseñas', component: MyReviewsComponent},
+
     {path: 'perfil/mis-reservas',component: MyReservationsComponent},
+    {path: 'perfil/mis-reservas/:id', component: MyReservationDetails},
+
     {path: 'explorar/detalles/:id', component: Details},
     //{path: 'perfil/mis-marcas'},
 

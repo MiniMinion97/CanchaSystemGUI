@@ -1,5 +1,6 @@
 import { Component, effect, inject, signal } from '@angular/core';
 import { ReservationService } from '../../../reservation/services/reservation/reservation-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-reservations',
@@ -10,7 +11,9 @@ import { ReservationService } from '../../../reservation/services/reservation/re
 })
 export class MyReservationsComponent {
   private readonly reservationService = inject(ReservationService);
+  private readonly router = inject(Router);
   protected clientId = localStorage.getItem('userId')!;
+  
 
   protected loading = signal<boolean>(true);
 
@@ -33,8 +36,8 @@ export class MyReservationsComponent {
       });
     }
 
-    handleDetals(id: Number){
-
+    handleDetails(id: Number){
+      this.router.navigateByUrl(`perfil/mis-reservas/${id}`)
     }
   
 
