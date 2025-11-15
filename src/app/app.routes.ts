@@ -13,6 +13,8 @@ import { Component } from '@angular/compiler';
 import { MyBrandDetails } from './profile/owner/my-brands/my-brand-details/my-brand-details';
 import { MyEstablishmentDetails } from './profile/owner/my-establishments/my-establishment-details/my-establishment-details';
 import { MyCanchaDetails } from './profile/owner/my-canchas/my-cancha-details/my-cancha-details';
+import { Faq } from './canchas/pages/faq/faq';
+import { OwnerContact } from './canchas/pages/owner-contact/owner-contact';
 
 export const routes: Routes = [
     {path: 'explorar', component: Explore},
@@ -34,6 +36,7 @@ export const routes: Routes = [
     {path: 'explorar/detalles/:id', component: Details},
     //{path: 'perfil/mis-marcas'},
 
-
+    {path: 'FAQ', component: Faq},
+    {path: 'contacto', component: OwnerContact}
     
 ];

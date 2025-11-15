@@ -7,5 +7,6 @@ export interface EstablishmentResponse {
     openingHour: Date;
     closingHour: Date;
     active: boolean;
+    averageRating: number;
 }
 

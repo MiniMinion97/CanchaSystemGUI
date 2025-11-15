@@ -2,11 +2,12 @@ import { Component, inject } from '@angular/core';
 import { EstablishmentService } from '../../services/establishment/establishment-service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
+import { StarRatingComponent } from '../../../layout/star-rating/star-rating';
 
 
 @Component({
   selector: 'app-explore',
-  imports: [],
+  imports: [StarRatingComponent],
   templateUrl: './explore.html',
   styleUrls: ['./explore.css']
 })

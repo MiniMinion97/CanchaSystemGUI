@@ -6,8 +6,28 @@
     <section class="establishment-container">
     @for (establishment of establishments; track establishment.id) {
       <div class="establishment-item">
-        {{ establishment.name }}
-        <button (click)="navigateToEstablishmentDetails(establishment.id!)">Ver más</button>
+
+        <div class="establishment-pictures">
+
+        </div>
+
+        <div class="establishment-footer">
+          <div class="establishment-explore-data">
+            <p>{{ establishment.name }}</p>
+            <app-star-rating
+              [rating]="establishment.averageRating"
+              [size]="18"
+              [showNumber]="false"
+              color="#F5B301"
+              emptyColor="#DDDDDD">
+            </app-star-rating>
+          </div>
+          
+          
+          <button (click)="navigateToEstablishmentDetails(establishment.id!)">Ver más</button>
+        </div>
+        
+        
       </div>
     }
   </section>
