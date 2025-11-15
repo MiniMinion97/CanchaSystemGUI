@@ -1,7 +1,7 @@
 export interface ReservationRequest {
-    establishmentId: number;
+    establishmentId?: number;
     canchaId: number;
-    reservationDate: Date;
+    reservationDate?: Date;
     reservationStatus: string;
     matchDate: Date;
     //deposit: number;

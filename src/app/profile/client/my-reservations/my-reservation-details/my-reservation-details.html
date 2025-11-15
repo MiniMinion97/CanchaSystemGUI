@@ -1,0 +1,68 @@
+@let res = this.reservation();
+@let loading = this.loading();
+
+@if (loading) {
+  <p class="loading">Cargando detalles de la reserva...</p>
+} @else {
+  @if (res) {
+
+    <div class="reservation-detail-card">
+      <h2>Detalles de la Reserva #{{ res.id }}</h2>
+
+      <div class="detail-row">
+        <span class="label">📌 ID Reserva:</span>
+        <span>{{ res.id }}</span>
+      </div>
+
+      <div class="detail-row">
+        <span class="label">👤 Cliente ID:</span>
+        <span>{{ res.client.id }}</span>
+      </div>
+
+      <div class="detail-row">
+        <span class="label">⚽ Cancha ID:</span>
+        <span>{{ res.cancha.id }}</span>
+      </div>
+
+      <div class="detail-row">
+        <span class="label">📅 Fecha de reserva:</span>
+        <span>{{ res.reservationDate }}</span>
+      </div>
+
+      <div class="detail-row">
+        <span class="label">🏆 Fecha del partido:</span>
+        <span>{{ res.matchDate }}</span>
+      </div>
+
+      <div class="detail-row">
+        <span class="label">🟢 Estado:</span>
+        <span class="status">{{ res.status }}</span>
+      </div>
+
+      <div class="actions">
+        <button class="edit-btn" (click)="toggleEdit()">
+          ✏️ Editar reserva
+        </button>
+
+        <button class="cancel-btn" (click)="handleDelete()">
+          ❌ Cancelar reserva
+        </button>
+      </div>
+
+      @if (isEditing()) {
+        <app-make
+  [isEditing]="isEditing()"
+  [reservationData]="reservation()!"
+  [establishmentId]="reservation()?.cancha?.establishment?.id"
+  [reservationId]="reservation()?.id"
+  (reservationEdited)="handleEdit($event)"
+></app-make>
+
+      }
+
+    </div>
+
+  } @else {
+    <p class="no-data">No se encontraron los detalles de la reserva.</p>
+  }
+}

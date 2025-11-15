@@ -15,6 +15,7 @@ import { MyEstablishmentDetails } from './profile/owner/my-establishments/my-est
 import { MyCanchaDetails } from './profile/owner/my-canchas/my-cancha-details/my-cancha-details';
 import { Faq } from './canchas/pages/faq/faq';
 import { OwnerContact } from './canchas/pages/owner-contact/owner-contact';
+import { MyReservationDetails } from './profile/client/my-reservations/my-reservation-details/my-reservation-details';
 
 export const routes: Routes = [
     {path: 'explorar', component: Explore},
@@ -32,7 +33,10 @@ export const routes: Routes = [
 
 
     {path: 'perfil/mis-reseñas', component: MyReviewsComponent},
+
     {path: 'perfil/mis-reservas',component: MyReservationsComponent},
+    {path: 'perfil/mis-reservas/:id', component: MyReservationDetails},
+
     {path: 'explorar/detalles/:id', component: Details},
     //{path: 'perfil/mis-marcas'},
 

@@ -35,11 +35,13 @@ export class ReservationService {
     return this.http.post<ReservationRequest>(`${this.url}/insert`, reservation);
   }
 
-  updateReservation(reservation: ReservationResponse) {
-    return this.http.put<ReservationResponse>(`${this.url}/update`, reservation);
+  updateReservation(id: Number,reservation: ReservationRequest) {
+    return this.http.put<ReservationResponse>(`${this.url}/update/${id}`, reservation);
   }
 
-  
+  deleteReservation(id: Number){
+      return this.http.delete<void>(`${this.url}/cancelReservation/${id}`);
+  }
 
 
 
