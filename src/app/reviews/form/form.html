@@ -1,6 +1,10 @@
 @let stars = [5, 4, 3, 2, 1];
 
 <main>
+  @if (!isLoggedIn) {
+    <p class="warning">⚠️ Debes iniciar sesión para dejar una reseña</p>
+  }
+
   <form [formGroup]="form" (ngSubmit)="handleSubmit()">
     <div class="rating">
       @for(star of stars; track $index){
@@ -14,14 +18,30 @@
       }  
     </div>
 
+    <!-- Mostrar error si no seleccionó rating -->
+    @if (rating.invalid && (rating.dirty || rating.touched)) {
+      <p class="error">Por favor, selecciona una calificación</p>
+    }
+
     <textarea
       formControlName="message"
-      placeholder="Write your review here..."
+      placeholder="Escribe tu reseña aquí... (opcional)"
+      maxlength="500"
+      rows="4"
     ></textarea>
 
-    <button type="submit" [disabled]="form.invalid">
-      {{ isEditing() ? 'Update Review' : 'Submit Review' }}
+    <!-- Contador de caracteres -->
+    @if (message.value) {
+      <p class="char-count">{{ message.value.length }} / 500</p>
+    }
+
+    <button 
+      type="submit" 
+      [disabled]="form.invalid || !isLoggedIn"
+      
+    >
+
+      {{ isEditing() ? 'Actualizar Reseña' : 'Publicar Reseña' }}
     </button>
   </form>
 </main>
-

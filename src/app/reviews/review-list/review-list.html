@@ -1,18 +1,18 @@
 @let reviews = this.reviews();
 <main>
-    @if(reviews){
+  @if (reviews && reviews.length > 0) {
     <section>
-        @for(review of reviews; track review.id){
-            <app-review-item 
-                [review]="review"
-                (edit)="edit.emit($event)"
-                (delete)="delete.emit($event)">
-            </app-review-item>
-        }
+      @for (review of reviews; track review.id) {
+        <app-review-item
+          [review]="review"
+          [clientId]="currentUserId()"
+          [isLoggedIn]="isLoggedIn()"
+          (edit)="edit.emit($event)"
+          (delete)="delete.emit($event)">
+</app-review-item>
+      }
     </section>
-}@else {
-    <span>Todavia no hay reseñas, sé el primero en compartir tu experiencia</span>
-}
+  } @else {
+    <span>Todavía no hay reseñas, sé el primero en compartir tu experiencia</span>
+  }
 </main>
-
-
