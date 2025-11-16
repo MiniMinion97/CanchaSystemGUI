@@ -7,10 +7,11 @@ import { Form } from '../../../reviews/form/form';
 import { ReviewList } from '../../../reviews/review-list/review-list';
 import { ReviewResponse } from '../../../reviews/models/review-response';
 import { Make } from '../../../reservation/pages/make/make';
+import { StarRatingComponent } from "../../../layout/star-rating/star-rating";
 
 @Component({
   selector: 'app-details',
-  imports: [Form, ReviewList, Make],
+  imports: [Form, ReviewList, Make, StarRatingComponent],
   templateUrl: './details.html',
   styleUrl: './details.css'
 })

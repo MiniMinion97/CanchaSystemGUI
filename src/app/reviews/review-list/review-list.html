@@ -1,7 +1,6 @@
 @let reviews = this.reviews();
 <main>
     @if(reviews){
-    <h2>Reseñas</h2>
     <section>
         @for(review of reviews; track review.id){
             <app-review-item 

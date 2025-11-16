@@ -1,34 +1,86 @@
 <main>
-  <!-- RESERVA: primera, arriba y centrada -->
-  @if(loggedIn() && role() === 'ROLE_CLIENT'){
-    <section id="reservationSection">
-      <app-make
-        [establishmentId]="establishmentId"
-        (reserved)="onReservationCreated($event)"
-      ></app-make>
-    </section>
-  }
+  <!-- Contenedor principal: 2 columnas -->
+  <div class="main-layout">
+    
+    <!-- COLUMNA IZQUIERDA: scrolleable -->
+    <div class="left-column">
+      
+      <!-- DETALLES DEL ESTABLECIMIENTO -->
+      <section id="establishmentSection">
+        <div class="establishment-header">
+          <h1> {{ establishment().name }} </h1>
+        </div>
+        
+        <!-- Espacio reservado para fotos (2/3 del ancho) -->
+        <div class="photos-placeholder">
+          <div class="photo-grid">
+            <div class="photo-slot main">Foto Principal</div>
+            <div class="photo-slot">Foto 2</div>
+            <div class="photo-slot">Foto 3</div>
+            <div class="photo-slot">Foto 4</div>
+          </div>
+        </div>
+        
+        <!-- Detalles del establecimiento -->
+        <div class="establishment-details">
+          <h3>Detalles</h3>
+          <p><strong>Dirección:</strong> {{ establishment().address }} </p>
+          <p><strong>Horario:</strong> {{ establishment().openingHour }} - {{ establishment().closingHour }} </p>
+        </div>
+      </section>
+      
+      <!-- SECCIÓN DE REVIEWS -->
+      <section id="reviewSection">
+        <div class="reviews-header">
+          <h2>Reseñas</h2>
+          <div class="average-rating">
+            <app-star-rating
+              [rating]="establishment().averageRating"
+              [size]="18"
+              [showNumber]="false"
+              color="#F5B301"
+              emptyColor="#DDDDDD">
+            </app-star-rating>
 
-  <!-- Contenedor para establishment + reviews (debajo) -->
-  <div class="content-container">
- 
-    <section id="reviewSection">
+            <span class="rating-text"> {{ establishment().averageRating }} / 5</span>
+            <span class="review-count"> ({{ reviews().length }}) </span>
+
+            
+          </div>
+        </div>
+        
+        <!-- Formulario de review (si está logueado) -->
+        @if(loggedIn() && role() === 'ROLE_CLIENT'){
+          <app-form
+            [isEditing]="!!editingReview"
+            [review]="editingReview()"
+            (edited)="onReviewEdited($event)"
+            (created)="onReviewCreated($event)"
+          ></app-form>
+        }
+        
+        <!-- Lista de reviews -->
+        @if(this.reviews()){
+          <app-review-list
+            [reviews]="reviews()!"
+            (edit)="startEdit($event)"
+            (delete)="deleteReview($event)"
+          ></app-review-list>
+        }
+      </section>
+    </div>
+    
+    <!-- COLUMNA DERECHA: sticky (no scroll) -->
+    <aside class="right-column">
       @if(loggedIn() && role() === 'ROLE_CLIENT'){
-        <app-form
-          [isEditing]="!!editingReview"
-          [review]="editingReview()"
-          (edited)="onReviewEdited($event)"
-          (created)="onReviewCreated($event)"
-        ></app-form>
+        <div id="reservationSection">
+          <app-make
+            [establishmentId]="establishmentId"
+            (reserved)="onReservationCreated($event)"
+          ></app-make>
+        </div>
       }
-
-      @if(this.reviews()){
-        <app-review-list
-          [reviews]="reviews()!"
-          (edit)="startEdit($event)"
-          (delete)="deleteReview($event)"
-        ></app-review-list>
-      }
-    </section>
+    </aside>
+    
   </div>
 </main>
