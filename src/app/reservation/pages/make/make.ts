@@ -91,7 +91,12 @@ console.log("canchaTypes:", this.canchaTypes());
 
 private loadCanchaTypes(establishmentId: number) {
   this.establishmentService.getCanchaTypes(establishmentId).subscribe((types) => {
-    this.canchaTypes.set(types);
+    // Convertir string[] a { id, type }[]
+    const typesWithId = types.map((type, index) => ({
+      id: index,
+      type: type
+    }));
+    this.canchaTypes.set(typesWithId);
   });
 }
 

@@ -3,7 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { EstablishmentResponse } from '../../models/establishment-response';
 import { EstablishmentRequest } from '../../models/establishment-request';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
+import { CanchaResponse } from '../../models/cancha-response';
 
 @Injectable({
   providedIn: 'root'
@@ -24,11 +25,17 @@ export class EstablishmentService {
         return this.http.get<EstablishmentResponse[]>(`${this.url}/getEstablishmentsByBrandId/${id}`);
     }
 
- getCanchaTypes(establishmentId: number): Observable<{ id: number; type: string }[]> {
-  return this.http.get<{ id: number; type: string }[]>(
-    `${this.url}/${establishmentId}/canchas/types`
-  );
-}
+    getCanchaTypes(establishmentId: number): Observable<string[]> {
+        return this.http.get<CanchaResponse[]>(
+            `http://localhost:8080/cancha/getCanchasByEstablishmentId/${establishmentId}`
+        ).pipe(
+            map(canchas => {
+            // Extraer tipos únicos de canchas
+            const uniqueTypes = [...new Set(canchas.map(c => c.canchaType))];
+            return uniqueTypes;
+            })
+        );
+    }
 
     createEstablishment(establishment: EstablishmentRequest) {
         return this.http.post<EstablishmentResponse>(`${this.url}/insert`, establishment);
