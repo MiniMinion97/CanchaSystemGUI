@@ -14,7 +14,4 @@ export class ReviewList {
   readonly reviews = input<ReviewResponse[]>([]);
   readonly edit = output<ReviewResponse>();
   readonly delete = output<number>();
-
-
-
 }

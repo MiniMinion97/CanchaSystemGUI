@@ -36,7 +36,9 @@
 
       <div class="detail-row">
         <span class="label">🟢 Estado:</span>
-        <span class="status">{{ res.status }}</span>
+        <span [class]="'status ' + res.status.toLowerCase()">
+          {{ res.status }}
+        </span>
       </div>
 
       <div class="actions">
@@ -47,22 +49,20 @@
         <button class="cancel-btn" (click)="handleDelete()">
           ❌ Cancelar reserva
         </button>
-      </div>
 
+      </div>
       @if (isEditing()) {
         <app-make
-  [isEditing]="isEditing()"
-  [reservationData]="reservation()!"
-  [establishmentId]="reservation()?.cancha?.establishment?.id"
-  [reservationId]="reservation()?.id"
-  (reservationEdited)="handleEdit($event)"
-></app-make>
-
+          [isEditing]="isEditing()"
+          [reservationData]="reservation()!"
+          [establishmentId]="reservation()?.cancha?.establishment?.id"
+          [reservationId]="reservation()?.id"
+          (reservationEdited)="handleEdit($event)"
+        ></app-make>
       }
-
     </div>
 
-  } @else {
-    <p class="no-data">No se encontraron los detalles de la reserva.</p>
-  }
+    } @else {
+      <p class="no-data">No se encontraron los detalles de la reserva.</p>
+    }
 }

@@ -1,1 +1,69 @@
-<p>my-reviews works!</p>
+<!-- my-reviews.component.html -->
+<main class="my-reviews-container">
+  
+  <!-- Header Section -->
+  <header class="reviews-header">
+    <div class="header-content">
+      <h1>Mis Reseñas</h1>
+      <div class="header-stats">
+        <div class="stat-card">
+          <span class="stat-icon">📝</span>
+          <div class="stat-info">
+            <span class="stat-number">{{ reviewCount() }}</span>
+            <span class="stat-label">Reseñas</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">⭐</span>
+          <div class="stat-info">
+            <span class="stat-number">{{ averageRating() }}</span>
+            <span class="stat-label">Promedio</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+  <!-- Edit Form (shown when editing) -->
+  @if (editingReview()) {
+    <section class="edit-section">
+      <div class="edit-header">
+        <h3>✏️ Editando Reseña</h3>
+        <button class="close-btn" (click)="editingReview.set(null)">✕</button>
+      </div>
+      <app-form
+        [isEditing]="true"
+        [review]="editingReview()!"
+        (edited)="onReviewEdited($event)"
+      ></app-form>
+    </section>
+  }
+  
+  <!-- Reviews List -->
+  <section class="reviews-list-section">
+    @if (isLoading()) {
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Cargando tus reseñas...</p>
+      </div>
+    } @else {
+      @if (reviews() && reviews()!.length > 0) {
+        <app-review-list
+          [reviews]="reviews()!"
+          (edit)="startEdit($event)"
+          (delete)="deleteReview($event)"
+        ></app-review-list>
+      } @else {
+        <div class="empty-state">
+          <div class="empty-icon">📋</div>
+          <h3>Aún no tienes reseñas</h3>
+          <p>Cuando escribas reseñas sobre establecimientos, aparecerán aquí.</p>
+          <button class="explore-btn" (click)="router.navigate(['/explorar'])">
+            🔍 Explorar Establecimientos
+          </button>
+        </div>
+      }
+    }
+  </section>
+  
+</main>

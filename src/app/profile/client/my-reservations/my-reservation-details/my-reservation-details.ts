@@ -98,9 +98,9 @@ this.reservationRequestData.set({
     this.reservationService.deleteReservation(this.id).subscribe({
       next: (res) => {
         console.log('Reservation canceled', res);
-        this.router.navigateByUrl('/perfil/mis-canchas');
+        this.router.navigateByUrl('/perfil/mis-reservas');
       },
-      error: (err) => console.error('Error deleting cancha', err)
+      error: (err) => console.error('Error deleting reservation', err)
     });
   }
 }
