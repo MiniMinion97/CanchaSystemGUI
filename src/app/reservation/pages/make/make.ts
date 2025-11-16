@@ -26,173 +26,211 @@ export class Make {
 
   protected readonly today = new Date().toISOString().split('T')[0];
 
-readonly canchaTypes = signal<{ id: number; type: string }[]>([]);
-
+  // ✅ ARREGLADO: Signal correcto para tipos de cancha
+  readonly canchaTypes = signal<string[]>([]);
 
   readonly reservationData = input<ReservationResponse>();
   readonly isEditing = input(false);
   readonly reservationEdited = output<ReservationResponse>();
   readonly reservationId = input<number>();
 
-
-readonly form = this.fb.nonNullable.group({
-  canchaId: [0, Validators.required],
-  date: ['', Validators.required],
-  hour: ['', Validators.required]
-});
-
-
+  // ✅ ARREGLADO: Form con tipo de cancha en vez de canchaId
+  readonly form = this.fb.nonNullable.group({
+    canchaType: ['', Validators.required],  // Cambiado de canchaId a canchaType
+    date: ['', Validators.required],
+    hour: ['', Validators.required]
+  });
 
   constructor() {
- effect(() => {
-  console.log("🟩 isEditing:", this.isEditing());
-console.log("🟩 reservationData:", this.reservationData());
-console.log("🟩 reservationId:", this.reservationId());
-console.log("🟩 establishmentId input:", this.establishmentId());
+    effect(() => {
+      console.log("🟩 isEditing:", this.isEditing());
+      console.log("🟩 reservationData:", this.reservationData());
+      console.log("🟩 reservationId:", this.reservationId());
+      console.log("🟩 establishmentId input:", this.establishmentId());
 
-  const data = this.reservationData();
+      const data = this.reservationData();
 
-  if (this.isEditing() && this.reservationData()) {
-  const data = this.reservationData()!;
+      if (this.isEditing() && data) {
+        const matchDate = data.matchDate;
+        const [dateOnly, timeOnly] = matchDate.split("T");
 
-  const matchDate = data.matchDate;
-  const [dateOnly, timeOnly] = matchDate.split("T");
+        this.form.patchValue({
+          canchaType: data.cancha?.canchaType,  // Tipo de cancha
+          date: dateOnly,
+          hour: timeOnly.substring(0, 5)
+        });
 
-  this.form.patchValue({
-    canchaId: data.cancha?.id,
-    date: dateOnly,
-    hour: timeOnly.substring(0, 5)
-  });
+        // Cargar horarios disponibles al editar
+        const estId = this.establishmentId() ?? data.cancha?.establishment?.id;
+        if (estId && dateOnly && data.cancha?.canchaType) {
+          this.loadAvailableHours(estId, dateOnly, data.cancha.canchaType);
+        }
+      }
 
-   // 🟦 CARGAR HORARIOS DISPONIBLES AL INICIAR EDICIÓN
-  const estId = this.establishmentId() ?? data.cancha?.establishment?.id;
-  if (estId) {
-    this.loadAvailableHours(estId, dateOnly);
+      // Cargar tipos de cancha
+      const estIdFromInput = this.establishmentId();
+      const estIdFromData = data?.cancha?.establishment?.id;
+      const estIdToUse = estIdFromInput ?? estIdFromData;
+
+      if (estIdToUse) {
+        this.loadCanchaTypes(estIdToUse);
+      }
+    });
   }
-}
 
-
-  // Cargar tipos de cancha: preferir el input establishmentId(); si no existe, intentar extraer de reservationData
-  const estIdFromInput = this.establishmentId();
-  const estIdFromData = data ? ( (data as any).establishmentId ?? null ) : null;
-  const estIdToUse = estIdFromInput ?? estIdFromData;
-
-  if (estIdToUse) {
-    this.loadCanchaTypes(estIdToUse);
+  // ✅ ARREGLADO: Cargar tipos de cancha correctamente
+  private loadCanchaTypes(establishmentId: number) {
+    console.log('📋 Cargando tipos de cancha para establishment:', establishmentId);
+    
+    this.establishmentService.getCanchaTypes(establishmentId).subscribe({
+      next: (types) => {
+        console.log('✅ Tipos de cancha recibidos:', types);
+        this.canchaTypes.set(types);
+      },
+      error: (err) => {
+        console.error('❌ Error al cargar tipos de cancha:', err);
+      }
+    });
   }
-});
 
-console.log("reservationData recibido:", this.reservationData());
-console.log("establishmentId recibido:", this.establishmentId());
-console.log("canchaTypes:", this.canchaTypes());
-
-}
-
-
-private loadCanchaTypes(establishmentId: number) {
-  this.establishmentService.getCanchaTypes(establishmentId).subscribe((types) => {
-    // Convertir string[] a { id, type }[]
-    const typesWithId = types.map((type, index) => ({
-      id: index,
-      type: type
-    }));
-    this.canchaTypes.set(typesWithId);
-  });
-}
-
-
-
-  // ✅ Fix argument type and Object.values() issue
-  private loadAvailableHours(establishmentId: number, date: string) {
-    this.loading.set(true);
-    this.reservationService.getAvailableHours(establishmentId, date).subscribe({
+  // ✅ Cargar horarios disponibles
+  private loadAvailableHours(establishmentId: number, date: string, canchaType: string) {
+  this.loading.set(true);
+  this.reservationService.getAvailableHours(establishmentId, date, canchaType)
+    .subscribe({
       next: (response) => {
-        // Backend: { "Fútbol 5": ["09:00","10:00"], "Tenis": ["11:00","12:00"] }
-        const allHours = Object.keys(response)
-          .map((key) => response[key])
-          .reduce((acc: any[], curr: any[]) => acc.concat(curr), []);
-
-        this.availableHours.set(allHours);
-        // Si estoy editando, volver a setear el valor del patch
-if (this.isEditing()) {
-  const hour = this.reservationData()?.matchDate.split("T")[1]?.substring(0, 5);
-  if (hour) this.form.patchValue({ hour });
-}
+        console.log("Horas del tipo seleccionado:", response);
+        this.availableHours.set(response); // ahora es solo un array de horas
         this.loading.set(false);
       },
-      error: () => this.loading.set(false),
+      error: (err) => {
+        console.error('Error al cargar horarios:', err);
+        this.loading.set(false);
+      }
     });
   }
 
-handleSubmit() {
-  if (this.form.invalid) {
-    console.warn('Formulario inválido:', this.form.value);
-    return;
+  // ✅ Método para cargar horarios cuando cambia la fecha
+  onDateChange(event: Event) {
+  const date = (event.target as HTMLInputElement).value;
+  const establishmentId = this.establishmentId();
+  const canchaType = this.form.get('canchaType')?.value;
+
+  if (date && establishmentId && canchaType) {
+    this.loadAvailableHours(establishmentId, date, canchaType);
   }
-
-  const formValue = this.form.getRawValue();
-  const establishmentId = this.establishmentId()!;
-  const reservationId = this.reservationId();
-  const selectedDate = formValue.date;
-  const selectedHour = formValue.hour;
-  const selectedCanchaId = formValue.canchaId;
-  const reservationDate = this.reservationDate();
-
-  if (!selectedDate || !selectedHour || !selectedCanchaId) {
-    console.error('Faltan datos requeridos');
-    return;
-  }
-
-  const matchDate = new Date(`${selectedDate}T${selectedHour}`);
-  if (isNaN(matchDate.getTime())) {
-    console.error('Fecha inválida:', matchDate);
-    return;
-  }
-
-  // 🟦 SI ES EDICIÓN ------------------------------------------
-  if (this.isEditing()) {
-
-    
-   const updateRequest: ReservationRequest = {
-  establishmentId,
-  canchaId: selectedCanchaId,
-  reservationStatus: "PENDING",
-  reservationDate: new Date(this.reservationData()!.reservationDate), // 👈 RECUPERO LA ORIGINAL
-  matchDate
-};
-
-
-
-console.log("🟥 updateRequest:", updateRequest);
-
-    this.reservationService.updateReservation(reservationId!, updateRequest)
-      .subscribe({
-        next: (res) => this.reservationEdited.emit(res),
-        error: (err) => console.error("Error al actualizar reserva", err)
-      });
-
-    return;
-  }
-
-  // 🟩 SI ES CREACIÓN ------------------------------------------
-  const createRequest: ReservationRequest = {
-    establishmentId,
-    canchaId: selectedCanchaId,
-    reservationDate: new Date(), // SOLO AQUÍ
-    reservationStatus: "PENDING",
-    matchDate
-  };
-
-  this.reservationService.createReservation(createRequest)
-    .subscribe({
-      next: (res) => this.reserved.emit(res),
-      error: (err) => console.error("Error al crear reserva", err)
-    });
-
 }
 
+onCanchaTypeChange() {
+  const date = this.form.get('date')?.value;
+  const canchaType = this.form.get('canchaType')?.value;
+  const establishmentId = this.establishmentId();
 
+  if (date && canchaType && establishmentId) {
+    this.loadAvailableHours(establishmentId, date, canchaType);
+  }
+}
 
+  // ✅ ARREGLADO: handleSubmit mejorado
+  handleSubmit() {
+    if (this.form.invalid) {
+      console.warn('⚠️ Formulario inválido:', this.form.value);
+      Object.keys(this.form.controls).forEach(key => {
+        const control = this.form.get(key);
+        if (control?.invalid) {
+          console.warn(`❌ Campo inválido: ${key}`, control.errors);
+        }
+      });
+      return;
+    }
 
+    const formValue = this.form.getRawValue();
+    const establishmentId = this.establishmentId();
+    
+    if (!establishmentId) {
+      console.error('❌ No hay establishmentId');
+      return;
+    }
 
+    const selectedDate = formValue.date;
+    const selectedHour = formValue.hour;
+    const selectedCanchaType = formValue.canchaType;
+
+    if (!selectedDate || !selectedHour || !selectedCanchaType) {
+      console.error('❌ Faltan datos requeridos:', { selectedDate, selectedHour, selectedCanchaType });
+      return;
+    }
+
+    // Crear la fecha del partido
+    const matchDate = new Date(`${selectedDate}T${selectedHour}`);
+    if (isNaN(matchDate.getTime())) {
+      console.error('❌ Fecha inválida:', matchDate);
+      return;
+    }
+
+    console.log('📤 Enviando reserva:', {
+      establishmentId,
+      canchaType: selectedCanchaType,
+      matchDate: matchDate.toISOString(),
+      isEditing: this.isEditing()
+    });
+
+    // 🟦 SI ES EDICIÓN
+    if (this.isEditing()) {
+      const reservationId = this.reservationId();
+      
+      if (!reservationId) {
+        console.error('❌ No hay reservationId para editar');
+        return;
+      }
+
+      const updateRequest: ReservationRequest = {
+        establishmentId,
+        canchaType: selectedCanchaType,  // Enviar tipo en vez de ID
+        reservationStatus: "PENDING",
+        reservationDate: new Date(this.reservationData()!.reservationDate),
+        matchDate
+      };
+
+      console.log('🔄 Actualizando reserva:', updateRequest);
+
+      this.reservationService.updateReservation(reservationId, updateRequest)
+        .subscribe({
+          next: (res) => {
+            console.log('✅ Reserva actualizada:', res);
+            this.reservationEdited.emit(res);
+          },
+          error: (err) => {
+            console.error('❌ Error al actualizar reserva:', err);
+            alert('Error al actualizar la reserva. Por favor, intenta nuevamente.');
+          }
+        });
+
+      return;
+    }
+
+    // 🟩 SI ES CREACIÓN
+    const createRequest: ReservationRequest = {
+      establishmentId,
+      canchaType: selectedCanchaType,  // Enviar tipo en vez de ID
+      reservationDate: new Date(),
+      reservationStatus: "PENDING",
+      matchDate
+    };
+
+    console.log('➕ Creando reserva:', createRequest);
+
+    this.reservationService.createReservation(createRequest)
+      .subscribe({
+        next: (res) => {
+          console.log('✅ Reserva creada:', res);
+          this.reserved.emit(res);
+          this.form.reset();
+        },
+        error: (err) => {
+          console.error('❌ Error al crear reserva:', err);
+          alert('Error al crear la reserva. Por favor, intenta nuevamente.');
+        }
+      });
+  }
 }

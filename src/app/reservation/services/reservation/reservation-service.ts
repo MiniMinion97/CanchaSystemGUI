@@ -27,9 +27,11 @@ export class ReservationService {
     return this.http.get<ReservationResponse[]>(`${this.url}/getReservationsByCanchaId/${establishmentId}`);
   }
 
-  getAvailableHours(establishmentId: number, date: string) {
-        return this.http.get<any>(`${this.url}/getAvailableHours/${establishmentId}/${date}`);
-  }
+  getAvailableHours(establishmentId: number, date: string, canchaType: string) {
+  return this.http.get<any>(
+    `${this.url}/getAvailableHours/${establishmentId}/${date}/${canchaType}`
+  );
+}
 
   createReservation(reservation: ReservationRequest) {
     return this.http.post<ReservationRequest>(`${this.url}/insert`, reservation);

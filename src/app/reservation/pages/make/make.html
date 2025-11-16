@@ -2,15 +2,16 @@
   <!-- Tipo de cancha -->
   <fieldset>
     <legend>Seleccionar tipo de cancha</legend>
-    @for (cancha of canchaTypes(); track cancha.id) {
+    @for (type of canchaTypes(); track type) {
       <div class="radio-option">
         <input
           type="radio"
-          [id]="'cancha-' + cancha.id"
-          formControlName="canchaId"
-          [value]="cancha.id"
+          [id]="'cancha-' + type"
+          formControlName="canchaType"
+          [value]="type"
+          (change)="onCanchaTypeChange()"
         />
-        <label [for]="'cancha-' + cancha.id">{{ cancha.type }}</label>
+        <label [for]="'cancha-' + type">{{ type }}</label>
       </div>
     }
   </fieldset>
@@ -23,6 +24,7 @@
       type="date"
       formControlName="date"
       [min]="today"
+      (change)="onDateChange($event)"
     />
   </div>
 
@@ -31,6 +33,7 @@
     <div class="form-group">
       <label for="hour">Horarios disponibles:</label>
       <select id="hour" formControlName="hour">
+        <option value="">Seleccionar hora</option>
         @for (hour of availableHours(); track $index) {
           <option [value]="hour">{{ hour }}</option>
         }
@@ -42,5 +45,7 @@
     <p class="loading-text">Cargando horarios disponibles...</p>
   }
 
-  <button type="submit" [disabled]="form.invalid">Hacer reserva</button>
+  <button type="submit" [disabled]="form.invalid || loading()">
+    {{ isEditing() ? 'Actualizar reserva' : 'Hacer reserva' }}
+  </button>
 </form>
