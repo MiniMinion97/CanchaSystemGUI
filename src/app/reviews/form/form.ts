@@ -16,12 +16,8 @@ export class Form {
   private readonly authService = inject(AuthService);
   private readonly formbuilder = inject(FormBuilder);
 
-  // En un caso real, podrías pasar establishmentId por @Input()
-  private readonly establishmentId = 1;
-
-  // Obtenemos el ID del cliente del localStorage
-  private readonly clientId = localStorage.getItem('userId')!;
-  private readonly clientName = 'John Doe'; // Ejemplo, en futuro sacalo del AuthService
+  // ✅ Recibir establishmentId como input
+  readonly establishmentId = input.required<number>();
 
   readonly review = input<ReviewResponse | null>(null);
   readonly isEditing = input(false);
@@ -30,9 +26,7 @@ export class Form {
 
   protected readonly form = this.formbuilder.nonNullable.group({
     rating: [0, [Validators.required, Validators.min(1), Validators.max(5)]],
-    message: [''],
-    clientId: [this.clientId],
-    establishmentId: [this.establishmentId]
+    message: ['', [Validators.maxLength(500)]]
   });
 
   constructor() {
@@ -42,52 +36,84 @@ export class Form {
       if (this.isEditing() && reviewValue) {
         this.form.patchValue({
           rating: reviewValue.rating,
-          message: reviewValue.message ?? '',
-          clientId: reviewValue.client?.id ?? this.clientId,
-          establishmentId: reviewValue.establishment?.id ?? this.establishmentId,
+          message: reviewValue.message ?? ''
         });
       } else {
         this.form.reset({
           rating: 0,
-          message: '',
-          clientId: this.clientId,
-          establishmentId: this.establishmentId,
+          message: ''
         });
       }
     });
   }
 
   handleSubmit() {
-    if (this.form.invalid) return;
+    if (this.form.invalid) {
+      console.warn('⚠️ Formulario inválido');
+      return;
+    }
 
+    // ✅ Obtener datos actuales del usuario (no del constructor)
+    const clientId = this.authService.getCurrentClientId();
+    const clientName = this.authService.getUsername();
+
+    // ✅ Validar que el usuario esté logueado
+    if (!clientId || !clientName) {
+      console.error('❌ Usuario no autenticado');
+      alert('Debes iniciar sesión para dejar una reseña');
+      return;
+    }
+
+    const formValue = this.form.getRawValue();
+    
     const reviewData: ReviewRequest = {
-      ...this.form.getRawValue(),
-      clientName: this.clientName,
-      createdAt: new Date().toISOString().split('T')[0], // formato "YYYY-MM-DD"
-      clientId: this.clientId,
+    rating: formValue.rating,
+    message: formValue.message || "",  // null si está vacío
+    clientId: clientId,
+    clientName: clientName,
+    establishmentId: this.establishmentId(),
+    createdAt: new Date().toISOString().split('T')[0]  // "YYYY-MM-DD"
     };
 
+    console.log('📤 Enviando review:', reviewData);
 
+    // ✅ Modo edición
     if (this.isEditing() && this.review()) {
       const reviewId = this.review()!.id;
-      this.reviewService.updateReview(reviewId, reviewData).subscribe((updatedReview) => {
-        this.edited.emit(updatedReview);
+      
+      this.reviewService.updateReview(reviewId, reviewData).subscribe({
+        next: (updatedReview) => {
+          console.log('✅ Review actualizada:', updatedReview);
+          this.edited.emit(updatedReview);
+          this.form.markAsPristine();
+        },
+        error: (err) => {
+          console.error('❌ Error al actualizar review:', err);
+          alert('Error al actualizar la reseña. Por favor, intenta nuevamente.');
+        }
       });
-    } else {
-      this.reviewService.createReview(reviewData).subscribe((newReview) => {
-        this.created.emit(newReview);
-
-        this.form.reset({
-          rating: 0,
-          message: '',
-          clientId: this.clientId,
-          establishmentId: this.establishmentId,
-        });
+    } 
+    // ✅ Modo creación
+    else {
+      this.reviewService.createReview(reviewData).subscribe({
+        next: (newReview) => {
+          console.log('✅ Review creada:', newReview);
+          this.created.emit(newReview);
+          
+          // Reset del formulario
+          this.form.reset({
+            rating: 0,
+            message: ''
+          });
+        },
+        error: (err) => {
+          console.error('❌ Error al crear review:', err);
+          alert('Error al crear la reseña. Por favor, intenta nuevamente.');
+        }
       });
     }
   }
 
-  // Getters prácticos
   get rating() {
     return this.form.controls.rating;
   }
@@ -102,5 +128,9 @@ export class Form {
 
   get touched() {
     return this.form.touched;
+  }
+
+  get isLoggedIn() {
+    return this.authService.isLoggedIn();
   }
 }

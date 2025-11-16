@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReviewResponse } from '../models/review-response';
 import { ReviewItem } from '../review-item/review-item';
@@ -12,9 +12,15 @@ import { ReviewItem } from '../review-item/review-item';
 })
 export class ReviewList {
   readonly reviews = input<ReviewResponse[]>([]);
+  readonly currentUserId = input<string | null>(null);
+  readonly isLoggedIn = input<boolean>(false);
   readonly edit = output<ReviewResponse>();
   readonly delete = output<number>();
 
-
-
+  readonly reviewsWithPermissions = computed(() =>
+    this.reviews().map(review => ({
+      review,
+      canModify: review.clientId === this.currentUserId()
+    }))
+  );
 }

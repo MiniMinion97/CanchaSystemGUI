@@ -30,7 +30,7 @@ export class ReviewService {
     return this.http.delete(`${this.url}/delete/${id}`);
   }
 
-  clientAlreadyReviewed(establishmentId: number, clientId: number) {
+  clientAlreadyReviewed(establishmentId: number, clientId: string) {
     return this.http.get<boolean>(`${this.url}/clientReviewExists/${establishmentId}/${clientId}`);
   }
 

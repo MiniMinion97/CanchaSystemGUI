@@ -14,17 +14,20 @@ export class ReviewItem {
   readonly edit = output<ReviewResponse>();
   readonly delete = output<number>();
 
-  protected clientId = localStorage.getItem('userId')!;
+  readonly clientId = input<string | null>(null);
+
+  readonly isLoggedIn = input<boolean>(false);
+
   protected readonly stars = [1, 2, 3, 4, 5];
 
   /** Devuelve true si el review pertenece al usuario logueado */
   isOwner(): boolean {
-    const review = this.review();
+  const review = this.review();
+  const reviewClientId = review!.clientId;  // accedes directo
+  const currentClientId = this.clientId();
 
-    // Aseguramos que no rompa si algo es null/undefined
-    const reviewClientId = review?.client?.id ?? null;
-    const currentClientId = this.clientId ?? null;
+  console.log('reviewClientId:', reviewClientId, 'currentClientId:', currentClientId);
 
-    return reviewClientId === currentClientId;
-  }
+  return reviewClientId === currentClientId;
+}
 }

@@ -16,11 +16,9 @@
 
   <p class="review-message">{{ review()!.message }}</p>
 
-  @if(isOwner()){
-    <footer class="review-actions">
-    <button (click)="edit.emit(review()!)">Edit</button>
-    <button (click)="delete.emit(review()!.id)">Delete</button>
-  </footer>
-  }
+  @if(isOwner() && isLoggedIn()) {
+  <button (click)="edit.emit(review()!)">Editar</button>
+  <button (click)="delete.emit(review()!.id)">Eliminar</button>
+}
   
 </article>

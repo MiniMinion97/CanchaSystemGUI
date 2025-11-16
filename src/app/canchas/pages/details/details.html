@@ -50,19 +50,37 @@
         </div>
         
         <!-- Formulario de review (si está logueado) -->
+        <!-- Formulario de review (si está logueado) -->
         @if(loggedIn() && role() === 'ROLE_CLIENT'){
-          <app-form
-            [isEditing]="!!editingReview"
-            [review]="editingReview()"
-            (edited)="onReviewEdited($event)"
-            (created)="onReviewCreated($event)"
-          ></app-form>
+          
+          @if(checkingReview()) {
+            <p class="loading">⏳ Verificando...</p>
+          }
+          
+          @else if(hasReviewed() && !editingReview()) {
+            <div class="info-box">
+              <p>✅ Ya has dejado una reseña en este establecimiento.</p>
+              <p class="hint">Puedes editarla o eliminarla desde la lista de reseñas abajo.</p>
+            </div>
+          }
+          
+          @else {
+            <app-form
+              [establishmentId]="establishmentId"
+              [isEditing]="!!editingReview()"
+              [review]="editingReview()"
+              (edited)="onReviewEdited($event)"
+              (created)="onReviewCreated($event)"
+            ></app-form>
+          }
         }
         
         <!-- Lista de reviews -->
         @if(this.reviews()){
           <app-review-list
-            [reviews]="reviews()!"
+            [reviews]="reviews()"
+            [currentUserId]="authService.getCurrentClientId()"
+            [isLoggedIn]="loggedIn()"
             (edit)="startEdit($event)"
             (delete)="deleteReview($event)"
           ></app-review-list>
