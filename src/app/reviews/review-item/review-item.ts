@@ -10,24 +10,23 @@ import { ReviewResponse } from '../models/review-response';
   styleUrls: ['./review-item.css'],
 })
 export class ReviewItem {
-  readonly review = input<ReviewResponse>();
+  readonly review = input.required<ReviewResponse>();
+  readonly clientId = input<string | null>(null);
+  readonly isLoggedIn = input<boolean>(false);
+
   readonly edit = output<ReviewResponse>();
   readonly delete = output<number>();
-
-  readonly clientId = input<string | null>(null);
-
-  readonly isLoggedIn = input<boolean>(false);
 
   protected readonly stars = [1, 2, 3, 4, 5];
 
   /** Devuelve true si el review pertenece al usuario logueado */
   isOwner(): boolean {
   const review = this.review();
-  const reviewClientId = review!.clientId;  // accedes directo
+  const reviewClientId = review.clientId;  // ✅ Directo, no review.client.id
   const currentClientId = this.clientId();
 
-  console.log('reviewClientId:', reviewClientId, 'currentClientId:', currentClientId);
+  console.log('🔍 reviewClientId:', reviewClientId, 'currentClientId:', currentClientId);
 
-  return reviewClientId === currentClientId;
+  return reviewClientId === currentClientId && !!currentClientId;
 }
 }

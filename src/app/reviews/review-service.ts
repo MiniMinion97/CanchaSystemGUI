@@ -23,7 +23,7 @@ export class ReviewService {
   }
 
   updateReview(id: number, review: ReviewRequest) {
-    return this.http.put<ReviewResponse>(`${this.url}/update`, review);
+    return this.http.put<ReviewResponse>(`${this.url}/update/${id}`, review);
   }
 
   deleteReview(id: number) {
