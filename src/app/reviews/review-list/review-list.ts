@@ -11,16 +11,16 @@ import { ReviewItem } from '../review-item/review-item';
   templateUrl: './review-list.html',
 })
 export class ReviewList {
-  readonly reviews = input<ReviewResponse[]>([]);
+  readonly reviews = input.required<ReviewResponse[]>();
   readonly currentUserId = input<string | null>(null);
   readonly isLoggedIn = input<boolean>(false);
   readonly edit = output<ReviewResponse>();
   readonly delete = output<number>();
 
   readonly reviewsWithPermissions = computed(() =>
-    this.reviews().map(review => ({
-      review,
-      canModify: review.clientId === this.currentUserId()
-    }))
-  );
+  this.reviews().map(review => ({
+    review,
+    canModify: this.isLoggedIn() && review.clientId === this.currentUserId()  // ✅ review.clientId
+  }))
+);
 }
