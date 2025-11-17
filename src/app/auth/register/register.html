@@ -1,26 +1,55 @@
 <form [formGroup]="form" (ngSubmit)="handleSubmit()">
     <label>Nombre
     <input type="text" formControlName="name">
+    @if(form.get('name')?.hasError('required') && (form.get('name')?.touched || form.get('name')?.dirty) ){
+        <span>El nombre es obligatorio</span>
+    }
     </label>
 
     <label>Apellido
     <input type="text" formControlName="lastName">
+    @if(form.get('lastName')?.hasError('required') && (form.get('lastName')?.touched || form.get('lastName')?.dirty) ){
+        <span>El apellido es obligatorio</span>
+    }
     </label>
 
     <label>Nombre de usuario
     <input type="text" formControlName="username">
+    @if(form.get('username')?.hasError('required') && (form.get('username')?.touched || form.get('username')?.dirty) ){
+        <span>El nombre de usuario es obligatorio</span>
+    }
     </label>
 
     <label>Contraseña
     <input type="password" formControlName="password">
+    @if( form.get('password')?.touched || form.get('password')?.dirty){
+        @if(form.get('password')?.hasError('required')){
+            <span>La contraseña es obligatoria</span>
+        }@else if (form.get('password')?.hasError('minlength')) {
+    <span>Mínimo 2 caracteres para la contraseña</span>
+}
+
+    }
     </label>
 
     <label>Email
     <input type="email" formControlName="mail">
+    @if(form.get('mail')?.touched || form.get('mail')?.dirty){
+       
+        @if(form.get('mail')?.hasError('required') ){
+            <span>El mail es obligatorio</span>
+        }@else if(form.get('mail')?.hasError('email')){
+            <span>Debe ser tipo mail</span>
+        }
+
+    }
     </label>
 
     <label>Teléfono
     <input type="text" formControlName="cellNumber">
+      @if(form.get('cellNumber')?.hasError('required') && (form.get('cellNumber')?.touched || form.get('cellNumber')?.dirty) ){
+        <span>El celular es obligatorio</span>
+    }
     </label>
 
     <button type="submit">Registrarse</button>

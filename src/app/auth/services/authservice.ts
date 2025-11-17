@@ -36,10 +36,14 @@ export class AuthService {
   clientId = signal<string | null>(localStorage.getItem('userId'));
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router
   ) {
     // Verificar si el token es válido al iniciar
     this.checkTokenValidity();
+
+    // 🔁 Revisar cada minuto si el token expiró
+    setInterval(() => this.checkTokenValidity(true), 60000);
   }
 
   login(credentials: LoginRequest): Observable<LoginResponse> {
@@ -91,7 +95,6 @@ export class AuthService {
     console.log('✅ Sesión cerrada correctamente');
   }
 
-  // Método privado para limpiar todos los datos de autenticación
   private clearAuthData(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
@@ -99,12 +102,12 @@ export class AuthService {
     localStorage.removeItem('userId');
   }
 
-  // Verificar si el token está expirado
-  private checkTokenValidity(): void {
+  // 🧠 Chequea si el token expiró (sin llamar al backend)
+  private checkTokenValidity(showAlert: boolean = false): void {
     const token = this.getToken();
     
     if (!token) {
-      this.loggedIn.set(false);
+      this.handleExpiredToken(showAlert);
       return;
     }
 
@@ -114,21 +117,24 @@ export class AuthService {
       const now = Date.now();
       
       if (exp < now) {
-        console.warn('⚠️ Token expirado al iniciar la app');
-        this.clearAuthData();
-        this.loggedIn.set(false);
-        this.role.set('');
-        this.username.set('');
-        this.clientId.set(null);
+        this.handleExpiredToken(showAlert);
       }
     } catch (error) {
       console.error('❌ Error al verificar token:', error);
-      this.clearAuthData();
-      this.loggedIn.set(false);
+      this.handleExpiredToken(showAlert);
     }
   }
 
-  // Verificar si el token expira pronto (útil para renovar)
+  // 🚨 Acción al expirar el token
+  private handleExpiredToken(showAlert: boolean): void {
+    if (showAlert) {
+      alert('⚠️ Tu sesión ha expirado. Por favor, inicia sesión nuevamente.');
+    }
+
+    this.logout();
+    this.router.navigateByUrl('/explorar');
+  }
+
   isTokenExpiringSoon(): boolean {
     const token = this.getToken();
     

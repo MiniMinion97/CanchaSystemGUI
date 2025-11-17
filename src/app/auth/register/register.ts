@@ -20,13 +20,12 @@ export class Register {
     name: ["",Validators.required],
     lastName:["",Validators.required],
     username:["",Validators.required],
-    password:["",Validators.required],
+    password:["",[Validators.required,Validators.minLength(2)]],
     mail:["",[Validators.required, Validators.email]],
     cellNumber:["",Validators.required]
   })
 
   handleSubmit(){ 
-
         if (this.form.invalid) return;
         console.log("Formulario válido");
         const registerrequest = this.form.getRawValue()
@@ -50,6 +49,8 @@ export class Register {
         });
 */
   }
-        
+
+
+  
       }
 
