@@ -49,6 +49,22 @@ export class Details {
         this.checkingReview.set(false);
       }
     });
+
+    effect(() => {
+    const currentReviews = this.reviews();
+    const userId = this.authService.getCurrentClientId();
+    
+    console.log('📝 Reviews actualizadas:', currentReviews.length);
+    console.log('👤 Current user ID:', userId);
+    
+    // Verificar si el usuario tiene una review en la lista
+    const userReview = currentReviews.find(r => r.clientId === userId);
+    if (userReview) {
+      console.log('✅ Usuario tiene review:', userReview.id);
+    } else {
+      console.log('❌ Usuario NO tiene review');
+    }
+  });
   }
 
   private loadEstablishment() {
@@ -107,7 +123,6 @@ export class Details {
       });
   }
 
-  /** Called when a user clicks edit on a review */
   protected startEdit(review: ReviewResponse) {
     console.log('✏️ Editando review:', review.id);
     this.editingReview.set(review);
@@ -123,10 +138,9 @@ export class Details {
     this.reviews.set(updatedList);
     this.editingReview.set(null);
     
-    // No cambia hasReviewed porque solo editó
   }
 
-  /** Called when a review form emits `created` */
+
   protected onReviewCreated(newReview: ReviewResponse) {
     console.log('✅ Review creada:', newReview.id);
     
@@ -165,4 +179,13 @@ export class Details {
     console.log('✅ Reserva creada:', reservation);
     // Aquí podrías agregar lógica adicional, como mostrar un mensaje de éxito
   }
+
+  protected get currentUserId() {
+    return this.authService.getCurrentClientId();
+  }
+
+  protected get isUserLoggedIn() {
+    return this.loggedIn();
+  }
 }
+

@@ -1,10 +1,20 @@
 .auth-trigger {
+  display: flex;
+  flex-direction: row;
+
+  border: var(--border-color) 3px solid;
+  border-radius: 25px;
+
+  padding: 0 7px;
+
+  z-index: 110;
+  background-color: var(--background-color-dark);
   position: fixed;
-  top: 20px;
-  right: 30px;
+  top: 45px;
+  right: 50px;
   cursor: pointer;
-  font-size: 16px;
-  color: #221F20;
+  font-size: 2rem;
+  color: var(--font-color);
 
   span {
     margin: 0 5px;
@@ -14,19 +24,26 @@
   }
 }
 
+hr {
+  border: none;
+  width: 4px;
+  background-color: var(--border-color);
+}
+
 .auth-panel {
   position: fixed;
   top: 0;
   right: -400px;
   width: 350px;
   height: 100vh;
-  background: #fff;
+  background: var(--background-color);
   box-shadow: -3px 0 10px rgba(0, 0, 0, 0.2);
   transition: right 0.4s ease;
   display: flex;
   flex-direction: column;
   z-index: 1000;
   padding: 1rem;
+  font-size: 1.5rem;
 
   &.open {
     right: 0;
@@ -36,7 +53,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid var(--border-color);
     padding-bottom: 0.5rem;
   }
 

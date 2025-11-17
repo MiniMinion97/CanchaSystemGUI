@@ -12,7 +12,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 @Component({
   selector: 'app-my-reviews',
   standalone: true,
-  imports: [CommonModule, Form, StarRatingComponent, ReviewList],
+  imports: [CommonModule, Form, ReviewList],
   templateUrl: './my-reviews.component.html',
   styleUrl: './my-reviews.component.css'
 })
