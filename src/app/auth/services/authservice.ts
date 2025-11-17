@@ -35,14 +35,14 @@ export class AuthService {
   username = signal<string>(localStorage.getItem('username') || '');
   clientId = signal<string | null>(localStorage.getItem('userId'));
 
+  // ⚙️ Nueva bandera para no repetir el mensaje
+  private tokenExpiredAlertShown = false;
+
   constructor(
     private http: HttpClient,
     private router: Router
   ) {
-    // Verificar si el token es válido al iniciar
     this.checkTokenValidity();
-
-    // 🔁 Revisar cada minuto si el token expiró
     setInterval(() => this.checkTokenValidity(true), 60000);
   }
 
@@ -51,17 +51,17 @@ export class AuthService {
       .pipe( 
         tap(res => {
           console.log('✅ Login exitoso, guardando datos...');
+
+          // Reiniciar alerta al loguearse
+          this.tokenExpiredAlertShown = false;
           
-          // IMPORTANTE: Limpiar cualquier token anterior primero
           this.clearAuthData();
           
-          // Guardar nuevos datos
           localStorage.setItem('token', res.token);
           localStorage.setItem('username', res.username);
           localStorage.setItem('role', res.role);
           localStorage.setItem('userId', res.id);
           
-          // Actualizar signals
           this.loggedIn.set(true);
           this.role.set(res.role);
           this.username.set(res.username);
@@ -73,25 +73,23 @@ export class AuthService {
   }
 
   register(data: RegisterRequest): Observable<any> {
+    // Reiniciar alerta al registrarse también
+    this.tokenExpiredAlertShown = false;
     return this.http.post(`${this.apiUrl}/client/insertClient`, data); 
   }
 
   registerOwner(data: RegisterRequest): Observable<any> {
+    this.tokenExpiredAlertShown = false;
     return this.http.post(`${this.apiUrl}/owner/insert`, data); 
   }
 
   logout(): void {
     console.log('🚪 Cerrando sesión...');
-    
-    // Limpiar datos
     this.clearAuthData();
-    
-    // Actualizar signals
     this.loggedIn.set(false);
     this.role.set('');
     this.username.set('');
     this.clientId.set(null);
-    
     console.log('✅ Sesión cerrada correctamente');
   }
 
@@ -102,7 +100,6 @@ export class AuthService {
     localStorage.removeItem('userId');
   }
 
-  // 🧠 Chequea si el token expiró (sin llamar al backend)
   private checkTokenValidity(showAlert: boolean = false): void {
     const token = this.getToken();
     
@@ -125,10 +122,11 @@ export class AuthService {
     }
   }
 
-  // 🚨 Acción al expirar el token
   private handleExpiredToken(showAlert: boolean): void {
-    if (showAlert) {
+    // 🧠 Mostrar el alert solo una vez
+    if (showAlert && !this.tokenExpiredAlertShown) {
       alert('⚠️ Tu sesión ha expirado. Por favor, inicia sesión nuevamente.');
+      this.tokenExpiredAlertShown = true;
     }
 
     this.logout();
