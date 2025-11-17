@@ -1,4 +1,3 @@
-<!-- my-reviews.component.html -->
 <main class="my-reviews-container">
   
   <!-- Header Section -->
@@ -34,6 +33,7 @@
       <app-form
         [isEditing]="true"
         [review]="editingReview()!"
+        [establishmentId]="editingReview()?.establishmentId!"
         (edited)="onReviewEdited($event)"
       ></app-form>
     </section>
@@ -50,6 +50,8 @@
       @if (reviews() && reviews()!.length > 0) {
         <app-review-list
           [reviews]="reviews()!"
+          [currentUserId]="clientId()"
+          [isLoggedIn]="true"
           (edit)="startEdit($event)"
           (delete)="deleteReview($event)"
         ></app-review-list>
