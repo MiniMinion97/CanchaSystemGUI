@@ -1,1 +1,46 @@
-<p>my-data works!</p>
+<main>
+
+
+<div class="profile-container">
+
+    
+  <h2>Mi información personal</h2>
+
+  @if (loading()) {
+    <p class="loading">Cargando datos...</p>
+  } @else {
+    <form [formGroup]="form" (ngSubmit)="saveChanges()">
+      <div class="form-group">
+        <label>Nombre</label>
+        <input type="text" formControlName="name" />
+      </div>
+
+      <div class="form-group">
+        <label>Apellido</label>
+        <input type="text" formControlName="lastName" />
+      </div>
+
+      <div class="form-group">
+        <label>Usuario</label>
+        <input type="text" formControlName="username" />
+      </div>
+
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" formControlName="mail" />
+      </div>
+
+      <div class="form-group">
+        <label>Teléfono</label>
+        <input type="text" formControlName="cellNumber" />
+      </div>
+
+      <button type="submit" [disabled]="form.invalid || loading()">Guardar cambios</button>
+
+      @if (success()) {
+        <p class="success">✅ Datos actualizados correctamente.</p>
+      }
+    </form>
+  }
+</div>
+</main>

@@ -32,6 +32,7 @@
         <button class="close-btn" (click)="editingReview.set(null)">✕</button>
       </div>
       <app-form
+        [establishmentId]="editingReview()!.establishmentId"
         [isEditing]="true"
         [review]="editingReview()!"
         (edited)="onReviewEdited($event)"
