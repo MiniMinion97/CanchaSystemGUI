@@ -45,9 +45,9 @@ export class Login {
         if (role === 'OWNER') {
           this.router.navigate(['/owner-dashboard']);
         } else if (role === 'CLIENT') {
-          this.router.navigate(['/home']);
+          this.router.navigate(['/explorar']);
         } else {
-          this.router.navigate(['/']);
+          this.router.navigate(['/explorar']);
         }
         
         this.isLoading = false;
@@ -70,6 +70,6 @@ export class Login {
     // localStorage.clear();
     
     // Redirigir al login
-    this.router.navigate(['/login']);
+    this.router.navigate(['/explorar']);
   }
 }

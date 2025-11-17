@@ -28,12 +28,15 @@ export class MyReviewsComponent {
     this.reviewService.getReviewsByClient(this.clientId()!),
     { initialValue: [] }
   );
+
+  
   protected readonly isLoading = signal(false);
   protected readonly editingReview = signal<ReviewResponse | null>(null);
   
   // Computed values
   protected readonly reviewCount = computed(() => this.reviews()?.length ?? 0);
   protected readonly averageRating = computed(() => {
+
     const reviewsList = this.reviews();
     if (!reviewsList || reviewsList.length === 0) return 0;
     const sum = reviewsList.reduce((acc, review) => acc + review.rating, 0);
@@ -76,6 +79,6 @@ export class MyReviewsComponent {
   }
   
   protected goToEstablishment(establishmentId: number): void {
-    this.router.navigate(['/establishment', establishmentId]);
+    this.router.navigateByUrl(`/explore/details/${establishmentId}`);
   }
 }
