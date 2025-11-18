@@ -3,6 +3,7 @@ import { BrandService } from '../../services/brand/brand-service';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BrandRequest } from '../../models/brand-request';
 import { CommonModule } from '@angular/common';
+import { Action } from 'rxjs/internal/scheduler/Action';
 
 @Component({
   selector: 'app-brand-form',
@@ -20,6 +21,7 @@ export class BrandForm {
   readonly brandId = input<number>();
   protected readonly form = this.formBuilder.nonNullable.group({
       brandName:["",Validators.required],
+      active: [true, Validators.required]
     })
 
 
@@ -41,16 +43,21 @@ export class BrandForm {
     if (this.isEditing() && this.brandId()) {
           alert(ownerId);
 
-  this.brandService.updateBrand(this.brandId()!, {...brandData, ownerId}).subscribe({
+  this.brandService.updateBrand(this.brandId()!, {
+    ...brandData, ownerId
+  }).subscribe({
   next: (res) => {
     console.log('Marca actualizada', res);
     this.brandEdited.emit(res);
+    
   },
   error: (err) => console.error('Error al actualizar marca', err)
 });
 }
 else{
-        this.brandService.createBrand({...brandData, ownerId}).subscribe({
+        this.brandService.createBrand({
+          ...brandData, ownerId
+        }).subscribe({
         next: (res) => console.log('marca creada', res),
         error: (err) => console.error('error al crear marca', err)
         });

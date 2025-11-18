@@ -1,9 +1,20 @@
 <form [formGroup] = "form" (ngSubmit) = "handleSubmit()">
     <label>    Nombre de Usuario    
-        <input type="text" formControlName="username" />  
+        <input type="text" formControlName="username" /> 
+        @if(form.get('username')?.hasError('required') && (form.get('username')?.touched || form.get('username')?.dirty) ){
+        <span>El nombre de usuario es obligatorio</span>
+    }
     </label>  
     <label>    Contraseña    
         <input type="text" formControlName="password" />  
+         @if( form.get('password')?.touched || form.get('password')?.dirty){
+        @if(form.get('password')?.hasError('required')){
+            <span>La contraseña es obligatoria</span>
+        }@else if (form.get('password')?.hasError('minlength')) {
+    <span>Mínimo 2 caracteres para la contraseña</span>
+}
+
+    }
     </label>  
     <button type="submit">Iniciar sesión</button>
 </form>

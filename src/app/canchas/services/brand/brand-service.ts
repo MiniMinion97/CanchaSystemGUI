@@ -22,7 +22,7 @@ export class BrandService {
   }
 
   getBrandsByOwner(ownerId: string) {
-    return this.http.get<BrandResponse[]>(`${this.url}/findAllOwnerBrands`);
+    return this.http.get<BrandResponse[]>(`${this.url}/getBrandsByOwnerId/${ownerId}`);
   }
 
   createBrand(brand: BrandRequest) {

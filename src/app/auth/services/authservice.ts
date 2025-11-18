@@ -35,11 +35,15 @@ export class AuthService {
   username = signal<string>(localStorage.getItem('username') || '');
   clientId = signal<string | null>(localStorage.getItem('userId'));
 
+  // ⚙️ Nueva bandera para no repetir el mensaje
+  private tokenExpiredAlertShown = false;
+
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router
   ) {
-    // Verificar si el token es válido al iniciar
     this.checkTokenValidity();
+    setInterval(() => this.checkTokenValidity(true), 60000);
   }
 
   login(credentials: LoginRequest): Observable<LoginResponse> {
@@ -47,17 +51,17 @@ export class AuthService {
       .pipe( 
         tap(res => {
           console.log('✅ Login exitoso, guardando datos...');
+
+          // Reiniciar alerta al loguearse
+          this.tokenExpiredAlertShown = false;
           
-          // IMPORTANTE: Limpiar cualquier token anterior primero
           this.clearAuthData();
           
-          // Guardar nuevos datos
           localStorage.setItem('token', res.token);
           localStorage.setItem('username', res.username);
           localStorage.setItem('role', res.role);
           localStorage.setItem('userId', res.id);
           
-          // Actualizar signals
           this.loggedIn.set(true);
           this.role.set(res.role);
           this.username.set(res.username);
@@ -69,29 +73,26 @@ export class AuthService {
   }
 
   register(data: RegisterRequest): Observable<any> {
+    // Reiniciar alerta al registrarse también
+    this.tokenExpiredAlertShown = false;
     return this.http.post(`${this.apiUrl}/client/insertClient`, data); 
   }
 
   registerOwner(data: RegisterRequest): Observable<any> {
+    this.tokenExpiredAlertShown = false;
     return this.http.post(`${this.apiUrl}/owner/insert`, data); 
   }
 
   logout(): void {
     console.log('🚪 Cerrando sesión...');
-    
-    // Limpiar datos
     this.clearAuthData();
-    
-    // Actualizar signals
     this.loggedIn.set(false);
     this.role.set('');
     this.username.set('');
     this.clientId.set(null);
-    
     console.log('✅ Sesión cerrada correctamente');
   }
 
-  // Método privado para limpiar todos los datos de autenticación
   private clearAuthData(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
@@ -99,12 +100,11 @@ export class AuthService {
     localStorage.removeItem('userId');
   }
 
-  // Verificar si el token está expirado
-  private checkTokenValidity(): void {
+  private checkTokenValidity(showAlert: boolean = false): void {
     const token = this.getToken();
     
     if (!token) {
-      this.loggedIn.set(false);
+      this.handleExpiredToken(showAlert);
       return;
     }
 
@@ -114,21 +114,25 @@ export class AuthService {
       const now = Date.now();
       
       if (exp < now) {
-        console.warn('⚠️ Token expirado al iniciar la app');
-        this.clearAuthData();
-        this.loggedIn.set(false);
-        this.role.set('');
-        this.username.set('');
-        this.clientId.set(null);
+        this.handleExpiredToken(showAlert);
       }
     } catch (error) {
       console.error('❌ Error al verificar token:', error);
-      this.clearAuthData();
-      this.loggedIn.set(false);
+      this.handleExpiredToken(showAlert);
     }
   }
 
-  // Verificar si el token expira pronto (útil para renovar)
+  private handleExpiredToken(showAlert: boolean): void {
+    // 🧠 Mostrar el alert solo una vez
+    if (showAlert && !this.tokenExpiredAlertShown) {
+      alert('⚠️ Tu sesión ha expirado. Por favor, inicia sesión nuevamente.');
+      this.tokenExpiredAlertShown = true;
+    }
+
+    this.logout();
+    this.router.navigateByUrl('/explorar');
+  }
+
   isTokenExpiringSoon(): boolean {
     const token = this.getToken();
     

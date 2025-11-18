@@ -20,7 +20,7 @@ export class Login {
 
   protected readonly form = this.formBuilder.nonNullable.group({
     username: ["", Validators.required],
-    password: ["", Validators.required]
+    password: ["", [Validators.required,Validators.minLength(2)]]
   });
 
   errorMessage: string = '';
@@ -45,9 +45,9 @@ export class Login {
         if (role === 'OWNER') {
           this.router.navigate(['/owner-dashboard']);
         } else if (role === 'CLIENT') {
-          this.router.navigate(['/home']);
+          this.router.navigate(['/explorar']);
         } else {
-          this.router.navigate(['/']);
+          this.router.navigate(['/explorar']);
         }
         
         this.isLoading = false;
@@ -70,6 +70,6 @@ export class Login {
     // localStorage.clear();
     
     // Redirigir al login
-    this.router.navigate(['/login']);
+    this.router.navigate(['/explorar']);
   }
 }
