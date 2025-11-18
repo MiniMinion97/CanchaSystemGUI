@@ -26,16 +26,16 @@
 
       <div class="detail-row">
         <span class="label">📅 Fecha de reserva:</span>
-        <span>{{ res.reservationDate }}</span>
+        <span>{{ res.reservationDate | date: 'dd/MM/yyyy HH:mm' }}</span>
       </div>
 
       <div class="detail-row">
         <span class="label">🏆 Fecha del partido:</span>
-        <span>{{ res.matchDate }}</span>
+        <span>{{ res.matchDate | date: 'dd/MM/yyyy HH:mm' }}</span>
       </div>
 
       <div class="detail-row">
-        <span class="label">🟢 Estado:</span>
+        <span class="label">Estado:</span>
         <span [class]="'status ' + res.status.toLowerCase()">
           {{ res.status }}
         </span>

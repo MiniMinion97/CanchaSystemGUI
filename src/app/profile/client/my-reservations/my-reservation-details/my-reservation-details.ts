@@ -4,10 +4,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ReservationResponse } from '../../../../reservation/models/reservation-response';
 import { ReservationRequest } from '../../../../reservation/models/reservation-request';
 import { Make } from '../../../../reservation/pages/make/make';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-my-reservation-details',
-  imports: [Make],
+  imports: [Make, DatePipe],
   templateUrl: './my-reservation-details.html',
   styleUrl: './my-reservation-details.css'
 })

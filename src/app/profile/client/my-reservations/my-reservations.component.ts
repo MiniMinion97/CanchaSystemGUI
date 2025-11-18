@@ -1,11 +1,12 @@
 import { Component, effect, inject, signal } from '@angular/core';
 import { ReservationService } from '../../../reservation/services/reservation/reservation-service';
 import { Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-my-reservations',
   standalone: true,
-  imports: [],
+  imports: [DatePipe],
   templateUrl: './my-reservations.component.html',
   styleUrl: './my-reservations.component.css'
 })
@@ -38,6 +39,10 @@ export class MyReservationsComponent {
 
     handleDetails(id: Number){
       this.router.navigateByUrl(`perfil/mis-reservas/${id}`)
+    }
+
+    goToExplore(){
+      this.router.navigateByUrl('explore');
     }
   
 

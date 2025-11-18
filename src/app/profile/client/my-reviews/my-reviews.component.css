@@ -4,8 +4,10 @@
 .my-reviews-container {
   max-width: 1200px;
   margin: 0 auto;
+  margin-top: 120px;
+  top: 100px;
   padding: 2rem 1.5rem;
-  min-height: 100vh;
+  min-height: 90vh;
   background: #f7f7f7;
 }
 

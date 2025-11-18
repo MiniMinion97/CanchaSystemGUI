@@ -1,24 +1,36 @@
-<article class="review-card">
+<article class="review-card" [class.own-review]="isOwner() && isLoggedIn()">
+  
   <header class="review-header">
     <div class="review-meta">
-      <span class="review-user">{{ review()!.clientName || 'Anonymous' }}</span>
+      <span class="review-user">
+        {{ review()!.clientName || 'Usuario Anónimo' }}
+        @if(isOwner() && isLoggedIn()) {
+          <span class="owner-badge">(Tú)</span>
+        }
+      </span>
       <span class="review-date">
-        {{ review()!.createdAt | date: 'shortDate' }}
+        {{ review()!.createdAt | date: 'dd/MM/yyyy' }}
       </span>
     </div>
-
+    
     <div class="review-rating">
-        @for(star of this.stars; track $index){
-            <span class="star" [class.filled]="star <= review()!.rating">★</span>
-        }
+      @for(star of stars; track $index){
+        <span class="star" [class.filled]="star <= review()!.rating">★</span>
+      }
     </div>
   </header>
-
+  
   <p class="review-message">{{ review()!.message }}</p>
-
+  
   @if(isOwner() && isLoggedIn()) {
-  <button (click)="edit.emit(review()!)">Editar</button>
-  <button (click)="delete.emit(review()!.id)">Eliminar</button>
-}
+    <div class="review-actions">
+      <button (click)="edit.emit(review()!)">
+        Editar
+      </button>
+      <button (click)="delete.emit(review()!.id)">
+        Eliminar
+      </button>
+    </div>
+  }
   
 </article>

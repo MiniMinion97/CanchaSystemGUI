@@ -1,35 +1,74 @@
+<!-- reservations-list.component.html -->
 @let reservations = this.reservations();
 @let loading = this.loading();
 
-@if (loading) {
-  <p>Cargando reservas...</p>
-} @else {
-  @if (reservations) {
-    @if (this.reservations().length > 0) {
+<main class="reservations-container">
+  @if (loading) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Cargando reservas...</p>
+    </div>
+  } @else {
+    @if (reservations && reservations.length > 0) {
+      <header class="list-header">
+        <h1>Mis Reservas</h1>
+        <span class="reservation-count">{{ reservations.length }} reserva{{ reservations.length !== 1 ? 's' : '' }}</span>
+      </header>
+      
       <div class="reservations-list">
-        @for (r of this.reservations(); track r.id) {
-          <div class="reservation-card">
-            <div class="reservation-info">
+        @for (r of reservations; track r.id) {
+          <article class="reservation-card">
+            <div class="card-header">
               <h3>Reserva #{{ r.id }}</h3>
-              <p>📅 Fecha de reserva: {{ r.reservationDate }}</p>
-              <p>⚽ Fecha del partido: {{ r.matchDate }}</p>
-              <p>💵 Seña: ${{ r.deposit }}</p>
-              <p>
-                🟢 Estado: 
-                <span>
-                    {{r.status ? 'activa' : 'inactiva'}}
-                </span>
-              </p>
+              <span 
+                class="status-badge"
+                [class.active]="r.status"
+                [class.inactive]="!r.status">
+                {{ r.status ? '✓ Activa' : '✕ Inactiva' }}
+              </span>
             </div>
-
+            
+            <div class="reservation-info">
+              <div class="info-item">
+                <span class="icon">📅</span>
+                <div class="info-content">
+                  <span class="label">Fecha de reserva</span>
+                  <span class="value">{{ r.reservationDate | date: 'dd/MM/yyyy' }}</span>
+                </div>
+              </div>
+              
+              <div class="info-item">
+                <span class="icon">⚽</span>
+                <div class="info-content">
+                  <span class="label">Fecha del partido</span>
+                  <span class="value">{{ r.matchDate | date: 'dd/MM/yyyy HH:mm' }}</span>
+                </div>
+              </div>
+              
+              <div class="info-item">
+                <span class="icon">💵</span>
+                <div class="info-content">
+                  <span class="label">Seña</span>
+                  <span class="value">${{ r.deposit }}</span>
+                </div>
+              </div>
+            </div>
+            
             <button class="details-btn" (click)="handleDetails(r.id)">
-              Ver detalles
+              Ver detalles →
             </button>
-          </div>
+          </article>
         }
       </div>
     } @else {
-      <p class="no-reservations">No tenés reservas registradas aún.</p>
+      <div class="empty-state">
+        <div class="empty-icon">📅</div>
+        <h3>No tenés reservas registradas</h3>
+        <p>Cuando hagas una reserva, aparecerá aquí.</p>
+        <button class="explore-btn" (click)="goToExplore()">
+          🔍 Explorar Canchas
+        </button>
+      </div>
     }
   }
-}
+</main>
