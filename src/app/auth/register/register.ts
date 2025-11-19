@@ -13,8 +13,9 @@ import { AuthService, RegisterRequest } from '../services/authservice';
 })
 export class Register {
   private readonly formBuilder = inject(FormBuilder);
-    private readonly authService = inject(AuthService);
-
+  private readonly authService = inject(AuthService);
+  
+  errorMessage: string = '';
 
   protected readonly form = this.formBuilder.nonNullable.group({
     name: ["",Validators.required],
@@ -32,10 +33,14 @@ export class Register {
 
         this.authService.registerOwner(registerrequest).subscribe({
             next: (res) => {
-            console.log('Registration successful:', res);}
+              console.log('Registration successful:', res);
+              this.errorMessage = '';
+            }
             ,
             error: (err) => {
-            console.error('Registration failed:', err);}
+              console.error('Registration failed:', err);
+              this.errorMessage = err.error?.error;
+            }
         });
 
 
@@ -50,6 +55,9 @@ export class Register {
 */
   }
 
+  hasError() {
+    return this.errorMessage !== '';
+  }
 
   
       }

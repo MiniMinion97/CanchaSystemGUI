@@ -60,6 +60,10 @@ export class Login {
     });
   }
 
+  hasError() {
+    return this.errorMessage !== '';
+  }
+
   // NUEVO: Método para logout
   logout() {
     // Limpiar todo el localStorage

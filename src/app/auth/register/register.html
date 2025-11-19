@@ -53,4 +53,8 @@
     </label>
 
     <button type="submit">Registrarse</button>
+
+    @if (hasError()) {
+        <span>{{errorMessage}}</span>
+    }
 </form>

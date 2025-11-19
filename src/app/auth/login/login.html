@@ -17,4 +17,8 @@
     }
     </label>  
     <button type="submit">Iniciar sesión</button>
+
+    @if (hasError()) {
+        <span>{{errorMessage}}</span>
+    }
 </form>
