@@ -31,5 +31,5 @@ button {
 button:hover {
     cursor: pointer;
     border: 2px solid var(--font-color);
-    background-color: var(--button-accent);
+    background-color: var(--green-accent);
 }

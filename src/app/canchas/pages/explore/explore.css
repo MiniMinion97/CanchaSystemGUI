@@ -14,13 +14,14 @@ main {
     flex-direction: column;
     width: 60vw;
     max-width: 1200px;
-    height: 65vh;
-    background-color: #EEEDEB;
-    border: #5F7D36 2px solid;
-    color: #221F20;
+    margin-top: 15vh;
+    height: 75vh;
+    background-color: var(--background-color-dark);
+    border: var(--green-accent) 2px solid;
+    color: var(--font-color);
     border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 24px var(--shadow-color);
 }
 
 /* Header con botón de refresh */
@@ -29,9 +30,9 @@ main {
     justify-content: space-between;
     align-items: center;
     padding: 1rem 1.5rem;
-    background-color: #5F7D36;
-    color: white;
-    border-bottom: 2px solid #4d6529;
+    background-color: var(--green-accent);
+    color: var(--background-color);
+    border-bottom: 2px solid var(--green-accent);
     flex-shrink: 0;
 }
 
@@ -42,8 +43,8 @@ main {
 }
 
 .refresh-btn {
-    background-color: white;
-    color: #5F7D36;
+    background-color: var(--background-color);
+    color: var(--green-accent);
     border: none;
     border-radius: 8px;
     padding: 0.6rem 1.2rem;
@@ -57,7 +58,7 @@ main {
 }
 
 .refresh-btn:hover:not(:disabled) {
-    background-color: #EEEDEB;
+    background-color: var(--background-color-dark);
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
@@ -93,12 +94,12 @@ main {
 }
 
 .establishments-wrapper::-webkit-scrollbar-thumb {
-    background: #5F7D36;
+    background: var(--green-accent);
     border-radius: 10px;
 }
 
 .establishments-wrapper::-webkit-scrollbar-thumb:hover {
-    background: #4d6529;
+    background: var(--green-accent);
 }
 
 /* Cards de establecimientos */
@@ -108,10 +109,10 @@ main {
     max-width: 280px;
     height: 22vh;
     min-height: 200px;
-    border: 3px solid #B6B6B7;
-    color: #221F20;
+    border: 3px solid var(--border-color);
+    color: var(--font-color);
     border-radius: 13px;
-    background-color: white;
+    background-color: var(--background-color);
     transition: all 0.3s ease;
     display: flex;
     flex-direction: column;
@@ -121,17 +122,19 @@ main {
 .establishment-item:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 20px rgba(95, 125, 54, 0.25);
-    border-color: #5F7D36;
+    border-color: var(--green-accent);
 }
 
 .establishment-pictures {
+    user-select: none;
+
     width: 100%;
     height: 70%;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-bottom: #B6B6B7 3px solid;
-    background: linear-gradient(135deg, #EEEDEB 0%, #d0cfc9 100%);
+    border-bottom: var(--border-color) 3px solid;
+    background: linear-gradient(135deg, var(--background-color-dark) 0%, #d0cfc9 100%);
     position: relative;
 }
 
@@ -167,12 +170,12 @@ main {
     text-overflow: ellipsis;
     white-space: nowrap;
     flex: 1;
-    color: #221F20;
+    color: var(--font-color);
 }
 
 .establishment-item button {
     background-color: white;
-    color: #221F20;
+    color: var(--font-color);
     border: none;
     border-radius: 6px;
     cursor: pointer;
@@ -187,7 +190,7 @@ main {
 }
 
 .establishment-item button:hover {
-    background-color: #4d6529;
+    background-color: var(--green-accent);
     transform: translateY(-1px);
     box-shadow: 0 2px 6px rgba(95, 125, 54, 0.3);
 }
@@ -204,14 +207,14 @@ main {
     align-items: center;
     height: 100%;
     width: 100%;
-    color: #5F7D36;
+    color: var(--green-accent);
 }
 
 .spinner {
     width: 50px;
     height: 50px;
-    border: 4px solid #B6B6B7;
-    border-top-color: #5F7D36;
+    border: 4px solid var(--border-color);
+    border-top-color: var(--green-accent);
     border-radius: 50%;
     margin-bottom: 1.5rem;
     animation: spin 1s linear infinite;
@@ -225,7 +228,7 @@ main {
     font-size: 1.1rem;
     font-weight: 600;
     margin: 0;
-    color: #5F7D36;
+    color: var(--green-accent);
 }
 
 /* Empty state */
@@ -247,20 +250,20 @@ main {
 }
 
 .empty-container h3 {
-    color: #221F20;
+    color: var(--font-color);
     margin: 0 0 0.5rem 0;
     font-size: 1.5rem;
     font-weight: 700;
 }
 
 .empty-container p {
-    color: #B6B6B7;
+    color: var(--border-color);
     margin: 0 0 2rem 0;
     font-size: 1rem;
 }
 
 .refresh-btn-large {
-    background-color: #5F7D36;
+    background-color: var(--green-accent);
     color: white;
     border: none;
     padding: 0.75rem 1.5rem;
@@ -273,7 +276,7 @@ main {
 }
 
 .refresh-btn-large:hover {
-    background-color: #4d6529;
+    background-color: var(--green-accent);
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(95, 125, 54, 0.4);
 }

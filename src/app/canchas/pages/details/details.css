@@ -2,10 +2,9 @@ main {
   display: flex;
   justify-content: center;
   padding-top: 130px;
-  background: #f7f7f7;
+  background: var(--background-color);
   width: 100%;
   min-height: 100vh;
-  box-sizing: border-box;
 }
 
 .main-layout {
@@ -42,15 +41,15 @@ main {
 
 .establishment-header h1 {
   margin: 0;
-  font-size: 2rem;
-  color: #2c3e50;
+  font-size: 2.2rem;
+  color: var(--font-color);
 }
 
 .rating-badge {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: #5F7D36;
+  background: var(--green-accent);
   color: white;
   padding: 0.5rem 1rem;
   border-radius: 20px;
@@ -110,18 +109,20 @@ main {
 }
 
 .establishment-details h3 {
-  color: #5F7D36;
+  color: var(--green-accent);
   margin-bottom: 1rem;
+  font-size: 2.2rem;
 }
 
 .establishment-details p {
+  font-size: 1.4rem;
   margin: 0.5rem 0;
-  color: #555;
+  color: var(--font-color);
 }
 
 /* SECCIÓN DE REVIEWS */
 #reviewSection {
-  background: #ffffff;
+  background: var(--background-color);
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   padding: 2rem;
@@ -138,7 +139,8 @@ main {
 
 .reviews-header h2 {
   margin: 0;
-  color: #2c3e50;
+  color: var(--font-color);
+  font-size: 2.2rem;
 }
 
 .average-rating {
@@ -154,7 +156,7 @@ main {
 .rating-text {
   font-size: 1.3rem;
   font-weight: bold;
-  color: #5F7D36;
+  color: var(--green-accent);
 }
 
 .review-count {
@@ -174,7 +176,7 @@ main {
   border-radius: 12px;
   box-shadow: 0 6px 18px rgba(0,0,0,0.12);
   padding: 1.5rem;
-  border: 2px solid #5F7D36;
+  border: 2px solid var(--green-accent);
 }
 
 /* RESPONSIVO */
