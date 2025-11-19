@@ -2,6 +2,7 @@ import { Component, effect, inject, input, signal } from '@angular/core';
 import { EstablishmentService } from '../../../canchas/services/establishment/establishment-service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../auth/services/authservice';
 
 @Component({
   selector: 'app-my-establishments',
@@ -12,6 +13,7 @@ import { Router } from '@angular/router';
 })
 export class MyEstablishmentsComponent {
   private readonly establishmentService = inject(EstablishmentService);
+  private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
 
 
@@ -28,6 +30,7 @@ export class MyEstablishmentsComponent {
 
       const inside = this.isInsideBrand();
       const brandId = this.idBrand();
+      const ownerId = this.authService.getCurrentClientId();
 
       if (inside && brandId) {
         this.establishmentService.getEstablishmentsByBrand(brandId).subscribe({
@@ -42,7 +45,13 @@ export class MyEstablishmentsComponent {
           }
         });
       } else if (!inside) {
-        this.establishmentService.getEstablishments().subscribe({
+        if (!ownerId) {
+          this.loading.set(false);
+          this.establishments.set([]);
+          return;
+        }
+
+        this.establishmentService.getEstablishmentsByOwner(ownerId).subscribe({
           next: (res) => {
             this.establishments.set(res);
             this.loading.set(false);
@@ -53,7 +62,7 @@ export class MyEstablishmentsComponent {
             this.loading.set(false);
           }
         });
-      }
+    }
     });
   }
   handleDetails(id: number) {

@@ -1,6 +1,7 @@
 import { Component, effect, inject, input, signal } from '@angular/core';
 import { CanchaService } from '../../../canchas/services/cancha/cancha-service';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../auth/services/authservice';
 
 @Component({
   selector: 'app-my-canchas',
@@ -13,6 +14,7 @@ export class MyCanchasComponent {
 
   private readonly canchasService = inject(CanchaService);
   private readonly router = inject(Router);
+  private readonly authService = inject(AuthService);
 
 
   readonly isInsideEst = input<boolean>(false);
@@ -28,10 +30,11 @@ export class MyCanchasComponent {
       this.loading.set(true); //cada vez que cambian inputs, arranca en "cargando"
 
       const inside = this.isInsideEst();
-      const brandId = this.idEst();
+      const establishmentId = this.idEst();
+      const ownerId = this.authService.getCurrentClientId();
 
-      if (inside && brandId) {
-        this.canchasService.getCanchasByEstablishment(brandId).subscribe({
+      if (inside && establishmentId) {
+        this.canchasService.getCanchasByEstablishment(establishmentId).subscribe({
           next: (res) => {
             this.canchas.set(res);
             this.loading.set(false);
@@ -43,11 +46,17 @@ export class MyCanchasComponent {
           }
         });
       } else if (!inside) {
-        this.canchasService.getCanchas().subscribe({
-          next: (res) => {
-            this.canchas.set(res);
+            if (!ownerId) {
+            this.canchas.set([]);
             this.loading.set(false);
-          },
+            return;
+          }
+
+          this.canchasService.getCanchasByOwner(ownerId).subscribe({
+            next: (res) => {
+              this.canchas.set(res);
+              this.loading.set(false);
+            },
           error: (err) => {
             console.error('Error obteniendo canchas:', err);
             this.canchas.set([]);

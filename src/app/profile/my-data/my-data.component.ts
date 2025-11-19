@@ -88,8 +88,8 @@ export class MyDataComponent {
     this.http.put(endpoint, requestBody, {
       headers: { 'Content-Type': 'application/json' }
     }).subscribe({
-      next: () => {
-        console.log('✅ Datos actualizados correctamente');
+      next: (response) => {
+        console.log('✅ Datos actualizados correctamente', response);
         this.success.set(true);
         this.loading.set(false);
       },

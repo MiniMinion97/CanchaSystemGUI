@@ -25,6 +25,10 @@ export class EstablishmentService {
         return this.http.get<EstablishmentResponse[]>(`${this.url}/getEstablishmentsByBrandId/${id}`);
     }
 
+    getEstablishmentsByOwner(ownerId: string){
+        return this.http.get<EstablishmentResponse[]>(`${this.url}/getEstablishmentsByOwnerId/${ownerId}`);
+    }
+
     getCanchaTypes(establishmentId: number): Observable<string[]> {
         return this.http.get<CanchaResponse[]>(
             `http://localhost:8080/cancha/getCanchasByEstablishmentId/${establishmentId}`

@@ -22,6 +22,10 @@ export class CanchaService {
         return this.http.get<CanchaResponse>(`${this.url}/findCanchaById/${id}`);
     }
 
+    getCanchasByOwner(ownerId: string){
+        return this.http.get<CanchaResponse[]>(`${this.url}/getCanchasByOwnerId/${ownerId}`);
+    }
+
     getCanchasByEstablishment(establishmentId: number){
         return this.http.get<CanchaResponse[]>(`${this.url}/getCanchasByEstablishmentId/${establishmentId}`);
     }
