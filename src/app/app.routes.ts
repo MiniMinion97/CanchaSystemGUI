@@ -16,6 +16,11 @@ import { MyCanchaDetails } from './profile/owner/my-canchas/my-cancha-details/my
 import { Faq } from './canchas/pages/faq/faq';
 import { OwnerContact } from './canchas/pages/owner-contact/owner-contact';
 import { MyReservationDetails } from './profile/client/my-reservations/my-reservation-details/my-reservation-details';
+import { AdminOwners } from './AdminComponents/admin-owners/admin-owners';
+import { AdminClients } from './AdminComponents/admin-clients/admin-clients';
+import { AdminBrands } from './AdminComponents/admin-brands/admin-brands';
+import { AdminEstablishments } from './AdminComponents/admin-establishments/admin-establishments';
+import { AdminCanchas } from './AdminComponents/admin-canchas/admin-canchas';
 
 export const routes: Routes = [
     {path: 'explorar', component: Explore},
@@ -38,9 +43,14 @@ export const routes: Routes = [
     {path: 'perfil/mis-reservas/:id', component: MyReservationDetails},
 
     {path: 'explorar/detalles/:id', component: Details},
-    //{path: 'perfil/mis-marcas'},
 
     {path: 'FAQ', component: Faq},
-    {path: 'contacto', component: OwnerContact}
+    {path: 'contacto', component: OwnerContact},
+
+    {path: 'admin/duenos', component: AdminOwners},
+    {path: 'admin/clientes', component: AdminClients},
+    {path: 'admin/marcas', component: AdminBrands},
+    {path: 'admin/sucursales', component: AdminEstablishments},
+    {path: 'admin/canchas', component: AdminCanchas},
     
 ];

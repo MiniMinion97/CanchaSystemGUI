@@ -34,7 +34,6 @@ export class BrandService {
   }
 
 
-
   deleteBrand(id: number) {
     return this.http.delete<void>(`${this.url}/deleteCanchaBrand/${id}`);
   }

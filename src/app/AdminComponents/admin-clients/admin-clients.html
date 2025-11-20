@@ -1,0 +1,42 @@
+@let clients = this.clients();
+@let loading = this.loading();
+
+@if (loading) {
+    <p>Cargando clientes...</p>
+} @else {
+    @if (clients.length > 0) {
+    <main>
+        <section class="client-container">
+        @for (client of clients; track client.id) {
+        <table class="client-item">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Usuario</th>
+                    <th>Email</th>
+                    <th>Telefono</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ client.name }}</td>
+                    <td>{{ client.lastName }}</td>
+                    <td>{{ client.username }}</td>
+                    <td>{{ client.mail }}</td>
+                    <td>{{ client.cellNumber }}</td>
+                    <td>               
+                        <button (click)="handleDetails(client.id!)">Ver más &RightArrow;</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        }
+        </section>
+    </main>
+    } @else {
+        <p>No hay clientes registrados</p>
+    } 
+
+}
+

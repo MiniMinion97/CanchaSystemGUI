@@ -1,0 +1,41 @@
+@let owners = this.owners();
+@let loading = this.loading();
+
+@if (loading) {
+    <p>Cargando dueños...</p>
+} @else {
+    @if (owners.length > 0) {
+    <main>
+        <section class="owner-container">
+        @for (owner of owners; track owner.id) {
+        <table class="owner-item">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Usuario</th>
+                    <th>Email</th>
+                    <th>Telefono</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ owner.name }}</td>
+                    <td>{{ owner.lastName }}</td>
+                    <td>{{ owner.username }}</td>
+                    <td>{{ owner.mail }}</td>
+                    <td>{{ owner.cellNumber }}</td>
+                    <td>               
+                        <button (click)="handleDetails(owner.id!)">Ver más &RightArrow;</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        }
+        </section>
+    </main>
+    } @else {
+        <p>No hay dueños registrados</p>
+    } 
+
+}
