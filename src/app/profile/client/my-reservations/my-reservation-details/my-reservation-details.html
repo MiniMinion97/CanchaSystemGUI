@@ -4,7 +4,7 @@
 @if (loading) {
   <p class="loading">Cargando detalles de la reserva...</p>
 } @else {
-  @if (res) {
+  @if (res && this.auth.isLoggedIn()) {
 
     <div class="reservation-detail-card">
       <h2>Detalles de la Reserva #{{ res.id }}</h2>

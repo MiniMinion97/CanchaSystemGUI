@@ -5,6 +5,7 @@ import { ReservationResponse } from '../../../../reservation/models/reservation-
 import { ReservationRequest } from '../../../../reservation/models/reservation-request';
 import { Make } from '../../../../reservation/pages/make/make';
 import { DatePipe } from '@angular/common';
+import { AuthService } from '../../../../auth/services/authservice';
 
 @Component({
   selector: 'app-my-reservation-details',
@@ -13,6 +14,7 @@ import { DatePipe } from '@angular/common';
   styleUrl: './my-reservation-details.css'
 })
 export class MyReservationDetails {
+  protected readonly auth = inject(AuthService);
   private readonly reservationService = inject(ReservationService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);

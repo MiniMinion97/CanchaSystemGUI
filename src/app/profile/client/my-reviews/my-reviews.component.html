@@ -1,4 +1,6 @@
-<main class="my-reviews-container">
+<!-- my-reviews.component.html -->
+@if(this.authService.loggedIn()){
+  <main class="my-reviews-container">
   
   <!-- Header Section -->
   <header class="reviews-header">
@@ -31,10 +33,9 @@
         <button class="close-btn" (click)="editingReview.set(null)">✕</button>
       </div>
       <app-form
-        [establishmentId]="editingReview()!.establishmentId"
         [isEditing]="true"
         [review]="editingReview()!"
-        [establishmentId]="editingReview()?.establishmentId!"
+        [establishmentId]="editingReview()!.establishmentId"
         (edited)="onReviewEdited($event)"
       ></app-form>
     </section>
@@ -70,3 +71,4 @@
   </section>
   
 </main>
+}

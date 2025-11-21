@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
 })
 export class MyDataComponent {
   private readonly fb = inject(FormBuilder);
-  private readonly auth = inject(AuthService);
+  protected readonly auth = inject(AuthService);
   private readonly http = inject(HttpClient);
 
   readonly loading = signal(false);

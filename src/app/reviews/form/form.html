@@ -6,8 +6,11 @@
   }
 
   <form [formGroup]="form" (ngSubmit)="handleSubmit()">
+    
     <div class="rating">
-      @for(star of stars; track $index){
+      
+      <div>
+        @for(star of stars; track $index){
         <input
           type="radio"
           [id]="'star' + star"
@@ -16,6 +19,12 @@
         />
         <label [for]="'star' + star" [title]="star + ' stars'">&#9733;</label>
       }  
+      </div>
+      
+
+      <h3>
+      Valoración
+      </h3>
     </div>
 
     <!-- Mostrar error si no seleccionó rating -->

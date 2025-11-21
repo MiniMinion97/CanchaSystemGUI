@@ -2,6 +2,7 @@ import { Component, effect, inject, signal } from '@angular/core';
 import { ReservationService } from '../../../reservation/services/reservation/reservation-service';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import { AuthService } from '../../../auth/services/authservice';
 
 @Component({
   selector: 'app-my-reservations',
@@ -11,9 +12,10 @@ import { DatePipe } from '@angular/common';
   styleUrl: './my-reservations.component.css'
 })
 export class MyReservationsComponent {
+  protected readonly auth = inject(AuthService);
   private readonly reservationService = inject(ReservationService);
   private readonly router = inject(Router);
-  protected clientId = localStorage.getItem('userId')!;
+  protected clientId = this.auth.getCurrentClientId()!;
   
 
   protected loading = signal<boolean>(true);

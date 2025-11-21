@@ -1,7 +1,23 @@
+main{
+  margin-bottom: 20px;
+}
+
+form{
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin: auto;
+}
+
+button{
+  width: 20%;
+  align-self: flex-end;
+}
 .rating {
   unicode-bidi: bidi-override;
   direction: rtl; /* Allows stars to be ordered from right to left for easier selection */
-  display: inline-block;
+  display: flex;
+  justify-content: space-between;
   font-size: 30px; /* Adjust star size */
 }
 
@@ -18,5 +34,5 @@
 .rating input:checked ~ label,
 .rating label:hover,
 .rating label:hover ~ label {
-  color: rgb(255, 242, 0); /* Color for selected/hovered stars */
+  color: #f5b301; /* Color for selected/hovered stars */
 }
