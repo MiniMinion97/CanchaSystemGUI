@@ -7,23 +7,29 @@
     @if (brands.length > 0) {
     <main>
         <section class="brand-container">
-        @for (brand of brands; track brand.id) {
-        <table class="brand-item">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>{{ brand.brandName }}</td>
-                    <td>               
-                        <button (click)="handleDetails(brand.id!)">Ver más &RightArrow;</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        }
+
+            <div class="container-header">
+                <h2>Administrar Marcas</h2>
+            </div>
+
+            <table class="brand-item">
+                <thead class="container-header">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Detalles</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (brand of brands; track brand.id) {
+                    <tr>
+                        <td>{{ brand.brandName }}</td>
+                        <td>               
+                            <button (click)="handleDetails(brand.id!)">Ver más &RightArrow;</button>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
         </section>
     </main>
     } @else {

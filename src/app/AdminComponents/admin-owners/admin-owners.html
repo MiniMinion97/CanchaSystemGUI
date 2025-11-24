@@ -7,31 +7,37 @@
     @if (owners.length > 0) {
     <main>
         <section class="owner-container">
-        @for (owner of owners; track owner.id) {
-        <table class="owner-item">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Usuario</th>
-                    <th>Email</th>
-                    <th>Telefono</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>{{ owner.name }}</td>
-                    <td>{{ owner.lastName }}</td>
-                    <td>{{ owner.username }}</td>
-                    <td>{{ owner.mail }}</td>
-                    <td>{{ owner.cellNumber }}</td>
-                    <td>               
-                        <button (click)="handleDetails(owner.id!)">Ver más &RightArrow;</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        }
+
+            <div class="container-header">
+                <h2>Administrar Dueños</h2>
+            </div>
+
+            <table class="owner-item">
+                <thead class="container-header">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Usuario</th>
+                        <th>Email</th>
+                        <th>Teléfono</th>
+                        <th>Detalles</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (owner of owners; track owner.id) {
+                        <tr>
+                            <td>{{ owner.name }}</td>
+                            <td>{{ owner.lastName }}</td>
+                            <td>{{ owner.username }}</td>
+                            <td>{{ owner.mail }}</td>
+                            <td>{{ owner.cellNumber }}</td>
+                            <td>
+                                <button (click)="handleDetails(owner.id!)">Ver más &RightArrow;</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </section>
     </main>
     } @else {
