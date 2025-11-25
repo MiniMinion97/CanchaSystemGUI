@@ -47,14 +47,14 @@ export class AdminOwnerDetails {
 
     this.ownerService.getOwner(ownerId).subscribe({
       next: (res) => {
-        console.log('✅ Ownere cargado:', res);
+        console.log('✅ Dueño cargado:', res);
         this.owner.set(res);
         this.loading.set(false);
 
         this.form.patchValue(res);
       },
       error: (err) => {
-        console.error('❌ Error cargando ownere:', err);
+        console.error('❌ Error cargando dueño:', err);
         this.owner.set(undefined);
         this.loading.set(false);
       }
@@ -72,10 +72,10 @@ export class AdminOwnerDetails {
 
     this.ownerService.updateOwner(this.owner()?.id!, { ...value, active: true, password: '' }).subscribe({
         next: (res) => {
-          console.log('✅ Edición de ownere exitosa:', res);
+          console.log('✅ Edición de dueño exitosa:', res);
         },
         error: (err) => {
-          console.error('❌ Error editando ownere:', err);
+          console.error('❌ Error editando dueño:', err);
         }
     });
   }
@@ -83,10 +83,10 @@ export class AdminOwnerDetails {
   handleDelete() {
     this.ownerService.deleteOwner(this.owner()?.id!).subscribe({
         next: (res) => {
-          console.log('✅ Ownere eliminado con éxito:', res);
+          console.log('✅ Dueño eliminado con éxito:', res);
         },
         error: (err) => {
-          console.error('❌ Error eliminando ownere:', err);
+          console.error('❌ Error eliminando dueño:', err);
         }
     });
   }
