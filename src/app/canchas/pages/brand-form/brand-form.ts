@@ -20,7 +20,7 @@ export class BrandForm {
   readonly brandEdited = output<BrandRequest>();
   readonly brandId = input<number>();
   protected readonly form = this.formBuilder.nonNullable.group({
-      brandName:["",Validators.required],
+      brandName:["",[Validators.required,Validators.minLength(3)]],
       active: [true, Validators.required]
     })
 

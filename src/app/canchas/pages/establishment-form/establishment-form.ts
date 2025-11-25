@@ -1,5 +1,5 @@
 import { Component, effect, inject, input, output } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EstablishmentService } from '../../services/establishment/establishment-service';
 import { EstablishmentRequest } from '../../models/establishment-request';
 
@@ -13,11 +13,11 @@ export class EstablishmentForm {
   private readonly formBuilder = inject(FormBuilder);
   private readonly establishmentService = inject(EstablishmentService);
   protected readonly form = this.formBuilder.nonNullable.group({
-    name: [''],
-    address: [''],
-    canShower: [false],
-    openingHour: [new Date()],
-    closingHour: [new Date()]
+    name: ['',[Validators.required,Validators.minLength(3)]],
+    address: ['',Validators.required],
+    canShower: [false, Validators.required],
+    openingHour: [new Date(),Validators.required],
+    closingHour: [new Date(),Validators.required]
   });
   
   readonly brandId = input<number>();

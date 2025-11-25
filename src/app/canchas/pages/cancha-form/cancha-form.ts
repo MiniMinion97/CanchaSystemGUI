@@ -1,5 +1,5 @@
 import { Component, effect, inject, input, output } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CanchaService } from '../../services/cancha/cancha-service';
 import { CanchaRequest } from '../../models/cancha-request';
 
@@ -13,10 +13,10 @@ export class CanchaForm {
   private readonly formBuilder = inject(FormBuilder);
   private readonly canchaService = inject(CanchaService);
   protected readonly form = this.formBuilder.nonNullable.group({
-    totalAmount: [0],
-    hasRoof: [false],
-    canchaType: [''],
-    working: [false]
+    totalAmount: [0,[Validators.required,Validators.min(1)]],
+    hasRoof: [false,Validators.required],
+    canchaType: ['',Validators.required],
+    working: [false,Validators.required]
   });
 
   readonly establishmentId = input<number>();

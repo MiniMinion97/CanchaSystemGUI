@@ -1,27 +1,60 @@
-<form [formGroup] = "form" (ngSubmit) = "handleSubmit()">
-    <label>    Nombre establecimiento  
-        <input type="text" formControlName="name" />  
-    </label>  
+<form [formGroup]="form" (ngSubmit)="handleSubmit()">
+  <label>
+    Nombre establecimiento
+    <input type="text" formControlName="name" />
+    @if(form.get('name')?.touched || form.get('name')?.dirty){
+      @if(form.get('name')?.hasError('required')){
+        <span>El nombre es obligatorio</span>
+      }@else if(form.get('name')?.hasError('minlength')){
+        <span>Debe tener al menos 3 caracteres</span>
+      }
+    }
+  </label>
 
-    <label>    Direccion 
-        <input type="text" formControlName="address" />  
-    </label> 
+  <label>
+    Dirección
+    <input type="text" formControlName="address" />
+    @if(form.get('address')?.hasError('required') && (form.get('address')?.touched || form.get('address')?.dirty)){
+      <span>La dirección es obligatoria</span>
+    }
+  </label>
+
+  <label>
+    Tiene duchas?
+    <input type="checkbox" formControlName="canShower" />
+    @if(form.get('canShower')?.hasError('required') && (form.get('canShower')?.touched || form.get('canShower')?.dirty)){
+      <span>Debe indicar si el establecimiento tiene duchas</span>
+    }
+  </label>
+
+  <label>
+  Hora apertura
+  <input type="time" formControlName="openingHour" required />
+  @if(form.get('openingHour')?.touched || form.get('openingHour')?.dirty){
+    @if(form.get('openingHour')?.hasError('required')){
+      <span>La hora de apertura es obligatoria</span>
+    } @else if (form.get('openingHour')?.hasError('defaultTime')) {
+      <span>Por favor seleccioná la hora de apertura (no usar el valor por defecto)</span>
+    }
+  }
+</label>
+
+<label>
+  Hora cierre
+  <input type="time" formControlName="closingHour" required />
+  @if(form.get('closingHour')?.touched || form.get('closingHour')?.dirty){
+    @if(form.get('closingHour')?.hasError('required')){
+      <span>La hora de cierre es obligatoria</span>
+    } @else if (form.get('closingHour')?.hasError('defaultTime')) {
+      <span>Por favor seleccioná la hora de cierre (no usar el valor por defecto)</span>
+    }
+  }
+</label>
 
 
-    <label>    Tiene duchas?
-        <input type="checkbox" formControlName="canShower" />  
-    </label> 
+ 
 
-    <label>    Hora apertura  
-        <input type="time" formControlName="openingHour" /> 
-    </label> 
-
-    <label>    Hora cierre  
-        <input type="time" formControlName="closingHour" />
-    </label>
-    <button type="submit">
-          {{this.isEditing() ? 'Editar establecimiento' : 'Crear establecimiento'}}
-    </button>
-    
+  <button type="submit" [disabled]="form.invalid">
+    {{ this.isEditing() ? 'Editar establecimiento' : 'Crear establecimiento' }}
+  </button>
 </form>
-

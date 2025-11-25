@@ -1,5 +1,4 @@
 import { Component, inject, signal } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { BrandService } from '../../../../canchas/services/brand/brand-service';
 import { EstablishmentForm } from '../../../../canchas/pages/establishment-form/establishment-form';
 import { EstablishmentService } from '../../../../canchas/services/establishment/establishment-service';
@@ -8,6 +7,7 @@ import { BrandRequest } from '../../../../canchas/models/brand-request';
 import { BrandResponse } from '../../../../canchas/models/brand-response'; // ✅ importante
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MyEstablishmentsComponent } from '../../my-establishments/my-establishments.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-brand-details',
