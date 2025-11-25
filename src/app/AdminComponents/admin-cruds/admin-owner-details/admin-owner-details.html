@@ -60,5 +60,9 @@
 
             <button (click)="handleDelete()">Borrar Dueño</button>
         </section>
+
+        <section>
+            <app-admin-establishments [type]="'owner'" [targetId]="owner.id"></app-admin-establishments>
+        </section>
     </main>
 }

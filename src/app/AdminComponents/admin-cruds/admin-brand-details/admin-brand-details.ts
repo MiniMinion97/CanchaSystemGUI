@@ -1,18 +1,19 @@
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, inject, input, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../auth/services/authservice';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BrandService } from '../../../canchas/services/brand/brand-service';
 import { BrandResponse } from '../../../canchas/models/brand-response';
 import { OwnerService } from '../../owner-service';
+import { AdminEstablishments } from '../../admin-establishments/admin-establishments';
 
 @Component({
   selector: 'app-admin-brand-details',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, AdminEstablishments],
   templateUrl: './admin-brand-details.html',
   styleUrl: './admin-brand-details.css'
 })
-export class AdminBrandDetails {
+export class AdminBrandDetails implements OnInit {
   readonly role = input<string>();
 
   private readonly brandService = inject(BrandService);
@@ -30,7 +31,14 @@ export class AdminBrandDetails {
     brandName: ['',Validators.required]
   })
 
+  get id() {
+    return String(this.brand()?.id);
+  }
+
   constructor() {
+  }
+
+  ngOnInit(): void {
     this.loadBrand();
   }
 

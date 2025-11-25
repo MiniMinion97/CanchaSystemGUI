@@ -27,5 +27,9 @@
 
             <button (click)="handleDelete()">Borrar Marca</button>
         </section>
+        
+        <section>
+            <app-admin-establishments [type]="'brand'" [targetId]="id"></app-admin-establishments>
+        </section>
     </main>
 }
