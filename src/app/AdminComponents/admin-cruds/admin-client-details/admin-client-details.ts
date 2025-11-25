@@ -11,8 +11,6 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
   styleUrl: './admin-client-details.css'
 })
 export class AdminClientDetails {
-  readonly role = input<string>();
-
   private readonly clientService = inject(ClientService);
   private readonly route = inject(ActivatedRoute);
   private readonly authService = inject(AuthService);
