@@ -4,10 +4,11 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../auth/services/authservice';
 import { EstablishmentResponse } from '../../../canchas/models/establishment-response';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AdminCanchas } from '../../admin-canchas/admin-canchas';
 
 @Component({
   selector: 'app-admin-establishment-details',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, AdminCanchas],
   templateUrl: './admin-establishment-details.html',
   styleUrl: './admin-establishment-details.css'
 })

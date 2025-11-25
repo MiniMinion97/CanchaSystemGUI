@@ -1,0 +1,41 @@
+@let cancha = this.cancha();
+@let loading = this.loading();
+
+@if (loading) {
+    <p>Cargando cancha...</p>
+} @else if (!cancha) {
+    <p>La cancha buscada no existe.</p>
+} @else {
+    <main>
+        <section class="cancha-container">
+            <div class="container-header">
+                <h2>Datos de cancha</h2>
+            </div>
+
+
+            <form [formGroup]="form" (ngSubmit)="handleSubmit()">
+                <label>Nombre
+                    <input type="text" formControlName="name" [placeholder]="cancha.canchaType">
+                    @if(form.get('name')?.hasError('required') && (form.get('name')?.touched || form.get('name')?.dirty) ){
+                        <span>El nombre es obligatorio</span>
+                    }
+                </label>
+
+                <label>Dirección
+                    <input type="text" formControlName="address" [placeholder]="cancha.working || 'Dirección'">
+                    @if(form.get('address')?.hasError('required') && (form.get('address')?.touched || form.get('address')?.dirty) ){
+                        <span>La dirección es obligatoria</span>
+                    }
+                </label>
+
+                <label>¿Tiene duchas?
+                    <input type="checkbox" formControlName="canShower">
+                </label>
+                <button type="reset">Limpiar</button>
+                <button type="submit">Guardar</button>
+            </form>
+
+            <button (click)="handleDelete()">Borrar Sucursal</button>
+        </section>
+    </main>
+}

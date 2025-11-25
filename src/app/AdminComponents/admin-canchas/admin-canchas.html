@@ -1,1 +1,46 @@
-<p>admin-canchas works!</p>
+@let canchas = this.canchas();
+@let loading = this.loading();
+
+@if (loading) {
+    <p>Cargando Canchas...</p>
+} @else {
+    @if (canchas.length > 0) {
+    <main>
+        <section class="cancha-container">
+
+            <div class="container-header">
+                <h2>Administrar Canchas</h2>
+            </div>
+
+            <table class="cancha">
+                <thead class="container-header">
+                    <tr>
+                        <th>¿Tiene techo?</th>
+                        <th>Tipo</th>
+                        <th>¿Funcionando?</th>
+                        <th>Detalles</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (cancha of canchas; track cancha.id) {
+                        <tr>
+                            <td>{{ cancha.hasRoof ? 'Sí' : 'No' }}</td>
+                            <td>{{ cancha.canchaType }}</td>
+                            <td>{{ cancha.working ? 'Sí' : 'No' }}</td>
+                            <td>               
+                                <button (click)="handleDeleteDetails(cancha.id!)">Eliminar Cancha</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </section>
+    </main>
+    } @else {
+        <p>No hay canchas registradas</p>
+    } 
+
+}
+
+
+
