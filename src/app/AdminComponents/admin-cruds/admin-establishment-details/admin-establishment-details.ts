@@ -1,0 +1,95 @@
+import { Component, inject, signal } from '@angular/core';
+import { EstablishmentService } from '../../../canchas/services/establishment/establishment-service';
+import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../../auth/services/authservice';
+import { EstablishmentResponse } from '../../../canchas/models/establishment-response';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+
+@Component({
+  selector: 'app-admin-establishment-details',
+  imports: [ReactiveFormsModule],
+  templateUrl: './admin-establishment-details.html',
+  styleUrl: './admin-establishment-details.css'
+})
+export class AdminEstablishmentDetails {
+  private readonly establishmentService = inject(EstablishmentService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly authService = inject(AuthService);
+
+  protected loading = signal<boolean>(true);
+  protected establishment = signal<EstablishmentResponse | undefined>(undefined);
+
+  protected readonly isEditing = signal(false);
+
+  private readonly formBuilder = inject(FormBuilder);
+  protected readonly form = this.formBuilder.nonNullable.group({
+    name: ['',Validators.required],
+    address: ['',Validators.required],
+    canShower: [false],
+    openingHour: [new Date(),Validators.required],
+    closingHour: [new Date(),Validators.required]
+  })
+
+  constructor() {
+    this.loadEstablishments();
+  }
+
+  private loadEstablishments() {
+    const adminId = this.authService.getCurrentClientId();
+    if (!adminId) {
+      console.error('❌ No hay admin logueado');
+      this.loading.set(false);
+      return;
+    }
+
+    const establishmentId = this.route.snapshot.paramMap.get('id')!;
+
+    this.loading.set(true);
+
+    this.establishmentService.getEstablishmentById(Number(establishmentId)).subscribe({
+      next: (res) => {
+        console.log('✅ Establishmente cargado:', res);
+        this.establishment.set(res);
+        this.loading.set(false);
+
+        this.form.patchValue({ ...res });
+      },
+      error: (err) => {
+        console.error('❌ Error cargando sucursal:', err);
+        this.establishment.set(undefined);
+        this.loading.set(false);
+      }
+    });
+  }
+
+  handleSubmit() {
+    if (this.form.invalid) {
+      console.error("❌ Formulario inválido");
+      return;
+    }
+    
+    console.log("✅ Formulario válido");
+    const value = this.form.getRawValue();
+
+    this.establishmentService.updateEstablishment(this.establishment()?.id!, { ...value, brandId: this.establishment()?.brandId! }).subscribe({
+        next: (res) => {
+          console.log('✅ Edición de sucursal exitosa:', res);
+        },
+        error: (err) => {
+          console.error('❌ Error editando sucursal:', err);
+        }
+    });
+  }
+
+  handleDelete() {
+    this.establishmentService.deleteEstablishment(this.establishment()?.id!).subscribe({
+        next: (res) => {
+          console.log('✅ Sucursal eliminada con éxito:', res);
+        },
+        error: (err) => {
+          console.error('❌ Error eliminando sucursal:', err);
+        }
+    });
+  }
+}
+

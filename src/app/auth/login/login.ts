@@ -42,6 +42,7 @@ export class Login {
         // Solo redirigir según el rol
         const role = this.authService.getRole();
         
+        
         if (role === 'OWNER') {
           this.router.navigate(['/owner-dashboard']);
         } else if (role === 'CLIENT') {

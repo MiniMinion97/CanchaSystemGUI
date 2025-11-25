@@ -1,0 +1,53 @@
+main {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 60vw;
+    max-width: 1200px;
+    margin: auto;
+    margin-top: 20vh;
+    height: 40vh;
+    background-color: var(--background-color-dark);
+    border: var(--green-accent) 2px solid;
+    color: var(--font-color);
+    border-radius: 15px;
+    overflow: auto;
+    box-shadow: 0 8px 24px var(--shadow-color);
+}
+
+h2 {
+    font-size: 1.75rem;
+}
+
+p {
+    margin: 15px;
+    font-size: 1.2rem;
+}
+
+
+/* Scrollbar styling */
+.establishment-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.establishment-container::-webkit-scrollbar-track {
+    background: #d0cfc9;
+    border-radius: 10px;
+}
+
+.establishment-container::-webkit-scrollbar-thumb {
+    background: var(--green-accent);
+    border-radius: 10px;
+}
+
+.establishment-container::-webkit-scrollbar-thumb:hover {
+    background: var(--green-accent);
+}
+
+.container-header {
+    padding: 1rem 1.5rem;
+    background-color: var(--green-accent);
+    color: var(--background-color);
+    border-bottom: 2px solid var(--green-accent);
+    flex-shrink: 0;
+}

@@ -1,0 +1,78 @@
+/* admin-main.css */
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem 0;
+    gap: 1.5rem;
+}
+
+/* Navigation buttons */
+main > button {
+    position: relative;
+    width: 60vw;
+    max-width: 1200px;
+    padding: 1.5rem;
+    background-color: var(--background-color);
+    border: 2px solid var(--border-color);
+    border-radius: 13px;
+    color: var(--font-color);
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    user-select: none;
+}
+
+main > button:hover {
+    transform: translateY(-5px);
+    border-color: var(--green-accent);
+    box-shadow: 0 8px 20px rgba(95, 125, 54, 0.25);
+    background-color: var(--background-color-dark);
+}
+
+main > button:active {
+    transform: translateY(-2px);
+}
+
+main > button:focus {
+    outline: none;
+    border-color: var(--green-accent);
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    main > button {
+        width: 75vw;
+    }
+}
+
+@media (max-width: 768px) {
+    main {
+        padding: 1rem 0;
+        gap: 1rem;
+    }
+
+    main > button {
+        width: 90vw;
+        padding: 1.25rem;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    main {
+        padding: 0.75rem 0;
+        gap: 0.75rem;
+    }
+
+    main > button {
+        width: 95vw;
+        padding: 1rem;
+        font-size: 0.95rem;
+    }
+}

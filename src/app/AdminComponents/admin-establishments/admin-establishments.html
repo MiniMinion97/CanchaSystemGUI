@@ -1,0 +1,52 @@
+@let establishments = this.establishments();
+@let loading = this.loading();
+
+@if (loading) {
+    <p>Cargando Sucursales...</p>
+} @else {
+    @if (establishments.length > 0) {
+    <main>
+        <section class="establishment-container">
+
+            <div class="container-header">
+                <h2>Administrar Dueños</h2>
+            </div>
+
+            <table class="establishment">
+                <thead class="container-header">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Dirección</th>
+                        <th>¿Tiene ducha?</th>
+                        <th>Apertura</th>
+                        <th>Cierre</th>
+                        <th>Promedio valoracion</th>
+                        <th>Detalles</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (establishment of establishments; track establishment.id) {
+                        <tr>
+                            <td>{{ establishment.name }}</td>
+                            <td>{{ establishment.address }}</td>
+                            <td>{{ establishment.canShower ? 'Sí' : 'No' }}</td>
+                            <td>{{ establishment.closingHour }}</td>
+                            <td>{{ establishment.openingHour }}</td>
+                            <td>{{ establishment.averageRating }}</td>
+                            <td>               
+                                <button (click)="handleDetails(establishment.id!)">Ver más &RightArrow;</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </section>
+    </main>
+    } @else {
+        <p>No hay sucursales registrados</p>
+    } 
+
+}
+
+
+

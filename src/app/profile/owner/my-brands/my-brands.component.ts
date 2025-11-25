@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class MyBrandsComponent {
   private readonly brandService = inject(BrandService);
-  private readonly authService = inject(AuthService);  // ✅ Inyectar
+  private readonly authService = inject(AuthService);  
   private readonly router = inject(Router);
 
   protected loading = signal<boolean>(true);
@@ -23,7 +23,6 @@ export class MyBrandsComponent {
   }
 
   private loadBrands() {
-    // ✅ Obtener el ID del owner logueado
     const ownerId = this.authService.getCurrentClientId();  // o getCurrentOwnerId() si tenés uno específico
     
     if (!ownerId) {
