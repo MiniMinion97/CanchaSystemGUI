@@ -24,7 +24,6 @@ main {
     box-shadow: 0 8px 24px var(--shadow-color);
 }
 
-/* Header con botón de refresh */
 .container-header {
     display: flex;
     justify-content: space-between;

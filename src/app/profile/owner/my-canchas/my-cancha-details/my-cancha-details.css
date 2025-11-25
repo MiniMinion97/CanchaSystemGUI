@@ -1,3 +1,181 @@
-* {
-    margin-top: 100px;
+/* cancha-detail.css */
+
+.cancha-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 1.5rem;
+}
+
+.cancha-details h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--font-color);
+    margin: 0;
+    text-align: center;
+    word-break: break-word;
+}
+
+.cancha-details p {
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--font-color);
+    margin: 0;
+    text-align: center;
+    width: 60vw;
+    max-width: 600px;
+    display: block;
+    padding: 0;
+    min-height: auto;
+}
+
+.cancha-details p:first-of-type {
+    margin-top: 1rem;
+    text-transform: capitalize;
+}
+
+/* Contenedor de acciones */
+.btnActions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60vw;
+    max-width: 600px;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+}
+
+.btnActions button {
+    flex: 1;
+    min-width: 140px;
+    padding: 0.75rem 1.5rem;
+    background-color: white;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--font-color);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btnActions button:first-child {
+    border-color: #d32f2f;
+    color: #d32f2f;
+}
+
+.btnActions button:first-child:hover {
+    background-color: #d32f2f;
+    color: white;
+    box-shadow: 0 4px 12px rgba(211, 47, 47, 0.3);
+    transform: translateY(-2px);
+}
+
+.btnActions button:last-child {
+    border-color: var(--green-accent);
+    color: var(--green-accent);
+}
+
+.btnActions button:last-child:hover {
+    background-color: var(--green-accent);
+    color: white;
+    box-shadow: 0 4px 12px rgba(95, 125, 54, 0.3);
+    transform: translateY(-2px);
+}
+
+.btnActions button:active {
+    transform: translateY(0);
+}
+
+/* Componente formulario */
+app-cancha-form {
+    display: block;
+    width: 60vw;
+    max-width: 600px;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .cancha-details p,
+    .btnActions,
+    app-cancha-form {
+        width: 75vw;
+        max-width: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .cancha-details {
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .cancha-details h1 {
+        font-size: 2rem;
+    }
+
+    .cancha-details p,
+    .btnActions,
+    app-cancha-form {
+        width: 90vw;
+    }
+
+    .cancha-details p {
+        font-size: 1rem;
+    }
+
+    .btnActions {
+        flex-direction: column;
+        margin-top: 0.5rem;
+    }
+
+    .btnActions button {
+        width: 100%;
+        min-width: auto;
+        padding: 0.7rem 1.25rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .cancha-details {
+        padding: 0.75rem;
+        gap: 0.75rem;
+    }
+
+    .cancha-details h1 {
+        font-size: 1.5rem;
+    }
+
+    .cancha-details p,
+    .btnActions,
+    app-cancha-form {
+        width: 95vw;
+    }
+
+    .cancha-details p {
+        font-size: 0.95rem;
+    }
+
+    .btnActions button {
+        padding: 0.6rem 1rem;
+        font-size: 0.85rem;
+    }
 }
