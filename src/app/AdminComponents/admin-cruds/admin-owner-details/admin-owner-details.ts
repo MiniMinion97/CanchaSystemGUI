@@ -1,12 +1,13 @@
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { OwnerResponse, OwnerService } from '../../owner-service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../auth/services/authservice';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AdminEstablishments } from '../../admin-establishments/admin-establishments';
 
 @Component({
   selector: 'app-admin-owner-details',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, AdminEstablishments],
   templateUrl: './admin-owner-details.html',
   styleUrl: './admin-owner-details.css'
 })

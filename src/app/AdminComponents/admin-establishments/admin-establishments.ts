@@ -1,7 +1,9 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, input, OnInit, signal } from '@angular/core';
 import { EstablishmentService } from '../../canchas/services/establishment/establishment-service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/services/authservice';
+import { EMPTY, Observable } from 'rxjs';
+import { EstablishmentResponse } from '../../canchas/models/establishment-response';
 
 @Component({
   selector: 'app-admin-establishments',
@@ -9,15 +11,21 @@ import { AuthService } from '../../auth/services/authservice';
   templateUrl: './admin-establishments.html',
   styleUrl: './admin-establishments.css'
 })
-export class AdminEstablishments {
-private readonly establishmentService = inject(EstablishmentService);
+export class AdminEstablishments implements OnInit {
+  private readonly establishmentService = inject(EstablishmentService);
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
 
   protected loading = signal<boolean>(true);
   protected establishments = signal<any[]>([]);
 
+  type = input<string>(); /* all, brand, owner */
+  targetId = input<string>();
+
   constructor() {
+  }
+
+  ngOnInit(): void {
     this.loadBrands();
   }
 
@@ -32,11 +40,25 @@ private readonly establishmentService = inject(EstablishmentService);
 
     this.loading.set(true);
 
-    this.establishmentService.getEstablishments().subscribe({
+    let obs;
+    console.log('type: ', this.type());
+    console.log('id: ', this.targetId());
+    if (this.type() === 'brand') {
+      console.log('brand');
+      obs = this.establishmentService.getEstablishmentsByBrand(Number(this.targetId()!));
+    } else if (this.type() === 'owner') {
+      console.log('owner');
+      obs = this.establishmentService.getEstablishmentsByOwner(this.targetId()!);
+    } else {
+      console.log('all');
+      obs = this.establishmentService.getEstablishments();
+    }
+    obs.subscribe({
       next: (res) => {
         console.log('✅ Sucursales cargadas:', res);
         this.establishments.set(res);
         this.loading.set(false);
+        console.log('type: ', this.type());
       },
       error: (err) => {
         console.error('❌ Error cargando sucursales:', err);
@@ -44,6 +66,7 @@ private readonly establishmentService = inject(EstablishmentService);
         this.loading.set(false);
       }
     });
+    
   }
 
   handleDetails(establishmentId: number) {
