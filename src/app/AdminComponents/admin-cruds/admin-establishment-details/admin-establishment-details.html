@@ -1,0 +1,56 @@
+@let establishment = this.establishment();
+@let loading = this.loading();
+
+@if (loading) {
+    <p>Cargando sucursal...</p>
+} @else if (!establishment) {
+    <p>La sucursal buscada no existe.</p>
+} @else {
+    <main>
+        <section class="establishment-container">
+            <div class="container-header">
+                <h2>Datos de la sucursal {{establishment.name}}</h2>
+            </div>
+
+
+            <form [formGroup]="form" (ngSubmit)="handleSubmit()">
+                <label>Nombre
+                    <input type="text" formControlName="name" [placeholder]="establishment.name || 'Nombre'">
+                    @if(form.get('name')?.hasError('required') && (form.get('name')?.touched || form.get('name')?.dirty) ){
+                        <span>El nombre es obligatorio</span>
+                    }
+                </label>
+
+                <label>Dirección
+                    <input type="text" formControlName="address" [placeholder]="establishment.address || 'Dirección'">
+                    @if(form.get('address')?.hasError('required') && (form.get('address')?.touched || form.get('address')?.dirty) ){
+                        <span>La dirección es obligatoria</span>
+                    }
+                </label>
+
+                <label>¿Tiene duchas?
+                    <input type="checkbox" formControlName="canShower">
+                </label>
+
+                <label>Hora de apertura
+                    <input type="time" formControlName="openingHour" [placeholder]="establishment.openingHour">
+                    @if(form.get('openingHour')?.hasError('required') && (form.get('openingHour')?.touched || form.get('openingHour')?.dirty) ){
+                        <span>La hora de apertura es obligatoria</span>
+                    }
+                </label>
+
+                <label>Hora de cierre
+                    <input type="time" formControlName="closingHour" [placeholder]="establishment.closingHour">
+                    @if(form.get('closingHour')?.hasError('required') && (form.get('closingHour')?.touched || form.get('closingHour')?.dirty) ){
+                        <span>La hora de cierre es obligatoria</span>
+                    }
+                </label>
+
+                <button type="reset">Limpiar</button>
+                <button type="submit">Guardar</button>
+            </form>
+
+            <button (click)="handleDelete()">Borrar Sucursal</button>
+        </section>
+    </main>
+}

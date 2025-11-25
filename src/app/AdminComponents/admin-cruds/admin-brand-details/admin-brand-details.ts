@@ -1,39 +1,40 @@
 import { Component, inject, input, signal } from '@angular/core';
-import { OwnerResponse, OwnerService } from '../../owner-service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../auth/services/authservice';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { BrandService } from '../../../canchas/services/brand/brand-service';
+import { BrandResponse } from '../../../canchas/models/brand-response';
+import { OwnerService } from '../../owner-service';
 
 @Component({
-  selector: 'app-admin-owner-details',
+  selector: 'app-admin-brand-details',
   imports: [ReactiveFormsModule],
-  templateUrl: './admin-owner-details.html',
-  styleUrl: './admin-owner-details.css'
+  templateUrl: './admin-brand-details.html',
+  styleUrl: './admin-brand-details.css'
 })
-export class AdminOwnerDetails {
+export class AdminBrandDetails {
+  readonly role = input<string>();
+
+  private readonly brandService = inject(BrandService);
   private readonly ownerService = inject(OwnerService);
   private readonly route = inject(ActivatedRoute);
   private readonly authService = inject(AuthService);
 
   protected loading = signal<boolean>(true);
-  protected owner = signal<OwnerResponse | undefined>(undefined);
+  protected brand = signal<BrandResponse | undefined>(undefined);
 
   protected readonly isEditing = signal(false);
 
   private readonly formBuilder = inject(FormBuilder);
   protected readonly form = this.formBuilder.nonNullable.group({
-    name: ['',Validators.required],
-    lastName: ['',Validators.required],
-    username: ['',Validators.required],
-    mail: ['',[Validators.required, Validators.email]],
-    cellNumber: ['',Validators.required]
+    brandName: ['',Validators.required]
   })
 
   constructor() {
-    this.loadOwners();
+    this.loadBrand();
   }
 
-  private loadOwners() {
+  private loadBrand() {
     const adminId = this.authService.getCurrentClientId();
     if (!adminId) {
       console.error('❌ No hay admin logueado');
@@ -41,21 +42,21 @@ export class AdminOwnerDetails {
       return;
     }
 
-    const ownerId = this.route.snapshot.paramMap.get('id')!;
+    const brandId = this.route.snapshot.paramMap.get('id')!;
 
     this.loading.set(true);
 
-    this.ownerService.getOwner(ownerId).subscribe({
+    this.brandService.getBrand(Number(brandId)).subscribe({
       next: (res) => {
-        console.log('✅ Dueño cargado:', res);
-        this.owner.set(res);
+        console.log('✅ Marca cargada:', res);
+        this.brand.set(res);
         this.loading.set(false);
 
-        this.form.patchValue(res);
+        this.form.patchValue({ brandName: res.brandName });
       },
       error: (err) => {
-        console.error('❌ Error cargando dueño:', err);
-        this.owner.set(undefined);
+        console.error('❌ Error cargando marca:', err);
+        this.brand.set(undefined);
         this.loading.set(false);
       }
     });
@@ -70,23 +71,23 @@ export class AdminOwnerDetails {
     console.log("✅ Formulario válido");
     const value = this.form.getRawValue();
 
-    this.ownerService.updateOwner(this.owner()?.id!, { ...value, active: true, password: '' }).subscribe({
+    this.brandService.updateBrand(this.brand()?.id!, { ...value, active: true, ownerId: this.brand()?.ownerId! }).subscribe({
         next: (res) => {
-          console.log('✅ Edición de dueño exitosa:', res);
+          console.log('✅ Edición de marca exitosa:', res);
         },
         error: (err) => {
-          console.error('❌ Error editando dueño:', err);
+          console.error('❌ Error editando marca:', err);
         }
     });
   }
 
   handleDelete() {
-    this.ownerService.deleteOwner(this.owner()?.id!).subscribe({
+    this.brandService.deleteBrand(this.brand()?.id!).subscribe({
         next: (res) => {
-          console.log('✅ Dueño eliminado con éxito:', res);
+          console.log('✅ Marca eliminada con éxito:', res);
         },
         error: (err) => {
-          console.error('❌ Error eliminando dueño:', err);
+          console.error('❌ Error eliminando marca:', err);
         }
     });
   }

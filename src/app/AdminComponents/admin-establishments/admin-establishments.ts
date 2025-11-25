@@ -47,6 +47,6 @@ private readonly establishmentService = inject(EstablishmentService);
   }
 
   handleDetails(establishmentId: number) {
-    this.router.navigateByUrl(`/admin/establishment/${establishmentId}`);
+    this.router.navigateByUrl(`/admin/sucursales/${establishmentId}`);
   }
 }
