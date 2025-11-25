@@ -21,6 +21,8 @@ import { AdminClients } from './AdminComponents/admin-clients/admin-clients';
 import { AdminBrands } from './AdminComponents/admin-brands/admin-brands';
 import { AdminEstablishments } from './AdminComponents/admin-establishments/admin-establishments';
 import { AdminCanchas } from './AdminComponents/admin-canchas/admin-canchas';
+import { AdminClientDetails } from './AdminComponents/admin-cruds/admin-client-details/admin-client-details';
+import { AdminOwnerDetails } from './AdminComponents/admin-cruds/admin-owner-details/admin-owner-details';
 
 export const routes: Routes = [
     {path: 'explorar', component: Explore},
@@ -48,7 +50,9 @@ export const routes: Routes = [
     {path: 'contacto', component: OwnerContact},
 
     {path: 'admin/duenos', component: AdminOwners},
+    {path: 'admin/duenos/:id', component: AdminOwnerDetails},
     {path: 'admin/clientes', component: AdminClients},
+    {path: 'admin/clientes/:id', component: AdminClientDetails},
     {path: 'admin/marcas', component: AdminBrands},
     {path: 'admin/sucursales', component: AdminEstablishments},
     {path: 'admin/canchas', component: AdminCanchas},
