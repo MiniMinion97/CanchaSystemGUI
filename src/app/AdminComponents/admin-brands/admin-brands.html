@@ -1,0 +1,41 @@
+@let brands = this.brands();
+@let loading = this.loading();
+
+@if (loading) {
+    <p>Cargando Marcas...</p>
+} @else {
+    @if (brands.length > 0) {
+    <main>
+        <section class="brand-container">
+
+            <div class="container-header">
+                <h2>Administrar Marcas</h2>
+            </div>
+
+            <table class="brand-item">
+                <thead class="container-header">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Detalles</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (brand of brands; track brand.id) {
+                    <tr>
+                        <td>{{ brand.brandName }}</td>
+                        <td>               
+                            <button (click)="handleDetails(brand.id!)">Ver más &RightArrow;</button>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </section>
+    </main>
+    } @else {
+        <p>No hay marcas registrados</p>
+    } 
+
+}
+
+

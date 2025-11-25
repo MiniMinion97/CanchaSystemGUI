@@ -13,8 +13,9 @@
             <h3>{{ cancha.canchaType.replace('_', ' ') }}</h3>
             <p>💵 Precio: ${{ cancha.totalAmount }}</p>
             <p>🏠 Techo: {{ cancha.hasRoof ? 'Sí' : 'No' }}</p>
+            <button (click)="handleDetails(cancha.id)">Detalles &rightarrow;</button>
           </div>
-          <button (click)="handleDetails(cancha.id)">Detalles &rightarrow;</button>
+          
 
         }
       </div>

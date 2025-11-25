@@ -36,8 +36,8 @@ export class MyDataComponent {
     const role = this.auth.getRole();
     const baseUrl =
       role === 'ROLE_OWNER'
-        ? `http://localhost:8080/owner/${id}`
-        : `http://localhost:8080/client/${id}`;
+        ? `http://localhost:8080/owner/findOwner/${id}`
+        : `http://localhost:8080/client/findClient/${id}`;
 
     console.log(`📡 Obteniendo datos desde: ${baseUrl}`);
 

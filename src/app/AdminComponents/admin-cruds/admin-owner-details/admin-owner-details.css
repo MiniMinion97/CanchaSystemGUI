@@ -1,0 +1,70 @@
+button {
+    border-radius: 10px;
+    transition: background-color 0.08s ease;
+    transition: border 0.08s ease;
+     
+    border: 2px solid var(--border-color);
+    background-color: var(--background-color);
+
+    height: 2rem;
+    width: 100%;
+}
+
+button:hover {
+    cursor: pointer;
+    border: 2px solid var(--font-color);
+    background-color: var(--green-accent);
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem 0;
+}
+
+.owner-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 60vw;
+    max-width: 1200px;
+    margin-top: 15vh;
+    height: 75vh;
+    background-color: var(--background-color-dark);
+    border: var(--green-accent) 2px solid;
+    color: var(--font-color);
+    border-radius: 15px;
+    overflow: auto;
+    box-shadow: 0 8px 24px var(--shadow-color);
+}
+
+
+/* Scrollbar styling */
+.establishment-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.establishment-container::-webkit-scrollbar-track {
+    margin: 10px;
+    background: #d0cfc9;
+    border-radius: 10px;
+}
+
+.establishment-container::-webkit-scrollbar-thumb {
+    background: var(--green-accent);
+    border-radius: 10px;
+}
+
+.establishment-container::-webkit-scrollbar-thumb:hover {
+    background: var(--green-accent);
+}
+
+.container-header {
+    padding: 1rem 1.5rem;
+    background-color: var(--green-accent);
+    color: var(--background-color);
+    border-bottom: 2px solid var(--green-accent);
+    flex-shrink: 0;
+}
