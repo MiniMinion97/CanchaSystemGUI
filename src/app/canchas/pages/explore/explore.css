@@ -42,6 +42,115 @@ main {
     font-weight: 700;
 }
 
+/* Filter Bar */
+.filter-bar {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: white;
+  border-bottom: 2px solid #EEEDEB;
+  flex-wrap: wrap;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.filter-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filter-item label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.filter-icon {
+  font-size: 1.2rem;
+}
+
+.search-box {
+  flex: 1;
+  min-width: 200px;
+}
+
+.search-input {
+  flex: 1;
+  padding: 0.6rem 1rem;
+  border: 2px solid #EEEDEB;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  background: #f9f9f9;
+  width: 100%;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #5F7D36;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(95, 125, 54, 0.1);
+}
+
+.filter-select {
+  padding: 0.6rem 1rem;
+  border: 2px solid #EEEDEB;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: #f9f9f9;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 150px;
+  font-weight: 500;
+  color: #333;
+}
+
+.filter-select:hover {
+  border-color: #5F7D36;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: #5F7D36;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(95, 125, 54, 0.1);
+}
+
+.clear-filters-btn {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.clear-filters-btn:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+/* Results info */
+.results-info {
+  padding: 0.75rem 1.5rem;
+  background: #EEEDEB;
+  border-bottom: 1px solid #d0cfc9;
+  flex-shrink: 0;
+}
+
+.results-count {
+  font-size: 0.9rem;
+  color: #5F7D36;
+  font-weight: 600;
+}
+
 .refresh-btn {
     background-color: var(--background-color);
     color: var(--green-accent);

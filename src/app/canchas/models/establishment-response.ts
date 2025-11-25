@@ -8,5 +8,6 @@ export interface EstablishmentResponse {
     closingHour: Date;
     active: boolean;
     averageRating: number;
+    types?: string[];
 }
 
