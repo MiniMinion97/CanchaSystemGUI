@@ -2,58 +2,47 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.5.
 
-## Development server
-
-To start a local development server, run:
-
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+src/
+├── app/
+│   ├── AdminComponents/              # Gestión de Actividades
+│   ├── auth/               # Layout principal (header, contenedor, nav)
+│   │   ├──login/
+│   │   ├──register/
+│   │   ├──services/
+│   ├── canchas/               # Gestión de Checklists personalizadas
+│   │   ├──models/
+│   │   ├──pages/
+│   │   ├──services/
+│   ├── core/               # Gestión de empresas
+│   │   ├──guards/
+│   ├── layout/                # Gestión de gastos + métricas
+│   │   ├──auth-tab/
+│   │   ├──footer/
+│   │   ├──header/
+│   │   ├──star-rating/
+│   ├── profile/                  # Footer
+│   │   ├──admin/
+│   │   ├──client/
+│   │   ├──my-data/
+│   │   ├──owner/
+│   │   ├──view/
+│   ├── reservation/                  # Rutas protegidas (auth, guest)
+│   ├── reviews/                 # Helpers de paginación y navegación HATEOAS
+│   ├── header/                  # Header + menú de usuario
+│   ├── home/                    # Página de inicio
+│   ├── itineraries/             # Gestión de itinerarios
+│   ├── not-found/               # Página 404
+│   ├── reservations/            # Gestión de Reservas de actividades (flows y UI)
+│   ├── security/                # Login, registro, sesión y stores de usuario
+│   ├── trips/                   # Gestión de viajes (CRUD + detalle)
+│   ├── users/                   # Perfil del usuario
+│   ├── app.config.ts            # Configuración global de Angular
+│   ├── app.css                  # Estilos globales del app component
+│   ├── app.routes.ts            # Rutas principales de la aplicación
+│   ├── app.spec.ts              # Tests base del componente raíz
+│   ├── app.ts                   # Componente raíz
+│   ├── BaseService.ts           # Servicio base para peticiones HTTP
+│   └── BaseStore.ts             # Clase base para stores con señales
+├── index.html                   # HTML principal
+├── main.ts                      # Punto de entrada de Angular
+└── styles.css                   # Estilos globales y variables CSS
