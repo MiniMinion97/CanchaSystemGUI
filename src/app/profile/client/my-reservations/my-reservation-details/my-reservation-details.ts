@@ -38,10 +38,10 @@ private mapResponseToRequest(res: ReservationResponse): any {
   const dd = matchDate ? String(matchDate.getDate()).padStart(2, '0') : '';
 
   return {
-    canchaId: res.cancha.id,
+    canchaId: res.canchaId,
     date: matchDate ? `${yyyy}-${mm}-${dd}` : '',
     hour: matchDate ? matchDate.toTimeString().slice(0, 5) : '',
-    establishmentId: res.cancha.establishment.id // <-- IMPORTANTE: para que Make cargue las canchas
+    establishmentId: res.establishmentId // <-- IMPORTANTE: para que Make cargue las canchas
   };
 }
 
@@ -53,8 +53,8 @@ private mapResponseToRequest(res: ReservationResponse): any {
 
   this.reservationService.getReservation(this.id).subscribe({
   next: (res) => {
-console.log("🔎 canchaId:", res.cancha?.id);
-console.log("🔎 establishmentId:", res.cancha?.establishment?.id);
+console.log("🔎 canchaId:", res.canchaId);
+console.log("🔎 establishmentId:", res.establishmentId);
 
 
   this.reservation.set(res);
@@ -86,7 +86,7 @@ const hh = String(match.getHours()).padStart(2, "0");
 const min = String(match.getMinutes()).padStart(2, "0");
 
 this.reservationRequestData.set({
-  canchaId: updated.cancha.id,
+  canchaId: updated.canchaId,
   date: `${yyyy}-${mm}-${dd}`,   // ⬅ lo que Make.ts necesita
   hour: `${hh}:${min}`           // ⬅ lo que Make.ts necesita
 });

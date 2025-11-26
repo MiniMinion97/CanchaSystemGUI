@@ -27,7 +27,4 @@ export class Admin {
     this.router.navigateByUrl("admin/sucursales");
   }
 
-  goToCanchas(){
-    this.router.navigateByUrl("admin/canchas");
-  }
 }
