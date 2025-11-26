@@ -24,7 +24,7 @@ export class ReservationService {
   }
 
   getReservationsByEstablishment(establishmentId: number) {
-    return this.http.get<ReservationResponse[]>(`${this.url}/getReservationsByCanchaId/${establishmentId}`);
+    return this.http.get<ReservationResponse[]>(`${this.url}/getReservationsByEstablishmentId/${establishmentId}`);
   }
 
   getAvailableHours(establishmentId: number, date: string, canchaType: string) {

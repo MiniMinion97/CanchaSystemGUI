@@ -16,12 +16,12 @@
 
       <div class="detail-row">
         <span class="label">👤 Cliente ID:</span>
-        <span>{{ res.client.id }}</span>
+        <span>{{ res.clientId }}</span>
       </div>
 
       <div class="detail-row">
         <span class="label">⚽ Cancha ID:</span>
-        <span>{{ res.cancha.id }}</span>
+        <span>{{ res.canchaId }}</span>
       </div>
 
       <div class="detail-row">
@@ -55,7 +55,7 @@
         <app-make
           [isEditing]="isEditing()"
           [reservationData]="reservation()!"
-          [establishmentId]="reservation()?.cancha?.establishment?.id"
+          [establishmentId]="reservation()?.establishmentId"
           [reservationId]="reservation()?.id"
           (reservationEdited)="handleEdit($event)"
         ></app-make>

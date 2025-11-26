@@ -55,21 +55,21 @@ export class Make {
         const [dateOnly, timeOnly] = matchDate.split("T");
 
         this.form.patchValue({
-          canchaType: data.cancha?.canchaType,  // Tipo de cancha
+          canchaType: data.canchaType,  // Tipo de cancha
           date: dateOnly,
           hour: timeOnly.substring(0, 5)
         });
 
         // Cargar horarios disponibles al editar
-        const estId = this.establishmentId() ?? data.cancha?.establishment?.id;
-        if (estId && dateOnly && data.cancha?.canchaType) {
-          this.loadAvailableHours(estId, dateOnly, data.cancha.canchaType);
+        const estId = this.establishmentId() ?? data.establishmentId;
+        if (estId && dateOnly && data.canchaType) {
+          this.loadAvailableHours(estId, dateOnly, data.canchaType);
         }
       }
 
       // Cargar tipos de cancha
       const estIdFromInput = this.establishmentId();
-      const estIdFromData = data?.cancha?.establishment?.id;
+      const estIdFromData = data?.establishmentId;
       const estIdToUse = estIdFromInput ?? estIdFromData;
 
       if (estIdToUse) {
