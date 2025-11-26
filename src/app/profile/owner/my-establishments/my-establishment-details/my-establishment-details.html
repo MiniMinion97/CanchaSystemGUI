@@ -30,14 +30,14 @@
 
     <hr />
 
-     <div class="btnActions">
-        <button (click)="handleDelete()">Borrar</button>
-        <button (click)="toggleEdit()">Editar</button>
+    <div class="btnActions">
+      <button (click)="handleDelete()">Borrar</button>
+      <button (click)="toggleEdit()">Editar</button>
 
-         @if (isEditing()) {
-        <app-establishment-form  [brandId]="est.brandId" [estData]="est" [estId]="est.id" [isEditing]="true" (estEdited)="handleEdit($event)"></app-establishment-form>
+      @if (isEditing()) {
+        <app-establishment-form [brandId]="est.brandId" [estData]="est" [estId]="est.id" [isEditing]="true" (estEdited)="handleEdit($event)"></app-establishment-form>
       }
-      </div>
+    </div>
 
     <hr />
 
@@ -45,11 +45,36 @@
       {{ showAll() ? 'Esconder canchas' : 'Mostrar canchas' }}
     </button>
     @if (this.showAll()){
-    <h2>⚽ Canchas del establecimiento</h2>
-    <app-my-canchas [idEst]="est.id" [isInsideEst]="true"></app-my-canchas>
+      <h2>⚽ Canchas del establecimiento</h2>
+      <app-my-canchas [idEst]="est.id" [isInsideEst]="true"></app-my-canchas>
     }
-    
 
+    <hr />
     
+    <button (click)="toggleShowReservations()">
+      {{ showReservations() ? 'Esconder reservas' : 'Mostrar reservas' }}
+    </button>
+    
+    @if (this.showReservations()){
+      <h2>🗓️ Reservas del establecimiento</h2>
+      <app-my-owner-reservations 
+        [idEst]="est.id" 
+        [isInsideEst]="true">
+      </app-my-owner-reservations>
+    }
+
+    <hr />
+    
+    <button (click)="toggleShowReviews()">
+      {{ showReviews() ? 'Esconder reviews' : 'Mostrar reviews' }}
+    </button>
+    
+    @if (this.showReviews()){
+      <h2>🗓️ Reviews del establecimiento</h2>
+      <app-my-owner-reviews 
+        [idEst]="est.id" 
+        [isInsideEst]="true">
+      </app-my-owner-reviews>
+    }
   </div>
 }

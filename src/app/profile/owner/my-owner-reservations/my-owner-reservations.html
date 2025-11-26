@@ -1,0 +1,24 @@
+@let reservations = this.reservations();
+@let loading = this.loading();
+
+@if (loading) {
+  <p>Cargando reservas...</p>
+}@else {
+    @if(reservations){
+    @if (this.reservations().length > 0) {
+      <div class="reservations-list">
+        @for (reservation of this.reservations(); track reservation.id) {
+          <div class="reservation-card">
+            <p>🏟️ Cancha: {{ reservation.canchaType }}</p>
+            <p>📅 Fecha de la reserva: {{ reservation.reservationDate }}</p>
+            <p>📅 Fecha del partido: {{ reservation.matchDate }}</p>
+            <p>Estado: {{ reservation.status }}</p>
+          </div>
+        }
+      </div>
+    } @else {
+      <p class="no-reservations">No hay reservas registradas aún.</p>
+    }
+}
+
+}

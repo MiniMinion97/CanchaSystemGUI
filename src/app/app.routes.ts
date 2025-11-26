@@ -20,11 +20,12 @@ import { AdminOwners } from './AdminComponents/admin-owners/admin-owners';
 import { AdminClients } from './AdminComponents/admin-clients/admin-clients';
 import { AdminBrands } from './AdminComponents/admin-brands/admin-brands';
 import { AdminEstablishments } from './AdminComponents/admin-establishments/admin-establishments';
-import { AdminCanchas } from './AdminComponents/admin-canchas/admin-canchas';
 import { AdminClientDetails } from './AdminComponents/admin-cruds/admin-client-details/admin-client-details';
 import { AdminOwnerDetails } from './AdminComponents/admin-cruds/admin-owner-details/admin-owner-details';
 import { AdminBrandDetails } from './AdminComponents/admin-cruds/admin-brand-details/admin-brand-details';
 import { AdminEstablishmentDetails } from './AdminComponents/admin-cruds/admin-establishment-details/admin-establishment-details';
+import { MyOwnerReviews } from './profile/owner/my-owner-reviews/my-owner-reviews';
+import { MyOwnerReservations } from './profile/owner/my-owner-reservations/my-owner-reservations';
 
 export const routes: Routes = [
     {path: 'explorar', component: Explore},
@@ -39,6 +40,9 @@ export const routes: Routes = [
 
     {path: 'perfil/mis-canchas', component: MyCanchasComponent},
     {path: 'perfil/mis-canchas/:id', component: MyCanchaDetails},
+
+    {path: 'perfil/mis-sucursales/mis-owner-reviews/:id', component: MyOwnerReviews},
+    {path: 'perfil/mis-sucursales/mis-owner-reservations/:id', component: MyOwnerReservations},
 
 
     {path: 'perfil/mis-reseñas', component: MyReviewsComponent},
@@ -59,6 +63,5 @@ export const routes: Routes = [
     {path: 'admin/marcas/:id', component: AdminBrandDetails},
     {path: 'admin/sucursales', component: AdminEstablishments},
     {path: 'admin/sucursales/:id', component: AdminEstablishmentDetails},
-    {path: 'admin/canchas', component: AdminCanchas},
     
 ];

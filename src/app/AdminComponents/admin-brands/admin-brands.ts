@@ -39,7 +39,7 @@ export class AdminBrands {
         this.loading.set(false);
       },
       error: (err) => {
-        console.error('❌ Error cargando clientes:', err);
+        console.error('❌ Error cargando marcas:', err);
         this.brands.set([]);
         this.loading.set(false);
       }
