@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { Explore } from './canchas/pages/explore/explore';
-import { Client } from './profile/client/client';
 import { View } from './profile/view/view';
 import { MyDataComponent } from './profile/my-data/my-data.component';
 import { Details } from './canchas/pages/details/details';
@@ -9,7 +8,6 @@ import { MyEstablishmentsComponent } from './profile/owner/my-establishments/my-
 import { MyCanchasComponent } from './profile/owner/my-canchas/my-canchas.component';
 import { MyReservationsComponent } from './profile/client/my-reservations/my-reservations.component';
 import { MyReviewsComponent } from './profile/client/my-reviews/my-reviews.component';
-import { Component } from '@angular/compiler';
 import { MyBrandDetails } from './profile/owner/my-brands/my-brand-details/my-brand-details';
 import { MyEstablishmentDetails } from './profile/owner/my-establishments/my-establishment-details/my-establishment-details';
 import { MyCanchaDetails } from './profile/owner/my-canchas/my-cancha-details/my-cancha-details';
@@ -25,40 +23,41 @@ import { AdminClientDetails } from './AdminComponents/admin-cruds/admin-client-d
 import { AdminOwnerDetails } from './AdminComponents/admin-cruds/admin-owner-details/admin-owner-details';
 import { AdminBrandDetails } from './AdminComponents/admin-cruds/admin-brand-details/admin-brand-details';
 import { AdminEstablishmentDetails } from './AdminComponents/admin-cruds/admin-establishment-details/admin-establishment-details';
+import { isAdminGuard, isAuthenticatedGuard, isClientGuard, isOwnerGuard, isNotAuthenticatedGuard } from './core/guards/auth/auth-guard';
 
 export const routes: Routes = [
     {path: 'explorar', component: Explore},
     {path: 'perfil', component: View},
-    {path: 'perfil/mis-datos',component: MyDataComponent},
+    {path: 'perfil/mis-datos',component: MyDataComponent, canActivate: [isAuthenticatedGuard]},
 
-    {path: 'perfil/mis-marcas', component: MyBrandsComponent},
-    {path: 'perfil/mis-marcas/:id', component: MyBrandDetails},
+    {path: 'perfil/mis-marcas', component: MyBrandsComponent, canActivate: [isOwnerGuard, isAuthenticatedGuard]},
+    {path: 'perfil/mis-marcas/:id', component: MyBrandDetails, canActivate: [isOwnerGuard, isAuthenticatedGuard]},
 
-    {path: 'perfil/mis-sucursales', component: MyEstablishmentsComponent},
-    {path: 'perfil/mis-sucursales/:id', component: MyEstablishmentDetails},
+    {path: 'perfil/mis-sucursales', component: MyEstablishmentsComponent, canActivate: [isOwnerGuard, isAuthenticatedGuard]},
+    {path: 'perfil/mis-sucursales/:id', component: MyEstablishmentDetails, canActivate: [isOwnerGuard, isAuthenticatedGuard]},
 
-    {path: 'perfil/mis-canchas', component: MyCanchasComponent},
-    {path: 'perfil/mis-canchas/:id', component: MyCanchaDetails},
+    {path: 'perfil/mis-canchas', component: MyCanchasComponent, canActivate: [isOwnerGuard, isAuthenticatedGuard]},
+    {path: 'perfil/mis-canchas/:id', component: MyCanchaDetails, canActivate: [isOwnerGuard, isAuthenticatedGuard]},
 
 
-    {path: 'perfil/mis-reseñas', component: MyReviewsComponent},
+    {path: 'perfil/mis-reseñas', component: MyReviewsComponent, canActivate: [isClientGuard, isAuthenticatedGuard]},
 
-    {path: 'perfil/mis-reservas',component: MyReservationsComponent},
-    {path: 'perfil/mis-reservas/:id', component: MyReservationDetails},
+    {path: 'perfil/mis-reservas',component: MyReservationsComponent, canActivate: [isClientGuard, isAuthenticatedGuard]},
+    {path: 'perfil/mis-reservas/:id', component: MyReservationDetails, canActivate: [isClientGuard, isAuthenticatedGuard]},
 
     {path: 'explorar/detalles/:id', component: Details},
 
     {path: 'FAQ', component: Faq},
     {path: 'contacto', component: OwnerContact},
 
-    {path: 'admin/duenos', component: AdminOwners},
-    {path: 'admin/duenos/:id', component: AdminOwnerDetails},
-    {path: 'admin/clientes', component: AdminClients},
-    {path: 'admin/clientes/:id', component: AdminClientDetails},
-    {path: 'admin/marcas', component: AdminBrands},
-    {path: 'admin/marcas/:id', component: AdminBrandDetails},
-    {path: 'admin/sucursales', component: AdminEstablishments},
-    {path: 'admin/sucursales/:id', component: AdminEstablishmentDetails},
-    {path: 'admin/canchas', component: AdminCanchas},
+    {path: 'admin/duenos', component: AdminOwners, canActivate: [isAdminGuard, isAuthenticatedGuard]},
+    {path: 'admin/duenos/:id', component: AdminOwnerDetails, canActivate: [isAdminGuard, isAuthenticatedGuard]},
+    {path: 'admin/clientes', component: AdminClients, canActivate: [isAdminGuard, isAuthenticatedGuard]},
+    {path: 'admin/clientes/:id', component: AdminClientDetails, canActivate: [isAdminGuard, isAuthenticatedGuard]},
+    {path: 'admin/marcas', component: AdminBrands, canActivate: [isAdminGuard, isAuthenticatedGuard]},
+    {path: 'admin/marcas/:id', component: AdminBrandDetails, canActivate: [isAdminGuard, isAuthenticatedGuard]},
+    {path: 'admin/sucursales', component: AdminEstablishments, canActivate: [isAdminGuard, isAuthenticatedGuard]},
+    {path: 'admin/sucursales/:id', component: AdminEstablishmentDetails, canActivate: [isAdminGuard, isAuthenticatedGuard]},
+    {path: 'admin/canchas', component: AdminCanchas, canActivate: [isAdminGuard, isAuthenticatedGuard]},
     
 ];
