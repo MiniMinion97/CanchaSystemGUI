@@ -53,5 +53,13 @@
             <button (click)="handleDelete()">Borrar Sucursal</button>
         </section>
 
+        <section>
+            <app-admin-reservation [id]="establishment.id" type="establishment"></app-admin-reservation>
+        </section>
+
+        <section>
+            <app-admin-reviews [id]="establishment.id" type="establishment"></app-admin-reviews>
+        </section>
+
     </main>
 }

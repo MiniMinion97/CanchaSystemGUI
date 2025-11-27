@@ -3,10 +3,12 @@ import { ClientResponse, ClientService } from '../../client-service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../auth/services/authservice';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AdminReservation } from "../../admin-reservation/admin-reservation";
+import { AdminReviews } from "../../admin-reviews/admin-reviews";
 
 @Component({
   selector: 'app-admin-client-details',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, AdminReservation, AdminReviews],
   templateUrl: './admin-client-details.html',
   styleUrl: './admin-client-details.css'
 })

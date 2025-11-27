@@ -9,6 +9,10 @@ import { ReviewRequest } from './models/review-request';
 export class ReviewService {  
   private readonly http = inject(HttpClient);
   private readonly url = "http://localhost:8080/review";
+
+  getReviews() {
+    return this.http.get<ReviewResponse[]>(`${this.url}/findAll`);
+  }
   
   getReviewsByEstablishment(establishmentId: number) {
     return this.http.get<ReviewResponse[]>(`${this.url}/findReviewsByEstablishmentId/${establishmentId}`);

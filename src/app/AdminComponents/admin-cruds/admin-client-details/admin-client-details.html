@@ -61,10 +61,12 @@
             <button (click)="handleDelete()">Borrar Cliente</button>
         </section>
 
-
+        <section>
+            <app-admin-reservation [id]="client.id" type="client"></app-admin-reservation>
+        </section>
 
         <section>
-
+            <app-admin-reviews [id]="client.id" type="client"></app-admin-reviews>
         </section>
     </main>
 }

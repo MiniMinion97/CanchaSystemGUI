@@ -25,6 +25,8 @@ import { AdminEstablishmentDetails } from './AdminComponents/admin-cruds/admin-e
 import { MyOwnerReviews } from './profile/owner/my-owner-reviews/my-owner-reviews';
 import { MyOwnerReservations } from './profile/owner/my-owner-reservations/my-owner-reservations';
 import { isAdminGuard, isAuthenticatedGuard, isClientGuard, isOwnerGuard, isNotAuthenticatedGuard } from './core/guards/auth/auth-guard';
+import { AdminReservation } from './AdminComponents/admin-reservation/admin-reservation';
+import { AdminReviews } from './AdminComponents/admin-reviews/admin-reviews';
 
 export const routes: Routes = [
     {path: 'explorar', component: Explore},
@@ -62,5 +64,7 @@ export const routes: Routes = [
     {path: 'admin/marcas/:id', component: AdminBrandDetails, canActivate: [isAdminGuard, isAuthenticatedGuard]},
     {path: 'admin/sucursales', component: AdminEstablishments, canActivate: [isAdminGuard, isAuthenticatedGuard]},
     {path: 'admin/sucursales/:id', component: AdminEstablishmentDetails, canActivate: [isAdminGuard, isAuthenticatedGuard]},
+    {path: 'admin/reservation/:id', component: AdminReservation, canActivate: [isAdminGuard, isAuthenticatedGuard]},
+    {path: 'admin/review/:id', component: AdminReviews, canActivate: [isAdminGuard, isAuthenticatedGuard]},
     
 ];
