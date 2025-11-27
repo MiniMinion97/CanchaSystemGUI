@@ -23,16 +23,21 @@ export class MyOwnerReservations {
 
   private refreshTrigger = signal<number>(0);
 
-protected sortedReservations = computed(() => {
-  const reservations = this.reservations();
-  
-  const sorted = [...reservations].sort((a, b) => {
-    const dateA = new Date(a.matchDate).getTime();
-    const dateB = new Date(b.matchDate).getTime();
-    return dateA - dateB;  
+  protected sortedReservations = computed(() => {
+    const reservations = this.reservations();
+    
+    // Verificar que reservations sea un array
+    if (!Array.isArray(reservations)) {
+      return [];
+    }
+    
+    const sorted = [...reservations].sort((a, b) => {
+      const dateA = new Date(a.matchDate).getTime();
+      const dateB = new Date(b.matchDate).getTime();
+      return dateA - dateB;  
+    });
+    return sorted;
   });
-  return sorted;
-});
 
   constructor() {
     effect(() => {
@@ -48,7 +53,7 @@ protected sortedReservations = computed(() => {
         this.reservationService.getReservationsByEstablishment(establishmentId).subscribe({
           next: (res) => {
             console.log('📥 Reservas por establecimiento:', res);
-            this.reservations.set(res);
+            this.reservations.set(Array.isArray(res) ? res : []);
             this.loading.set(false);
           },
           error: (err) => {
@@ -58,10 +63,12 @@ protected sortedReservations = computed(() => {
           }
         });
       } else if (!inside && ownerId) {
-        // ✅ AQUÍ FALTABA: Cargar las reservas del propietario
         this.reservationService.getReservations().subscribe({
           next: (res) => {
             console.log('📥 Reservas del propietario:', res);
+            // ✅ ESTO FALTABA: Guardar las reservas
+            this.reservations.set(Array.isArray(res) ? res : []);
+            this.loading.set(false);
           },
           error: (err) => {
             console.error('❌ Error obteniendo reservas del propietario:', err);
