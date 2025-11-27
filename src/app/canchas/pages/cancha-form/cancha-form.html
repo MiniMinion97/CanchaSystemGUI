@@ -1,33 +1,47 @@
 <form [formGroup]="form" (ngSubmit)="handleSubmit()">
-
   <label>
-    Total Amount
+    Precio total
     <input type="number" formControlName="totalAmount" />
+    @if(form.get('totalAmount')?.touched || form.get('totalAmount')?.dirty){
+      @if(form.get('totalAmount')?.hasError('required')){
+        <span>El precio total es obligatorio</span>
+      }@else if(form.get('totalAmount')?.hasError('min')){
+        <span>El precio tiene que ser mayor a 1$</span>
+      }
+    }
   </label>
 
   <label>
-    Has Roof
+    ¿Tiene techo?
     <input type="checkbox" formControlName="hasRoof" />
+    @if(form.get('hasRoof')?.hasError('required') && (form.get('hasRoof')?.touched || form.get('hasRoof')?.dirty)){
+      <span>Debe indicar si la cancha tiene techo</span>
+    }
   </label>
-
- <label>
-  Cancha Type
-  <select formControlName="canchaType">
-    <option value="">-- Select Type --</option>
-    <option value="FUTBOL_5">FUTBOL 5 (10)</option>
-    <option value="FUTBOL_7">FUTBOL 7 (14)</option>
-    <option value="FUTBOL_9">FUTBOL 9 (18)</option>
-    <option value="FUTBOL_11">FUTBOL 11 (22)</option>
-  </select>
-</label>
-
 
   <label>
-    Working
-    <input type="checkbox" formControlName="working" />
+    Tipo de cancha
+    <select formControlName="canchaType">
+      <option value="">-- Selecciona el tipo --</option>
+      <option value="FUTBOL_5">Fútbol 5 (10 jugadores)</option>
+      <option value="FUTBOL_7">Fútbol 7 (14 jugadores)</option>
+      <option value="FUTBOL_9">Fútbol 9 (18 jugadores)</option>
+      <option value="FUTBOL_11">Fútbol 11 (22 jugadores)</option>
+    </select>
+    @if(form.get('canchaType')?.hasError('required') && (form.get('canchaType')?.touched || form.get('canchaType')?.dirty)){
+      <span>Debe seleccionar un tipo de cancha</span>
+    }
   </label>
 
-  <button type="submit">
-    {{this.isEditing() ? 'Editar cancha' : 'Crear cancha'}}
+  <label>
+    ¿Está en funcionamiento?
+    <input type="checkbox" formControlName="working" />
+    @if(form.get('working')?.hasError('required') && (form.get('working')?.touched || form.get('working')?.dirty)){
+      <span>Debe indicar si la cancha está en funcionamiento</span>
+    }
+  </label>
+
+  <button type="submit" [disabled]="form.invalid">
+    {{ this.isEditing() ? 'Editar cancha' : 'Crear cancha' }}
   </button>
 </form>
