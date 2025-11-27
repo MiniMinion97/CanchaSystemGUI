@@ -88,6 +88,8 @@ export class AdminEstablishmentDetails {
   }
 
   handleDelete() {
+    if (!confirm(`¿Seguro que quiere eliminar la sucursal ${this.establishment()?.name}?`)) return;
+
     this.establishmentService.deleteEstablishment(this.establishment()?.id!).subscribe({
         next: (res) => {
           console.log('✅ Sucursal eliminada con éxito:', res);

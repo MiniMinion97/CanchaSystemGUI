@@ -86,6 +86,8 @@ export class AdminOwnerDetails {
   }
 
   handleDelete() {
+    if (!confirm(`¿Seguro que quiere eliminar el dueño ${this.owner()?.name} ${this.owner()?.lastName}?`)) return;
+
     this.ownerService.deleteOwner(this.owner()?.id!).subscribe({
         next: (res) => {
           console.log('✅ Dueño eliminado con éxito:', res);

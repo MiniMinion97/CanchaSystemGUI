@@ -87,6 +87,8 @@ export class AdminClientDetails {
   }
 
   handleDelete() {
+    if (!confirm(`¿Seguro que quiere eliminar el cliente ${this.client()?.name} ${this.client()?.lastName}?`)) return;
+
     this.clientService.deleteClient(this.client()?.id!).subscribe({
         next: (res) => {
           console.log('✅ Cliente eliminado con éxito:', res);
