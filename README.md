@@ -1,48 +1,127 @@
-# CanchaSystem
+# CanchaSystemGUI
+Esta es la interfaz para CAncha systema una SPA (single page application) que busca brindar un servicio para facilitar reservas y señados de canchas de fútbol, con el uso de un sistema virtual y seguro dirigido a distintos dueños y sus clientes. De esta manera y con la conexión digital entre múltiples establecimientos de fútbol en un mismo sitio, se promueve la competitividad sana entre distintos dueños, mejorando en consecuencia la calidad del servicio brindado.
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.5.
+# Funcionalidades clave
+```txt
+-Gestión de usuarios con autenticación y perfiles propios.
+-Página explorar para ver todos los establecimientos y aplicar filtros personalizados
+-Gestión de reservas
+-Gestión de reseñas
+-Gestión de todas las entidades como administrador
+```
 
+# Estructura del proyecto
+```txt
 src/
 ├── app/
-│   ├── AdminComponents/              # Gestión de Actividades
-│   ├── auth/               # Layout principal (header, contenedor, nav)
-│   │   ├──login/
-│   │   ├──register/
-│   │   ├──services/
-│   ├── canchas/               # Gestión de Checklists personalizadas
-│   │   ├──models/
-│   │   ├──pages/
-│   │   ├──services/
-│   ├── core/               # Gestión de empresas
-│   │   ├──guards/
-│   ├── layout/                # Gestión de gastos + métricas
-│   │   ├──auth-tab/
-│   │   ├──footer/
-│   │   ├──header/
-│   │   ├──star-rating/
-│   ├── profile/                  # Footer
-│   │   ├──admin/
-│   │   ├──client/
-│   │   ├──my-data/
-│   │   ├──owner/
-│   │   ├──view/
-│   ├── reservation/                  # Rutas protegidas (auth, guest)
-│   ├── reviews/                 # Helpers de paginación y navegación HATEOAS
-│   ├── header/                  # Header + menú de usuario
-│   ├── home/                    # Página de inicio
-│   ├── itineraries/             # Gestión de itinerarios
-│   ├── not-found/               # Página 404
-│   ├── reservations/            # Gestión de Reservas de actividades (flows y UI)
-│   ├── security/                # Login, registro, sesión y stores de usuario
-│   ├── trips/                   # Gestión de viajes (CRUD + detalle)
-│   ├── users/                   # Perfil del usuario
-│   ├── app.config.ts            # Configuración global de Angular
-│   ├── app.css                  # Estilos globales del app component
-│   ├── app.routes.ts            # Rutas principales de la aplicación
-│   ├── app.spec.ts              # Tests base del componente raíz
-│   ├── app.ts                   # Componente raíz
-│   ├── BaseService.ts           # Servicio base para peticiones HTTP
-│   └── BaseStore.ts             # Clase base para stores con señales
-├── index.html                   # HTML principal
-├── main.ts                      # Punto de entrada de Angular
-└── styles.css                   # Estilos globales y variables CSS
+│   ├── AdminComponents/
+│   ├── auth/
+│   │   ├── login/
+│   │   ├── register/
+│   │   ├── services/
+│   ├── canchas/
+│   │   ├── models/
+│   │   ├── pages/
+│   │   ├── services/
+│   ├── core/
+│   │   ├── guards/
+│   ├── layout/
+│   │   ├── auth-tab/
+│   │   ├── footer/
+│   │   ├── header/
+│   │   ├── star-rating/
+│   ├── profile/
+│   │   ├── admin/
+│   │   ├── client/
+│   │   ├── my-data/
+│   │   ├── owner/
+│   │   ├── view/
+│   ├── reservation/
+│   │   ├── models/
+│   │   ├── pages/
+│   │   ├── services/
+│   ├── reviews/
+│   │   ├── form/
+│   │   ├── models/
+│   │   ├── review-item/
+│   │   ├── review-list/
+│   │   ├── services/
+│   ├── app.config.ts
+│   ├── app.css
+│   ├── app.routes.ts
+│   ├── app.spec.ts
+│   ├── app.ts
+├── index.html
+├── main.ts
+└── styles.css
+```
+
+# Flujo de uso (Cliente)
+```txt
+1. Registro
+   └── El cliente completa el formulario de registro
+       └── Se crea su cuenta y queda habilitado para entrar
+
+2. Inicio de Sesión
+   └── El cliente ingresa con nombre de usuario y contraseña
+       └── Accede a la pantalla "Explorar"
+
+3. Crear una reserva
+   └── Explorar → + "Ver más" de X establecimiento
+       ├── Selecciona tipo de cancha
+       ├── Selecciona día
+       ├── Selecciona horario disponible
+       └── Hace click en "Hacer reserva"
+           └── Se muestra la nueva reserva en Mi perfil  → + Mis reservas    
+
+4. Crear una reseña
+  └── Explorar → + "Ver más" de X establecimiento
+       ├── Selecciona valoración
+       ├── Escribe un mensaje (opcional)
+       └── Hace click en "Hacer reseña"
+           └── Se muestra la nueva reserva en Mi perfil  → + Mis reseñas
+```
+
+# Flujo de uso (Dueño)
+```txt
+1. Inicio de Sesión
+   └── El dueño ingresa con nombre de usuario y contraseña (Las credenciales serán proporcionadas por nosotros luego de que se contacten y cumplan con las validaciones)
+
+2. Crear una marca
+   └── Mi perfil → + Mis marcas → + Crear Marca
+       ├── Completa el formulario de manera acorde
+           └── Se muestra la nueva marca en Mi perfil  → + Mis marcas    
+
+3. Crear un establecimiento/sucursal
+   └── Mi perfil → + Mis marcas → + Tu marca → + Crear Establecimiento
+       ├── Completa el formulario de manera acorde
+           └── Se muestra el neuvo establecimiento en Mi perfil  → + Mis establecimientos
+
+4. Crear un cancha
+  └── Mi perfil → + Mis establecimientos → + Tu establecimiento → + Crear cancha
+       ├── Completa el formulario de manera acorde
+           └── Se muestra la nueva cancha en Mi perfil  → + Mis canchas
+```
+
+# Instalación
+Este proyecto requiere el backend de CanchaSystem para funcionar
+
+# Tech Stack
+
+    Angular 20
+    TypeScript
+    RxJS
+    Angular Signals / Stores
+    HTML + CSS
+    REST API integration con HttpClient
+
+# Equipo
+```txt
+Federico de la Fuente
+Ian Huth
+Facundo Baldezari
+Lautaro Lorenzani
+```
+
+# Licencia
+Este proyecto es de código abierto y fue desarrollado como parte de la materia Programación IV de la Universidad Tecnológica Nacional – Facultad Regional Mar del Plata (UTN-FRMDP).
