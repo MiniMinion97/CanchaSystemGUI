@@ -59,6 +59,7 @@ export class AdminCanchaDetails {
         console.error('❌ Error cargando cancha:', err);
         this.cancha.set(undefined);
         this.loading.set(false);
+        this.goBack();
       }
     });
   }

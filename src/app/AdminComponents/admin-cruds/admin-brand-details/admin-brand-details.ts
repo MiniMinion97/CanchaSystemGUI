@@ -67,6 +67,7 @@ export class AdminBrandDetails implements OnInit {
         console.error('❌ Error cargando marca:', err);
         this.brand.set(undefined);
         this.loading.set(false);
+        this.goBack();
       }
     });
   }

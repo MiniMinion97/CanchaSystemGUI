@@ -61,6 +61,7 @@ export class AdminEstablishmentDetails {
         console.error('❌ Error cargando sucursal:', err);
         this.establishment.set(undefined);
         this.loading.set(false);
+        this.goBack();
       }
     });
   }

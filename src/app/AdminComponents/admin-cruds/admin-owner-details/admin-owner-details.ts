@@ -59,6 +59,7 @@ export class AdminOwnerDetails {
         console.error('❌ Error cargando dueño:', err);
         this.owner.set(undefined);
         this.loading.set(false);
+        this.goBack();
       }
     });
   }

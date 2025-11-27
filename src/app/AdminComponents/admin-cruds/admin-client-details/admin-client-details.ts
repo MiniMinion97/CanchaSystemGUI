@@ -60,6 +60,7 @@ export class AdminClientDetails {
         console.error('❌ Error cargando cliente:', err);
         this.client.set(undefined);
         this.loading.set(false);
+        this.goBack();
       }
     });
   }
