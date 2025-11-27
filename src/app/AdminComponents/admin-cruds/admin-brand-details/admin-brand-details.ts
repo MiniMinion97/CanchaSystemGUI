@@ -91,6 +91,8 @@ export class AdminBrandDetails implements OnInit {
   }
 
   handleDelete() {
+    if (!confirm(`¿Seguro que quiere eliminar la marca ${this.brand()?.brandName}?`)) return;
+
     this.brandService.deleteBrand(this.brand()?.id!).subscribe({
         next: (res) => {
           alert('Marca eliminada con éxito.');

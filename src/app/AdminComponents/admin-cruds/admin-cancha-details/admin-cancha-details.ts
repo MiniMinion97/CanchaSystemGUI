@@ -83,6 +83,8 @@ export class AdminCanchaDetails {
   }
 
   handleDelete() {
+    if (!confirm(`¿Seguro que quiere eliminar esta cancha?`)) return;
+
     this.canchaService.deleteCancha(this.cancha()?.id!).subscribe({
         next: (res) => {
           alert('Cancha eliminada con éxito.');
