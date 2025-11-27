@@ -1,4 +1,4 @@
-import { Component, inject, signal, computed } from '@angular/core';
+import { Component, inject, signal, computed, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Form } from '../../../reviews/form/form';
@@ -46,17 +46,22 @@ export class MyReviewsComponent {
   constructor() {
     // Initial load
     this.refreshReviews();
+    
+  this.refreshTrigger$.next();
+  effect(() => {
+    const reviews = this.reviews();
+    if (reviews && reviews.length > 0) {
+      this.reviewCount.set(reviews.length);
+      const sum = reviews.reduce((acc, r) => acc + r.rating, 0);
+      this.averageRating.set((sum / reviews.length).toFixed(1));
+    }
+  });
+
   }
 
   // Computed values
-  protected readonly reviewCount = computed(() => this.reviews()?.length ?? 0);
-  protected readonly averageRating = computed(() => {
-
-    const reviewsList = this.reviews();
-    if (!reviewsList || reviewsList.length === 0) return 0;
-    const sum = reviewsList.reduce((acc, review) => acc + review.rating, 0);
-    return (sum / reviewsList.length).toFixed(1);
-  });
+  protected readonly reviewCount = signal<number>(0);
+  protected readonly averageRating = signal<string>('0.0');
   
   // Actions
   protected startEdit(review: ReviewResponse): void {
@@ -66,31 +71,46 @@ export class MyReviewsComponent {
   }
   
   protected deleteReview(reviewId: number): void {
-    if (!confirm('¿Estás seguro de que quieres eliminar esta reseña?')) {
-      return;
-    }
-    
-    this.isLoading.set(true);
-    
-    this.reviewService.deleteReview(reviewId).subscribe({
-      next: () => {
-        console.log('✅ Review deleted successfully');
-        // Refresh the list BEFORE setting loading to false
-        this.reviews().splice(this.reviews().findIndex(r => r.id === reviewId), 1);
-        //this.refreshReviews();
-        
-        // Small delay to ensure refresh completes
-        setTimeout(() => {
-          this.isLoading.set(false);
-        }, 1);
-      },
-      error: (error) => {
-        console.error('❌ Error al eliminar la reseña:', error);
-        alert('Error al eliminar la reseña. Por favor, intenta de nuevo.');
-        this.isLoading.set(false);
-      }
-    });
+  if (!confirm('¿Estás seguro de que quieres eliminar esta reseña?')) {
+    return;
   }
+  
+  // Encontrar la review para obtener su rating
+  const reviewToDelete = this.reviews()?.find(r => r.id === reviewId);
+  if (!reviewToDelete) return;
+  
+  this.isLoading.set(true);
+  
+  this.reviewService.deleteReview(reviewId).subscribe({
+    next: () => {
+      console.log('✅ Review deleted successfully');
+      
+      // Actualizar el count
+      const newCount = this.reviewCount() - 1;
+      this.reviewCount.set(newCount);
+      
+      // Actualizar el average
+      if (newCount === 0) {
+        this.averageRating.set('0.0');
+      } else {
+        const currentAvg = parseFloat(this.averageRating());
+        const totalSum = currentAvg * (newCount + 1);
+        const newSum = totalSum - reviewToDelete.rating;
+        const newAvg = (newSum / newCount).toFixed(1);
+        this.averageRating.set(newAvg);
+      }
+      
+      this.isLoading.set(false);
+
+       this.reviews().splice(this.reviews().findIndex(r => r.id === reviewId), 1);
+    },
+    error: (error) => {
+      console.error('❌ Error al eliminar la reseña:', error);
+      alert('Error al eliminar la reseña. Por favor, intenta de nuevo.');
+      this.isLoading.set(false);
+    }
+  });
+}
   
   protected onReviewEdited(review: ReviewResponse): void {
     this.editingReview.set(null);

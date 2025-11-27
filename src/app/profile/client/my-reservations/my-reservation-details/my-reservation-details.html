@@ -21,7 +21,7 @@
 
       <div class="detail-row">
         <span class="label">⚽ Cancha ID:</span>
-        <span>{{ res.canchaId }}</span>
+        <span>{{ res.establishmentId }}</span>
       </div>
 
       <div class="detail-row">
@@ -37,19 +37,23 @@
       <div class="detail-row">
         <span class="label">Estado:</span>
         <span [class]="'status ' + res.status.toLowerCase()">
-          {{ res.status }}
+          {{ getStatusLabel(res.status) }}
         </span>
       </div>
 
       <div class="actions">
-        <button class="edit-btn" (click)="toggleEdit()">
+        <button 
+          class="edit-btn" 
+          (click)="toggleEdit()"
+          [disabled]="res.status !== 'PENDING'">
           ✏️ Editar reserva
         </button>
-
-        <button class="cancel-btn" (click)="handleDelete()">
+        <button 
+          class="cancel-btn" 
+          (click)="handleDelete()"
+          [disabled]="res.status !== 'PENDING'">
           ❌ Cancelar reserva
         </button>
-
       </div>
       @if (isEditing()) {
         <app-make

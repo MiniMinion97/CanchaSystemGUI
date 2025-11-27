@@ -87,14 +87,34 @@
   letter-spacing: 0.5px;
 }
 
-.status-badge.active {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+.status-badge {
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-.status-badge.inactive {
+/* Estado: COMPLETED / COMPLETADA (Verde brillante) */
+.status-badge.status-completed,
+.status-badge.status-completada {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+/* Estado: PENDING / PENDIENTE (Azul claro) */
+.status-badge.status-pending,
+.status-badge.status-pendiente {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+}
+
+/* Estado: CANCELLED / CANCELADA (Rojo coral) */
+.status-badge.status-cancelled,
+.status-badge.status-canceled,
+.status-badge.status-cancelada {
   background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-  color: white;
 }
 
 /* Info items */

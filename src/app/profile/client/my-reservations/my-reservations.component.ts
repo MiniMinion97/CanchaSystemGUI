@@ -47,6 +47,14 @@ export class MyReservationsComponent {
       this.router.navigateByUrl('explore');
     }
   
-
+    protected getStatusLabel(status: string): string {
+      const statusMap: { [key: string]: string } = {
+        'PENDING': 'Pendiente',
+        'COMPLETED': 'Completada',
+        'CANCELLED': 'Cancelada',
+        'CANCELED': 'Cancelada'
+      };
+      return statusMap[status] || status;
+    }
   
 }

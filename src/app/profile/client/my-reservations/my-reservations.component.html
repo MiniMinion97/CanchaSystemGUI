@@ -21,11 +21,8 @@
           <article class="reservation-card">
             <div class="card-header">
               <h3>Reserva #{{ r.id }}</h3>
-              <span 
-                class="status-badge"
-                [class.active]="r.status"
-                [class.inactive]="!r.status">
-                {{ r.status ? '✓ Activa' : '✕ Inactiva' }}
+                <span [class]="'status-badge status-' + r.status.toLowerCase()">
+                {{ getStatusLabel(r.status) }}
               </span>
             </div>
             
@@ -46,13 +43,7 @@
                 </div>
               </div>
               
-              <div class="info-item">
-                <span class="icon">💵</span>
-                <div class="info-content">
-                  <span class="label">Seña</span>
-                  <span class="value">${{ r.deposit }}</span>
-                </div>
-              </div>
+    
             </div>
             
             <button class="details-btn" (click)="handleDetails(r.id)">

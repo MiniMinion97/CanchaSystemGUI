@@ -78,7 +78,7 @@
 }
 
 /* Estado: CANCELLED (Rojo coral) */
-.detail-row .status.cancelled,
+.detail-row .status.canceled,
 .detail-row .status[class*="CANCELLED"] {
   background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
 }
@@ -142,6 +142,19 @@
 
 .cancel-btn:active {
   transform: translateY(0);
+}
+
+.actions button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #B6B6B7;
+  transform: none;
+}
+
+.actions button:disabled:hover {
+  transform: none;
+  box-shadow: none;
+  background-color: #B6B6B7;
 }
 
 /* Estados de carga y sin datos */

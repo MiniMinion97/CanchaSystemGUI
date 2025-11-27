@@ -106,6 +106,16 @@ this.reservationRequestData.set({
       error: (err) => console.error('Error deleting reservation', err)
     });
   }
+
+  protected getStatusLabel(status: string): string {
+      const statusMap: { [key: string]: string } = {
+        'PENDING': 'Pendiente',
+        'COMPLETED': 'Completada',
+        'CANCELLED': 'Cancelada',
+        'CANCELED': 'Cancelada'
+      };
+      return statusMap[status] || status;
+    }
 }
 
 
