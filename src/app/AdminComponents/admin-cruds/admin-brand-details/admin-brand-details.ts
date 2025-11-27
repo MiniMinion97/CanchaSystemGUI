@@ -6,6 +6,7 @@ import { BrandService } from '../../../canchas/services/brand/brand-service';
 import { BrandResponse } from '../../../canchas/models/brand-response';
 import { OwnerService } from '../../owner-service';
 import { AdminEstablishments } from '../../admin-establishments/admin-establishments';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-admin-brand-details',
@@ -35,7 +36,7 @@ export class AdminBrandDetails implements OnInit {
     return String(this.brand()?.id);
   }
 
-  constructor() {
+  constructor(private location: Location) {
   }
 
   ngOnInit(): void {
@@ -73,6 +74,7 @@ export class AdminBrandDetails implements OnInit {
   handleSubmit() {
     if (this.form.invalid) {
       console.error("❌ Formulario inválido");
+      alert('El formulario es inválido. Revise nuevamente los datos ingresados.');
       return;
     }
     
@@ -82,6 +84,7 @@ export class AdminBrandDetails implements OnInit {
     this.brandService.updateBrand(this.brand()?.id!, { ...value, active: true, ownerId: this.brand()?.ownerId! }).subscribe({
         next: (res) => {
           console.log('✅ Edición de marca exitosa:', res);
+          alert('La marca fue editada con éxito.');
         },
         error: (err) => {
           console.error('❌ Error editando marca:', err);
@@ -93,10 +96,18 @@ export class AdminBrandDetails implements OnInit {
     this.brandService.deleteBrand(this.brand()?.id!).subscribe({
         next: (res) => {
           console.log('✅ Marca eliminada con éxito:', res);
+          alert('Marca eliminada con éxito.');
+          this.goBack();
         },
         error: (err) => {
           console.error('❌ Error eliminando marca:', err);
+          alert("Hubo un error al eliminar la marca.")
+          this.goBack();
         }
     });
+  }
+
+  goBack() {
+    this.location.back();
   }
 }

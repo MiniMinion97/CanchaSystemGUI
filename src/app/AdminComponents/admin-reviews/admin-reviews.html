@@ -2,14 +2,14 @@
 @let loading = this.loading();
 
 @if (loading) {
-    <p>Cargando reviews...</p>
+    <p>Cargando reseñas...</p>
 } @else {
     @if (reviews.length > 0) {
     <main>
         <section class="review-container">
 
             <div class="container-header">
-                <h2>Administrar reviews</h2>
+                <h2>Administrar Reseñas</h2>
             </div>
 
             <table class="review">
@@ -35,7 +35,7 @@
         </section>
     </main>
     } @else {
-        <p>No hay reviews registrados</p>
+        <p>No hay reviews registradas</p>
     } 
 
 }
