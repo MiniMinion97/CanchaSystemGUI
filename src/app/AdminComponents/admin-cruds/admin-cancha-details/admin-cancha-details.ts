@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../auth/services/authservice';
 import { CanchaResponse } from '../../../canchas/models/cancha-response';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-admin-cancha-details',
@@ -30,7 +31,7 @@ export class AdminCanchaDetails {
     working: [false]
   })
 
-  constructor() {
+  constructor(private location: Location) {
     this.loadCanchas();
   }
 
@@ -58,6 +59,7 @@ export class AdminCanchaDetails {
         console.error('❌ Error cargando cancha:', err);
         this.cancha.set(undefined);
         this.loading.set(false);
+        this.goBack();
       }
     });
   }
@@ -65,6 +67,7 @@ export class AdminCanchaDetails {
   handleSubmit() {
     if (this.form.invalid) {
       console.error("❌ Formulario inválido");
+      alert('El formulario es inválido. Revise nuevamente los datos ingresados.');
       return;
     }
     
@@ -74,6 +77,7 @@ export class AdminCanchaDetails {
     this.canchaService.updateCancha(this.cancha()?.id!, value).subscribe({
         next: (res) => {
           console.log('✅ Edición de cancha exitosa:', res);
+          alert('La cancha fue editado con éxito.');
         },
         error: (err) => {
           console.error('❌ Error editando cancha:', err);
@@ -85,11 +89,19 @@ export class AdminCanchaDetails {
     this.canchaService.deleteCancha(this.cancha()?.id!).subscribe({
         next: (res) => {
           console.log('✅ Cancha eliminada con éxito:', res);
+          alert('Cancha eliminada con éxito.');
+          this.goBack();
         },
         error: (err) => {
           console.error('❌ Error eliminando cancha:', err);
+          alert("Hubo un error al eliminar la cancha.")
+          this.goBack();
         }
     });
+  }
+
+  goBack() {
+    this.location.back();
   }
 }
 

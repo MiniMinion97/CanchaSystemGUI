@@ -5,6 +5,7 @@ import { AuthService } from '../../../auth/services/authservice';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AdminReservation } from "../../admin-reservation/admin-reservation";
 import { AdminReviews } from "../../admin-reviews/admin-reviews";
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-admin-client-details',
@@ -31,7 +32,7 @@ export class AdminClientDetails {
     cellNumber: ['',Validators.required]
   })
 
-  constructor() {
+  constructor(private location: Location) {
     this.loadClients();
   }
 
@@ -59,6 +60,7 @@ export class AdminClientDetails {
         console.error('❌ Error cargando cliente:', err);
         this.client.set(undefined);
         this.loading.set(false);
+        this.goBack();
       }
     });
   }
@@ -66,6 +68,7 @@ export class AdminClientDetails {
   handleSubmit() {
     if (this.form.invalid) {
       console.error("❌ Formulario inválido");
+      alert('El formulario es inválido. Revise nuevamente los datos ingresados.');
       return;
     }
     
@@ -75,6 +78,7 @@ export class AdminClientDetails {
     this.clientService.updateClient(this.client()?.id!, { ...value, active: true, password: '' }).subscribe({
         next: (res) => {
           console.log('✅ Edición de cliente exitosa:', res);
+          alert('El cliente fue editado con éxito.');
         },
         error: (err) => {
           console.error('❌ Error editando cliente:', err);
@@ -86,10 +90,18 @@ export class AdminClientDetails {
     this.clientService.deleteClient(this.client()?.id!).subscribe({
         next: (res) => {
           console.log('✅ Cliente eliminado con éxito:', res);
+          alert('Cliente eliminado con éxito.');
+          this.goBack();
         },
         error: (err) => {
           console.error('❌ Error eliminando cliente:', err);
+          alert("Hubo un error al eliminar el cliente.")
+          this.goBack();
         }
     });
+  }
+
+  goBack() {
+    this.location.back();
   }
 }

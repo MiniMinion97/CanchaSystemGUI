@@ -6,6 +6,7 @@ import { EstablishmentResponse } from '../../../canchas/models/establishment-res
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AdminReservation } from '../../admin-reservation/admin-reservation';
 import { AdminReviews } from '../../admin-reviews/admin-reviews';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-admin-establishment-details',
@@ -32,7 +33,7 @@ export class AdminEstablishmentDetails {
     closingHour: [new Date(),Validators.required]
   })
 
-  constructor() {
+  constructor(private location: Location) {
     this.loadEstablishments();
   }
 
@@ -60,6 +61,7 @@ export class AdminEstablishmentDetails {
         console.error('❌ Error cargando sucursal:', err);
         this.establishment.set(undefined);
         this.loading.set(false);
+        this.goBack();
       }
     });
   }
@@ -67,6 +69,7 @@ export class AdminEstablishmentDetails {
   handleSubmit() {
     if (this.form.invalid) {
       console.error("❌ Formulario inválido");
+      alert('El formulario es inválido. Revise nuevamente los datos ingresados.');
       return;
     }
     
@@ -76,6 +79,7 @@ export class AdminEstablishmentDetails {
     this.establishmentService.updateEstablishment(this.establishment()?.id!, { ...value, brandId: this.establishment()?.brandId! }).subscribe({
         next: (res) => {
           console.log('✅ Edición de sucursal exitosa:', res);
+          alert('La sucursal fue editada con éxito.');
         },
         error: (err) => {
           console.error('❌ Error editando sucursal:', err);
@@ -87,11 +91,19 @@ export class AdminEstablishmentDetails {
     this.establishmentService.deleteEstablishment(this.establishment()?.id!).subscribe({
         next: (res) => {
           console.log('✅ Sucursal eliminada con éxito:', res);
+          alert("Sucursal eliminada con éxito.")
+          this.goBack();
         },
         error: (err) => {
           console.error('❌ Error eliminando sucursal:', err);
+          alert("Hubo un error al eliminar la sucursal.")
+          this.goBack();
         }
     });
+  }
+
+  goBack() {
+    this.location.back();
   }
 }
 

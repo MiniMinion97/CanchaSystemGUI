@@ -1,4 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
+import { Location } from '@angular/common'
 import { OwnerResponse, OwnerService } from '../../owner-service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../auth/services/authservice';
@@ -30,7 +31,7 @@ export class AdminOwnerDetails {
     cellNumber: ['',Validators.required]
   })
 
-  constructor() {
+  constructor(private location: Location) {
     this.loadOwners();
   }
 
@@ -58,6 +59,7 @@ export class AdminOwnerDetails {
         console.error('❌ Error cargando dueño:', err);
         this.owner.set(undefined);
         this.loading.set(false);
+        this.goBack();
       }
     });
   }
@@ -65,6 +67,7 @@ export class AdminOwnerDetails {
   handleSubmit() {
     if (this.form.invalid) {
       console.error("❌ Formulario inválido");
+      alert('El formulario es inválido. Revise nuevamente los datos ingresados.');
       return;
     }
     
@@ -74,6 +77,7 @@ export class AdminOwnerDetails {
     this.ownerService.updateOwner(this.owner()?.id!, { ...value, active: true, password: '' }).subscribe({
         next: (res) => {
           console.log('✅ Edición de dueño exitosa:', res);
+          alert('El dueño fue editado con éxito.');
         },
         error: (err) => {
           console.error('❌ Error editando dueño:', err);
@@ -85,10 +89,18 @@ export class AdminOwnerDetails {
     this.ownerService.deleteOwner(this.owner()?.id!).subscribe({
         next: (res) => {
           console.log('✅ Dueño eliminado con éxito:', res);
+          alert("Dueño eliminado con éxito.")
+          this.goBack();
         },
         error: (err) => {
           console.error('❌ Error eliminando dueño:', err);
+          alert("Hubo un error al eliminar el dueño.")
+          this.goBack();
         }
     });
+  }
+
+  goBack() {
+    this.location.back();
   }
 }
