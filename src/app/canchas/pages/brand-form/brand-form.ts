@@ -41,25 +41,30 @@ export class BrandForm {
     const ownerId = localStorage.getItem('userId')!;
     const brandDataWithOwner = { ...brandData, ownerId };
     if (this.isEditing() && this.brandId()) {
-          alert(ownerId);
 
   this.brandService.updateBrand(this.brandId()!, {
     ...brandData, ownerId
   }).subscribe({
   next: (res) => {
     console.log('Marca actualizada', res);
+    alert('Marca actualizada con éxito');
     this.brandEdited.emit(res);
     
   },
-  error: (err) => console.error('Error al actualizar marca', err)
+  error: (err) => {
+    console.error('Error al actualizar marca', err)
+    alert('Error al actualizar la marca');}
 });
 }
 else{
         this.brandService.createBrand({
           ...brandData, ownerId
         }).subscribe({
-        next: (res) => console.log('marca creada', res),
-        error: (err) => console.error('error al crear marca', err)
+        next: () => alert('Marca creada con éxito'),
+        error: (err) => {
+          alert('Error al crear la maraca');
+          console.error('Error al crear marca', err);
+        } 
         });
     }    
 

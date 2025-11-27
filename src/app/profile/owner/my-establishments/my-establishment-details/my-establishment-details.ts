@@ -78,9 +78,21 @@ export class MyEstablishmentDetails {
     }
 
   handleDelete(){
-    this.establishmentService.deleteEstablishment(Number(this.id!)).subscribe({
-      next: () => {this.router.navigateByUrl('/perfil/mis-sucursales'); alert('Sucursal eliminada perfecto pa');},
-      error: (err) => console.error('Error deleting establishment:', err)
-    });
-  }
+  const confirmed = confirm('¿Estás seguro de que deseas eliminar esta sucursal? Esta acción no se puede deshacer.');
+
+  if (!confirmed) {
+    return;
+  }
+
+  this.establishmentService.deleteEstablishment(Number(this.id!)).subscribe({
+    next: () => {
+      this.router.navigateByUrl('/perfil/mis-sucursales');
+      alert('Sucursal eliminada');
+    },
+    error: (err) => {
+      console.error('Error deleting establishment:', err)
+      alert('Error al eliminar la sucursal. Por favor, inténtalo de nuevo más tarde.');
+    }
+  });
+}
 }

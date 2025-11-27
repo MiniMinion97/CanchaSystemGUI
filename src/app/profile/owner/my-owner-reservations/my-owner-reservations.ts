@@ -1,11 +1,12 @@
-import { Component, effect, inject, input, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, signal } from '@angular/core';
+import { CommonModule, DatePipe } from '@angular/common';
 import { ReservationService } from '../../../reservation/services/reservation/reservation-service';
 import { AuthService } from '../../../auth/services/authservice';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-owner-reservations',
-  imports: [],
+  imports: [CommonModule, DatePipe],
   templateUrl: './my-owner-reservations.html',
   styleUrl: './my-owner-reservations.css'
 })
@@ -22,9 +23,20 @@ export class MyOwnerReservations {
 
   private refreshTrigger = signal<number>(0);
 
+protected sortedReservations = computed(() => {
+  const reservations = this.reservations();
+  
+  const sorted = [...reservations].sort((a, b) => {
+    const dateA = new Date(a.matchDate).getTime();
+    const dateB = new Date(b.matchDate).getTime();
+    return dateA - dateB;  
+  });
+  return sorted;
+});
+
   constructor() {
     effect(() => {
-      this.refreshTrigger(); // Depender del trigger para refrescar
+      this.refreshTrigger();
       
       this.loading.set(true);
 
@@ -35,9 +47,9 @@ export class MyOwnerReservations {
       if (inside && establishmentId) {
         this.reservationService.getReservationsByEstablishment(establishmentId).subscribe({
           next: (res) => {
+            console.log('📥 Reservas por establecimiento:', res);
             this.reservations.set(res);
             this.loading.set(false);
-            console.log('✅ Reservas cargadas:', this.reservations());
           },
           error: (err) => {
             console.error('❌ Error obteniendo reservas por establecimiento:', err);
@@ -45,12 +57,22 @@ export class MyOwnerReservations {
             this.loading.set(false);
           }
         });
-      } else if (!inside) {
-        if (!ownerId) {
-          this.reservations.set([]);
-          this.loading.set(false);
-          return;
-        }
+      } else if (!inside && ownerId) {
+        // ✅ AQUÍ FALTABA: Cargar las reservas del propietario
+        this.reservationService.getReservations().subscribe({
+          next: (res) => {
+            console.log('📥 Reservas del propietario:', res);
+          },
+          error: (err) => {
+            console.error('❌ Error obteniendo reservas del propietario:', err);
+            this.reservations.set([]);
+            this.loading.set(false);
+          }
+        });
+      } else {
+        console.warn('⚠️ Sin condiciones válidas para cargar reservas');
+        this.reservations.set([]);
+        this.loading.set(false);
       }
     });
   }
@@ -65,8 +87,7 @@ export class MyOwnerReservations {
     this.reservationService.deleteReservation(reservationId).subscribe({
       next: () => {
         console.log('✅ Reserva cancelada con éxito');
-        // Trigger el effect para recargar desde la BD
-        this.refreshTrigger.set(this.refreshTrigger() + 1);
+        this.refreshTrigger.update(trigger => trigger + 1);
       },
       error: (err) => {
         console.error('❌ Error cancelando la reserva:', err);

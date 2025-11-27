@@ -43,16 +43,22 @@ export class CanchaForm {
     if(this.isEditing()){
   this.canchaService.updateCancha(this.canchaId()!, { ...canchaData, establishmentId: this.establishmentId()! }).subscribe({
         next: (res) => {
-          console.log('Establecimiento actualizado', res);
+          alert('Cancha actualizado con éxito');
           this.canchaEdited.emit(res);
         },
-        error: (err) => console.error('Error al actualizar establecimiento', err)
+        error: (err) => {
+          alert('Error al actualizar la cancha');
+          console.error('Error al actualizar cancha', err)
+        }
       });
       return;
     }else{
        this.canchaService.createCancha({ ...canchaData, establishmentId: this.establishmentId()! }).subscribe({  
-      next: (res) => console.log('Establecimiento creado', res),
-      error: (err) => console.error('Error al crear establecimiento', err)
+      next: (res) => alert('Cancha creada con éxito'),
+      error: (err) => {
+        alert('Error al crear la cancha');
+        console.error('Error al crear cancha', err)
+      }
     });
     }
      

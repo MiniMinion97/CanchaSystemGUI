@@ -46,15 +46,22 @@ export class EstablishmentForm {
       this.establishmentService.updateEstablishment(this.estId()!, { ...establishmentData, brandId: this.brandId()! }).subscribe({
         next: (res) => {
           console.log('Establecimiento actualizado', res);
+          alert('Establecimiento actualizado con éxito');
           this.estEdited.emit(res);
         },
-        error: (err) => console.error('Error al actualizar establecimiento', err)
+        error: (err) => {
+          console.error('Error al actualizar establecimiento', err)
+          alert('Error al actualizar el establecimiento');
+        }
       });
       return;
     }else{
           this.establishmentService.createEstablishment({ ...establishmentData, brandId: this.brandId()! }).subscribe({  
-      next: (res) => console.log('Establecimiento creado', res),
-      error: (err) => console.error('Error al crear establecimiento', err)
+      next: (res) => alert('Establecimiento creado con éxito'),
+      error: (err) => {
+        console.error('Error al crear establecimiento', err)
+        alert('Error al crear el establecimiento');
+      }
     });
     }
 
