@@ -1,0 +1,116 @@
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem 0;
+}
+
+.review-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    height: auto;
+    max-height: 400px;
+    background-color: var(--background-color-dark);
+    border: var(--green-accent) 2px solid;
+    color: var(--font-color);
+    border-radius: 15px;
+    overflow: auto;
+    box-shadow: 0 8px 24px var(--shadow-color);
+}
+
+.container-header {
+    padding: 1rem 1.5rem;
+    background-color: var(--green-accent);
+    color: var(--background-color);
+    border-bottom: 2px solid var(--green-accent);
+    flex-shrink: 0;
+}
+
+.container-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+/* Tabla de reviews */
+.review {
+    width: 100%;
+    border-collapse: collapse;
+    flex: 1;
+}
+
+.review thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.review thead th {
+    padding: 1rem 1.5rem;
+    text-align: left;
+    font-weight: 600;
+    background-color: var(--green-accent);
+    color: var(--background-color);
+    border-bottom: 2px solid var(--green-accent);
+}
+
+.review tbody tr {
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.08s ease;
+}
+
+.review tbody tr:hover {
+    background-color: rgba(var(--green-accent-rgb), 0.1);
+    cursor: pointer;
+}
+
+.review td {
+    padding: 1rem 1.5rem;
+    color: var(--font-color);
+}
+
+.review td:nth-child(2) {
+    font-weight: 600;
+    color: var(--green-accent);
+}
+
+.review td:nth-child(3) {
+    max-width: 250px;
+    word-wrap: break-word;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Scrollbar styling */
+.review-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.review-container::-webkit-scrollbar-track {
+    margin: 10px;
+    background: #d0cfc9;
+    border-radius: 10px;
+}
+
+.review-container::-webkit-scrollbar-thumb {
+    background: var(--green-accent);
+    border-radius: 10px;
+}
+
+.review-container::-webkit-scrollbar-thumb:hover {
+    background: var(--green-accent);
+}
+
+/* Mensajes de estado */
+p {
+    text-align: center;
+    color: var(--font-color);
+    padding: 2rem;
+    font-size: 1rem;
+}

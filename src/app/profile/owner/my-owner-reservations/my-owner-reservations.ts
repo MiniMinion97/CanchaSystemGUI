@@ -14,17 +14,19 @@ export class MyOwnerReservations {
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
 
-   readonly isInsideEst = input<boolean>(false);
+  readonly isInsideEst = input<boolean>(false);
   readonly idEst = input<number | null>(null);
 
   protected reservations = signal<any[]>([]);
-
   protected loading = signal<boolean>(true);
 
+  private refreshTrigger = signal<number>(0);
 
   constructor() {
     effect(() => {
-      this.loading.set(true); 
+      this.refreshTrigger(); // Depender del trigger para refrescar
+      
+      this.loading.set(true);
 
       const inside = this.isInsideEst();
       const establishmentId = this.idEst();
@@ -35,25 +37,41 @@ export class MyOwnerReservations {
           next: (res) => {
             this.reservations.set(res);
             this.loading.set(false);
-
-            console.log(this.reservations);
-            
+            console.log('✅ Reservas cargadas:', this.reservations());
           },
           error: (err) => {
-            console.error('Error obteniendo canchas por establecimiento:', err);
+            console.error('❌ Error obteniendo reservas por establecimiento:', err);
             this.reservations.set([]);
             this.loading.set(false);
           }
         });
       } else if (!inside) {
-            if (!ownerId) {
-            this.reservations.set([]);
-            this.loading.set(false);
-            return;
-          }
+        if (!ownerId) {
+          this.reservations.set([]);
+          this.loading.set(false);
+          return;
+        }
       }
     });
   }
 
-}
+  cancelReservation(reservationId: number) {
+    const confirmed = confirm(`¿Estás seguro de que deseas cancelar la reserva con ID ${reservationId}?`);
 
+    if (!confirmed) {
+      return;
+    }
+
+    this.reservationService.deleteReservation(reservationId).subscribe({
+      next: () => {
+        console.log('✅ Reserva cancelada con éxito');
+        // Trigger el effect para recargar desde la BD
+        this.refreshTrigger.set(this.refreshTrigger() + 1);
+      },
+      error: (err) => {
+        console.error('❌ Error cancelando la reserva:', err);
+        alert('Hubo un error al cancelar la reserva. Intenta nuevamente.');
+      }
+    });
+  }
+}
