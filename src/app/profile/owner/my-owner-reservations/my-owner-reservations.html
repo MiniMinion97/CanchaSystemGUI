@@ -13,6 +13,9 @@
             <p>📅 Fecha de la reserva: {{ reservation.reservationDate }}</p>
             <p>📅 Fecha del partido: {{ reservation.matchDate }}</p>
             <p>Estado: {{ reservation.status }}</p>
+            @if (reservation.status === 'PENDING') {
+              <button (click)="cancelReservation(reservation.id)">Cancelar reserva</button>
+            }
           </div>
         }
       </div>

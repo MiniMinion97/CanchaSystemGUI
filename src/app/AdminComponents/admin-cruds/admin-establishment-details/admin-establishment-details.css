@@ -1,64 +1,25 @@
-button {
-    border-radius: 10px;
-    transition: background-color 0.08s ease;
-    transition: border 0.08s ease;
-     
-    border: 2px solid var(--border-color);
-    background-color: var(--background-color);
-
-    height: 2rem;
-    width: 100%;
-}
-
-button:hover {
-    cursor: pointer;
-    border: 2px solid var(--font-color);
-    background-color: var(--green-accent);
-}
-
 main {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2rem;
     min-height: 100vh;
-    padding: 2rem 0;
 }
 
+/* Contenedor principal de la sucursal */
 .establishment-container {
     position: relative;
     display: flex;
     flex-direction: column;
-    width: 60vw;
+    width: 100%;
     max-width: 1200px;
-    margin-top: 15vh;
-    height: 75vh;
+    margin: 0 auto;
     background-color: var(--background-color-dark);
     border: var(--green-accent) 2px solid;
     color: var(--font-color);
     border-radius: 15px;
-    overflow: auto;
+    overflow: hidden;
     box-shadow: 0 8px 24px var(--shadow-color);
-}
-
-
-/* Scrollbar styling */
-.establishment-container::-webkit-scrollbar {
-    width: 8px;
-}
-
-.establishment-container::-webkit-scrollbar-track {
-    margin: 10px;
-    background: #d0cfc9;
-    border-radius: 10px;
-}
-
-.establishment-container::-webkit-scrollbar-thumb {
-    background: var(--green-accent);
-    border-radius: 10px;
-}
-
-.establishment-container::-webkit-scrollbar-thumb:hover {
-    background: var(--green-accent);
 }
 
 .container-header {
@@ -67,4 +28,139 @@ main {
     color: var(--background-color);
     border-bottom: 2px solid var(--green-accent);
     flex-shrink: 0;
+}
+
+.container-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+/* Formulario */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 2rem 1.5rem;
+    flex: 1;
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-weight: 500;
+    color: var(--font-color);
+}
+
+label input[type="text"],
+label input[type="time"] {
+    padding: 0.75rem 1rem;
+    background-color: var(--background-color);
+    border: 2px solid var(--border-color);
+    color: var(--font-color);
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: border-color 0.08s ease, background-color 0.08s ease;
+}
+
+label input[type="text"]:focus,
+label input[type="time"]:focus {
+    outline: none;
+    border-color: var(--green-accent);
+    background-color: var(--background-color);
+    box-shadow: 0 0 0 3px rgba(var(--green-accent-rgb), 0.1);
+}
+
+label input[type="text"]::placeholder,
+label input[type="time"]::placeholder {
+    color: var(--font-color);
+    opacity: 0.6;
+}
+
+/* Checkbox */
+label input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: var(--green-accent);
+}
+
+/* Mensajes de error */
+label span {
+    color: #ff6b6b;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+/* Botones en el formulario */
+form > button {
+    border-radius: 10px;
+    transition: background-color 0.08s ease, border 0.08s ease;
+    border: 2px solid var(--border-color);
+    background-color: var(--background-color);
+    color: var(--font-color);
+    height: 2rem;
+    width: 100%;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+form > button:hover {
+    border: 2px solid var(--font-color);
+    background-color: var(--green-accent);
+    color: var(--background-color);
+}
+
+form > button[type="reset"] {
+    background-color: transparent;
+    border: 2px solid var(--border-color);
+}
+
+form > button[type="reset"]:hover {
+    background-color: #ff6b6b;
+    border: 2px solid #ff6b6b;
+    color: var(--background-color);
+}
+
+/* Botón borrar sucursal */
+.establishment-container > button {
+    border-radius: 10px;
+    transition: background-color 0.08s ease, border 0.08s ease;
+    border: 2px solid var(--border-color);
+    background-color: var(--background-color);
+    color: var(--font-color);
+    height: 2rem;
+    width: calc(100% - 3rem);
+    margin: 0 1.5rem 1.5rem 1.5rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.establishment-container > button:hover {
+    border: 2px solid #ff6b6b;
+    background-color: #ff6b6b;
+    color: var(--background-color);
+}
+
+/* Secciones de reservas y reviews */
+section {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Ajustes para los contenedores anidados */
+section app-admin-reservation,
+section app-admin-reviews {
+    display: block;
+    width: 100%;
+}
+
+/* Mensajes de estado */
+p {
+    text-align: center;
+    color: var(--font-color);
+    padding: 2rem;
+    font-size: 1rem;
 }

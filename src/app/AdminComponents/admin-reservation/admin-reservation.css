@@ -1,0 +1,102 @@
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem 0;
+}
+
+.reservation-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 60vw;
+    max-width: 1200px;
+    margin-top: 15vh;
+    height: 75vh;
+    background-color: var(--background-color-dark);
+    border: var(--green-accent) 2px solid;
+    color: var(--font-color);
+    border-radius: 15px;
+    overflow: auto;
+    box-shadow: 0 8px 24px var(--shadow-color);
+}
+
+.container-header {
+    padding: 1rem 1.5rem;
+    background-color: var(--green-accent);
+    color: var(--background-color);
+    border-bottom: 2px solid var(--green-accent);
+    flex-shrink: 0;
+}
+
+.container-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+/* Tabla de reservas */
+.reservation {
+    width: 100%;
+    border-collapse: collapse;
+    flex: 1;
+}
+
+.reservation thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.reservation thead th {
+    padding: 1rem 1.5rem;
+    text-align: left;
+    font-weight: 600;
+    background-color: var(--green-accent);
+    color: var(--background-color);
+    border-bottom: 2px solid var(--green-accent);
+}
+
+.reservation tbody tr {
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.08s ease;
+}
+
+.reservation tbody tr:hover {
+    background-color: rgba(var(--green-accent-rgb), 0.1);
+    cursor: pointer;
+}
+
+.reservation td {
+    padding: 1rem 1.5rem;
+    color: var(--font-color);
+}
+
+/* Scrollbar styling */
+.reservation-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.reservation-container::-webkit-scrollbar-track {
+    margin: 10px;
+    background: #d0cfc9;
+    border-radius: 10px;
+}
+
+.reservation-container::-webkit-scrollbar-thumb {
+    background: var(--green-accent);
+    border-radius: 10px;
+}
+
+.reservation-container::-webkit-scrollbar-thumb:hover {
+    background: var(--green-accent);
+}
+
+/* Mensajes de estado */
+p {
+    text-align: center;
+    color: var(--font-color);
+    padding: 2rem;
+    font-size: 1rem;
+}
