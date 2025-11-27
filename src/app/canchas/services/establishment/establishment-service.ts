@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient,HttpParams } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { EstablishmentResponse } from '../../models/establishment-response';
 import { EstablishmentRequest } from '../../models/establishment-request';
@@ -40,6 +40,18 @@ export class EstablishmentService {
             })
         );
     }
+
+    getEstablishmentsNames(establishmentIds: number[]): Observable<Map<number, string>> {
+  // Construir URL con query params: ?ids=1&ids=2&ids=3
+  const params = new HttpParams().appendAll({ 'ids': establishmentIds });
+  
+  return this.http.get<{ [key: number]: string }>(
+    `${this.url}/getEstablishmentsNamesById`,
+    { params }
+  ).pipe(
+    map(obj => new Map(Object.entries(obj).map(([k, v]) => [Number(k), v])))
+  );
+}
 
     createEstablishment(establishment: EstablishmentRequest) {
         return this.http.post<EstablishmentResponse>(`${this.url}/insert`, establishment);

@@ -10,18 +10,8 @@
       <h2>Detalles de la Reserva #{{ res.id }}</h2>
 
       <div class="detail-row">
-        <span class="label">📌 ID Reserva:</span>
-        <span>{{ res.id }}</span>
-      </div>
-
-      <div class="detail-row">
-        <span class="label">👤 Cliente ID:</span>
-        <span>{{ res.clientId }}</span>
-      </div>
-
-      <div class="detail-row">
-        <span class="label">⚽ Cancha ID:</span>
-        <span>{{ res.establishmentId }}</span>
+        <span class="label">📌 Nombre del establecimiento:</span>
+        <span>{{ establishmentName() || 'Establecimiento #' + res?.establishmentId }}</span>
       </div>
 
       <div class="detail-row">

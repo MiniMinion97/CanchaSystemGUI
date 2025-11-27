@@ -4,6 +4,7 @@
 .reservations-container {
   max-width: 1200px;
   margin: 0 auto;
+  margin-top: 8rem;
   padding: 2rem 1.5rem;
   min-height: 100vh;
   background: #f7f7f7;

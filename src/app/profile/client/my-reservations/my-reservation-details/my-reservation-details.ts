@@ -19,85 +19,88 @@ export class MyReservationDetails {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
 
-   private readonly id = Number(this.route.snapshot.paramMap.get('id'));
-  
+  protected establishmentName = signal<string>('');
+  private readonly id = Number(this.route.snapshot.paramMap.get('id'));
+
   protected readonly isEditing = signal(false);
   readonly reservation = signal<ReservationResponse | null>(null);
-  
-readonly reservationRequestData = signal<any>(null);
 
-  
+  readonly reservationRequestData = signal<any>(null);
+
+
   protected loading = signal<boolean>(true);
 
 
-private mapResponseToRequest(res: ReservationResponse): any {
-  const matchDate = res.matchDate ? new Date(res.matchDate) : null;
+  private mapResponseToRequest(res: ReservationResponse): any {
+    const matchDate = res.matchDate ? new Date(res.matchDate) : null;
 
-  const yyyy = matchDate ? matchDate.getFullYear() : '';
-  const mm = matchDate ? String(matchDate.getMonth() + 1).padStart(2, '0') : '';
-  const dd = matchDate ? String(matchDate.getDate()).padStart(2, '0') : '';
+    const yyyy = matchDate ? matchDate.getFullYear() : '';
+    const mm = matchDate ? String(matchDate.getMonth() + 1).padStart(2, '0') : '';
+    const dd = matchDate ? String(matchDate.getDate()).padStart(2, '0') : '';
 
-  return {
-    canchaId: res.canchaId,
-    date: matchDate ? `${yyyy}-${mm}-${dd}` : '',
-    hour: matchDate ? matchDate.toTimeString().slice(0, 5) : '',
-    establishmentId: res.establishmentId // <-- IMPORTANTE: para que Make cargue las canchas
-  };
-}
-
-
-
-
-  constructor() {      
-    this.loading.set(true); 
-
-  this.reservationService.getReservation(this.id).subscribe({
-  next: (res) => {
-console.log("🔎 canchaId:", res.canchaId);
-console.log("🔎 establishmentId:", res.establishmentId);
-
-
-  this.reservation.set(res);
-  this.reservationRequestData.set(this.mapResponseToRequest(res));
-  this.loading.set(false);
-  },
-  error: (err) => {
-    console.error('Error fetching reservation:', err);
-    this.loading.set(false);
+    return {
+      canchaId: res.canchaId,
+      date: matchDate ? `${yyyy}-${mm}-${dd}` : '',
+      hour: matchDate ? matchDate.toTimeString().slice(0, 5) : '',
+      establishmentId: res.establishmentId // <-- IMPORTANTE: para que Make cargue las canchas
+    };
   }
-});
-
-}
 
 
-  toggleEdit(){
+
+
+  constructor() {
+    // 🆕 Obtener el nombre del establecimiento del router state
+    const state = history.state as { establishmentName?: string };
+    if (state?.establishmentName) {
+      this.establishmentName.set(state.establishmentName);
+    }
+    
+    this.loading.set(true);
+    this.reservationService.getReservation(this.id).subscribe({
+      next: (res) => {
+        console.log("🔎 canchaId:", res.canchaId);
+        console.log("🔎 establishmentId:", res.establishmentId);
+        this.reservation.set(res);
+        this.reservationRequestData.set(this.mapResponseToRequest(res));
+        this.loading.set(false);
+      },
+      error: (err) => {
+        console.error('Error fetching reservation:', err);
+        this.loading.set(false);
+      }
+    });
+  }
+
+
+  toggleEdit() {
     this.isEditing.update(v => !v);
   }
 
- handleEdit(updated: ReservationResponse) {
-  this.reservation.set(updated);
+  handleEdit(updated: ReservationResponse) {
+    this.reservation.set(updated);
 
-const match = new Date(updated.matchDate);
+    const match = new Date(updated.matchDate);
 
-const yyyy = match.getFullYear();
-const mm = String(match.getMonth() + 1).padStart(2, "0");
-const dd = String(match.getDate()).padStart(2, "0");
-const hh = String(match.getHours()).padStart(2, "0");
-const min = String(match.getMinutes()).padStart(2, "0");
+    const yyyy = match.getFullYear();
+    const mm = String(match.getMonth() + 1).padStart(2, "0");
+    const dd = String(match.getDate()).padStart(2, "0");
+    const hh = String(match.getHours()).padStart(2, "0");
+    const min = String(match.getMinutes()).padStart(2, "0");
 
-this.reservationRequestData.set({
-  canchaId: updated.canchaId,
-  date: `${yyyy}-${mm}-${dd}`,   // ⬅ lo que Make.ts necesita
-  hour: `${hh}:${min}`           // ⬅ lo que Make.ts necesita
-});
-
-
-  this.toggleEdit();
-}
+    this.reservationRequestData.set({
+      canchaId: updated.canchaId,
+      date: `${yyyy}-${mm}-${dd}`,   // ⬅ lo que Make.ts necesita
+      hour: `${hh}:${min}`           // ⬅ lo que Make.ts necesita
+    });
 
 
+    this.toggleEdit();
+  }
 
-  handleDelete(){
+
+
+  handleDelete() {
     this.reservationService.deleteReservation(this.id).subscribe({
       next: (res) => {
         console.log('Reservation canceled', res);
@@ -108,14 +111,14 @@ this.reservationRequestData.set({
   }
 
   protected getStatusLabel(status: string): string {
-      const statusMap: { [key: string]: string } = {
-        'PENDING': 'Pendiente',
-        'COMPLETED': 'Completada',
-        'CANCELLED': 'Cancelada',
-        'CANCELED': 'Cancelada'
-      };
-      return statusMap[status] || status;
-    }
+    const statusMap: { [key: string]: string } = {
+      'PENDING': 'Pendiente',
+      'COMPLETED': 'Completada',
+      'CANCELLED': 'Cancelada',
+      'CANCELED': 'Cancelada'
+    };
+    return statusMap[status] || status;
+  }
 }
 
 
