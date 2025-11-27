@@ -83,7 +83,7 @@ export class Form {
       
       this.reviewService.updateReview(reviewId, reviewData).subscribe({
         next: (updatedReview) => {
-          console.log('✅ Review actualizada:', updatedReview);
+          alert('Reseña actualizada correctamente');
           this.edited.emit(updatedReview);
           this.form.markAsPristine();
         },

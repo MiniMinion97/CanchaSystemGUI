@@ -25,7 +25,6 @@
     </div>
   </header>
   
-  <!-- Edit Form (shown when editing) -->
   @if (editingReview()) {
     <section class="edit-section">
       <div class="edit-header">
@@ -41,7 +40,6 @@
     </section>
   }
   
-  <!-- Reviews List -->
   <section class="reviews-list-section">
     @if (isLoading()) {
       <div class="loading-state">

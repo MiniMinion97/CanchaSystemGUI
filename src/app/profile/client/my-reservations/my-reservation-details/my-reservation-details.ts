@@ -100,14 +100,19 @@ export class MyReservationDetails {
 
 
 
-  handleDelete() {
-    this.reservationService.deleteReservation(this.id).subscribe({
-      next: (res) => {
-        console.log('Reservation canceled', res);
-        this.router.navigateByUrl('/perfil/mis-reservas');
-      },
-      error: (err) => console.error('Error deleting reservation', err)
-    });
+handleDelete() {
+    if (confirm('¿Estás seguro de que deseas cancelar esta reserva?')) {
+      this.reservationService.deleteReservation(this.id).subscribe({
+        next: (res) => {
+          alert('Reserva cancelada correctamente');
+          this.router.navigateByUrl('/perfil/mis-reservas');
+        },
+        error: (err) => {
+          alert('Error al cancelar la reserva');
+          console.error('Error deleting reservation', err)
+        }
+      });
+    }
   }
 
   protected getStatusLabel(status: string): string {
