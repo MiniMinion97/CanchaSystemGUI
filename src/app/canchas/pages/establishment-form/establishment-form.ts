@@ -70,12 +70,10 @@ export class EstablishmentForm {
       brandId: this.brandId()!
     };
     
-    console.log("🟡 Enviando establecimiento al backend:", establishmentData);
 
     if (this.isEditing()) {
       this.establishmentService.updateEstablishment(this.estId()!, establishmentData).subscribe({
         next: (res) => {
-          console.log('Establecimiento actualizado', res);
           alert('Establecimiento actualizado con éxito');
           this.estEdited.emit(res);
         },
@@ -86,7 +84,7 @@ export class EstablishmentForm {
       });
     } else {
       this.establishmentService.createEstablishment(establishmentData).subscribe({  
-        next: (res) => console.log('Establecimiento creado', res),
+       
         error: (err) => console.error('Error al crear establecimiento', err)
       });
     }

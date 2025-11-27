@@ -96,7 +96,6 @@ export class Explore implements OnInit {
   private setupVisibilityListener(): void {
     document.addEventListener('visibilitychange', () => {
       if (!document.hidden && !this.establishmentStore.isCacheValid()) {
-        console.log('🔄 Page became visible, refreshing stale data');
         this.establishmentStore.refresh();
       }
     });

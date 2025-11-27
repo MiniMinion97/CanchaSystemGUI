@@ -39,7 +39,6 @@ export class MyDataComponent {
         ? `http://localhost:8080/owner/findOwner/${id}`
         : `http://localhost:8080/client/findClient/${id}`;
 
-    console.log(`📡 Obteniendo datos desde: ${baseUrl}`);
 
     this.http.get<any>(baseUrl).subscribe({
       next: (user) => {
@@ -75,7 +74,6 @@ export class MyDataComponent {
       active: true
     };
 
-    console.log('📤 RequestBody enviado al backend:', JSON.stringify(requestBody, null, 2));
 
     // ✅ Elige el endpoint según el rol
     const endpoint =
@@ -83,13 +81,11 @@ export class MyDataComponent {
         ? `http://localhost:8080/owner/update/${id}`
         : `http://localhost:8080/client/update/${id}`;
 
-    console.log(`🚀 Enviando PUT a: ${endpoint}`);
 
     this.http.put(endpoint, requestBody, {
       headers: { 'Content-Type': 'application/json' }
     }).subscribe({
       next: (response) => {
-        console.log('✅ Datos actualizados correctamente', response);
         this.success.set(true);
         this.loading.set(false);
       },

@@ -53,11 +53,11 @@ export class Form {
       return;
     }
 
-    // ✅ Obtener datos actuales del usuario (no del constructor)
+    // obtener datos actuales del usuario (no del constructor)
     const clientId = this.authService.getCurrentClientId();
     const clientName = this.authService.getUsername();
 
-    // ✅ Validar que el usuario esté logueado
+    // validar que el usuario esté logueado
     if (!clientId || !clientName) {
       console.error('❌ Usuario no autenticado');
       alert('Debes iniciar sesión para dejar una reseña');
@@ -75,15 +75,13 @@ export class Form {
     createdAt: new Date().toISOString().split('T')[0]  // "YYYY-MM-DD"
     };
 
-    console.log('📤 Enviando review:', reviewData);
 
-    // ✅ Modo edición
+    // modo edición
     if (this.isEditing() && this.review()) {
       const reviewId = this.review()!.id;
       
       this.reviewService.updateReview(reviewId, reviewData).subscribe({
         next: (updatedReview) => {
-          console.log('✅ Review actualizada:', updatedReview);
           this.edited.emit(updatedReview);
           this.form.markAsPristine();
         },
@@ -93,11 +91,10 @@ export class Form {
         }
       });
     } 
-    // ✅ Modo creación
+    // modo creación
     else {
       this.reviewService.createReview(reviewData).subscribe({
         next: (newReview) => {
-          console.log('✅ Review creada:', newReview);
           this.created.emit(newReview);
           
           // Reset del formulario
@@ -112,22 +109,6 @@ export class Form {
         }
       });
     }
-  }
-
-  get rating() {
-    return this.form.controls.rating;
-  }
-
-  get message() {
-    return this.form.controls.message;
-  }
-
-  get dirty() {
-    return this.form.dirty;
-  }
-
-  get touched() {
-    return this.form.touched;
   }
 
   get isLoggedIn() {

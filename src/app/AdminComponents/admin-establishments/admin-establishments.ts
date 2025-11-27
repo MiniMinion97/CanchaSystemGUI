@@ -41,24 +41,18 @@ export class AdminEstablishments implements OnInit {
     this.loading.set(true);
 
     let obs;
-    console.log('type: ', this.type());
-    console.log('id: ', this.targetId());
+    
     if (this.type() === 'brand') {
-      console.log('brand');
       obs = this.establishmentService.getEstablishmentsByBrand(Number(this.targetId()!));
     } else if (this.type() === 'owner') {
-      console.log('owner');
       obs = this.establishmentService.getEstablishmentsByOwner(this.targetId()!);
     } else {
-      console.log('all');
       obs = this.establishmentService.getEstablishments();
     }
     obs.subscribe({
       next: (res) => {
-        console.log('✅ Sucursales cargadas:', res);
         this.establishments.set(res);
         this.loading.set(false);
-        console.log('type: ', this.type());
       },
       error: (err) => {
         console.error('❌ Error cargando sucursales:', err);

@@ -50,7 +50,6 @@ export class AdminClientDetails {
 
     this.clientService.getClient(clientId).subscribe({
       next: (res) => {
-        console.log('✅ Cliente cargado:', res);
         this.client.set(res);
         this.loading.set(false);
 
@@ -72,12 +71,10 @@ export class AdminClientDetails {
       return;
     }
     
-    console.log("✅ Formulario válido");
     const value = this.form.getRawValue();
 
     this.clientService.updateClient(this.client()?.id!, { ...value, active: true, password: '' }).subscribe({
         next: (res) => {
-          console.log('✅ Edición de cliente exitosa:', res);
           alert('El cliente fue editado con éxito.');
         },
         error: (err) => {
@@ -89,7 +86,6 @@ export class AdminClientDetails {
   handleDelete() {
     this.clientService.deleteClient(this.client()?.id!).subscribe({
         next: (res) => {
-          console.log('✅ Cliente eliminado con éxito:', res);
           alert('Cliente eliminado con éxito.');
           this.goBack();
         },

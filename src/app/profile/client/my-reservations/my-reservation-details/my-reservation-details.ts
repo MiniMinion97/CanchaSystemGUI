@@ -53,9 +53,6 @@ private mapResponseToRequest(res: ReservationResponse): any {
 
   this.reservationService.getReservation(this.id).subscribe({
   next: (res) => {
-console.log("🔎 canchaId:", res.canchaId);
-console.log("🔎 establishmentId:", res.establishmentId);
-
 
   this.reservation.set(res);
   this.reservationRequestData.set(this.mapResponseToRequest(res));
@@ -100,7 +97,6 @@ this.reservationRequestData.set({
   handleDelete(){
     this.reservationService.deleteReservation(this.id).subscribe({
       next: (res) => {
-        console.log('Reservation canceled', res);
         this.router.navigateByUrl('/perfil/mis-reservas');
       },
       error: (err) => console.error('Error deleting reservation', err)

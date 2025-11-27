@@ -43,7 +43,6 @@ export class CanchaForm {
     if(this.isEditing()){
   this.canchaService.updateCancha(this.canchaId()!, { ...canchaData, establishmentId: this.establishmentId()! }).subscribe({
         next: (res) => {
-          alert('Cancha actualizado con éxito');
           this.canchaEdited.emit(res);
         },
         error: (err) => {

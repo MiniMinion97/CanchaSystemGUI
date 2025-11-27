@@ -34,7 +34,6 @@ export class AdminClients {
 
     this.clientService.getClients().subscribe({
       next: (res) => {
-        console.log('✅ Clientes cargados:', res);
         this.clients.set(res);
         this.loading.set(false);
       },

@@ -83,7 +83,6 @@ export class MyReviewsComponent {
   
   this.reviewService.deleteReview(reviewId).subscribe({
     next: () => {
-      console.log('✅ Review deleted successfully');
       
       // Actualizar el count
       const newCount = this.reviewCount() - 1;

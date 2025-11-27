@@ -39,23 +39,18 @@ private readonly reviewService = inject(ReviewService);
     this.loading.set(true);
 
     let obs;
-    console.log('type: ', this.type());
-    console.log('id: ', this.id);
+    
     if (this.type() === 'client') {
-      console.log('client');
       obs = this.reviewService.getReviewsByClient(this.id!);
     } else if (this.type() === 'establishment') {
-      console.log('establishment');
       obs = this.reviewService.getReviewsByEstablishment(Number(this.id));
     } else {
       obs = this.reviewService.getReviews();
     }
     obs.subscribe({
       next: (res) => {
-        console.log('✅ Reviews cargadas:', res);
         this.reviews.set(res);
         this.loading.set(false);
-        console.log('type: ', this.type());
       },
       error: (err) => {
         console.error('❌ Error cargando reviews:', err);

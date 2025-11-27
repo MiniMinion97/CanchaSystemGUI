@@ -50,7 +50,6 @@ export class MyCanchaDetails {
 
   this.canchaService.deleteCancha(this.id).subscribe({
     next: (res) => {
-      console.log('✅ Cancha eliminada', res);
       this.router.navigateByUrl('/perfil/mis-canchas');
     },
     error: (err) => {

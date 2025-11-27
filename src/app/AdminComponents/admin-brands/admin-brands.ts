@@ -34,7 +34,6 @@ export class AdminBrands {
 
     this.brandService.getBrands().subscribe({
       next: (res) => {
-        console.log('✅ Marcas cargadas:', res);
         this.brands.set(res);
         this.loading.set(false);
       },

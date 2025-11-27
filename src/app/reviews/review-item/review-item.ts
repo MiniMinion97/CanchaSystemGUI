@@ -22,10 +22,8 @@ export class ReviewItem {
   /** Devuelve true si el review pertenece al usuario logueado */
   isOwner(): boolean {
   const review = this.review();
-  const reviewClientId = review.clientId;  // ✅ Directo, no review.client.id
+  const reviewClientId = review.clientId;  // directo, no review.client.id
   const currentClientId = this.clientId();
-
-  console.log('🔍 reviewClientId:', reviewClientId, 'currentClientId:', currentClientId);
 
   return reviewClientId === currentClientId && !!currentClientId;
 }

@@ -40,23 +40,18 @@ private readonly reservationService = inject(ReservationService);
     this.loading.set(true);
 
     let obs;
-    console.log('type: ', this.type());
-    console.log('id: ', this.id);
+    
     if (this.type() === 'client') {
-      console.log('client');
       obs = this.reservationService.getReservationsByClient(this.id!);
     } else if (this.type() === 'establishment') {
-      console.log('establishment');
       obs = this.reservationService.getReservationsByEstablishment(Number(this.id));
     } else {
       obs = this.reservationService.getReservations();
     }
     obs.subscribe({
       next: (res) => {
-        console.log('✅ Reservas cargadas:', res);
         this.reservations.set(res);
         this.loading.set(false);
-        console.log('type: ', this.type());
       },
       error: (err) => {
         console.error('❌ Error cargando reservas:', err);

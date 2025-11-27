@@ -52,7 +52,6 @@ export class MyOwnerReservations {
       if (inside && establishmentId) {
         this.reservationService.getReservationsByEstablishment(establishmentId).subscribe({
           next: (res) => {
-            console.log('📥 Reservas por establecimiento:', res);
             this.reservations.set(Array.isArray(res) ? res : []);
             this.loading.set(false);
           },
@@ -65,8 +64,6 @@ export class MyOwnerReservations {
       } else if (!inside && ownerId) {
         this.reservationService.getReservations().subscribe({
           next: (res) => {
-            console.log('📥 Reservas del propietario:', res);
-            // ✅ ESTO FALTABA: Guardar las reservas
             this.reservations.set(Array.isArray(res) ? res : []);
             this.loading.set(false);
           },
@@ -93,7 +90,6 @@ export class MyOwnerReservations {
 
     this.reservationService.deleteReservation(reservationId).subscribe({
       next: () => {
-        console.log('✅ Reserva cancelada con éxito');
         this.refreshTrigger.update(trigger => trigger + 1);
       },
       error: (err) => {

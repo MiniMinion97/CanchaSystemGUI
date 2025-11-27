@@ -36,7 +36,6 @@ export class MyBrandsComponent {
     // ✅ Llamar al servicio con el ownerId
     this.brandService.getBrandsByOwner(ownerId).subscribe({
       next: (res) => {
-        console.log('✅ Brands del owner:', res);
         this.brands.set(res);
         this.loading.set(false);
       },

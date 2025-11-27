@@ -49,7 +49,6 @@ export class AdminCanchaDetails {
 
     this.canchaService.getCancha(Number(canchaId)).subscribe({
       next: (res) => {
-        console.log('✅ Cancha cargada:', res);
         this.cancha.set(res);
         this.loading.set(false);
 
@@ -71,12 +70,10 @@ export class AdminCanchaDetails {
       return;
     }
     
-    console.log("✅ Formulario válido");
     const value = this.form.getRawValue();
 
     this.canchaService.updateCancha(this.cancha()?.id!, value).subscribe({
         next: (res) => {
-          console.log('✅ Edición de cancha exitosa:', res);
           alert('La cancha fue editado con éxito.');
         },
         error: (err) => {
@@ -88,7 +85,6 @@ export class AdminCanchaDetails {
   handleDelete() {
     this.canchaService.deleteCancha(this.cancha()?.id!).subscribe({
         next: (res) => {
-          console.log('✅ Cancha eliminada con éxito:', res);
           alert('Cancha eliminada con éxito.');
           this.goBack();
         },

@@ -26,7 +26,6 @@ export class Make {
 
   protected readonly today = new Date().toISOString().split('T')[0];
 
-  // ✅ ARREGLADO: Signal correcto para tipos de cancha
   readonly canchaTypes = signal<string[]>([]);
 
   readonly reservationData = input<ReservationResponse>();
@@ -34,7 +33,6 @@ export class Make {
   readonly reservationEdited = output<ReservationResponse>();
   readonly reservationId = input<number>();
 
-  // ✅ ARREGLADO: Form con tipo de cancha en vez de canchaId
   readonly form = this.fb.nonNullable.group({
     canchaType: ['', Validators.required],  // Cambiado de canchaId a canchaType
     date: ['', Validators.required],
@@ -43,10 +41,6 @@ export class Make {
 
   constructor() {
     effect(() => {
-      console.log("🟩 isEditing:", this.isEditing());
-      console.log("🟩 reservationData:", this.reservationData());
-      console.log("🟩 reservationId:", this.reservationId());
-      console.log("🟩 establishmentId input:", this.establishmentId());
 
       const data = this.reservationData();
 
@@ -78,13 +72,11 @@ export class Make {
     });
   }
 
-  // ✅ ARREGLADO: Cargar tipos de cancha correctamente
+  // cargar tipos de cancha correctamente
   private loadCanchaTypes(establishmentId: number) {
-    console.log('📋 Cargando tipos de cancha para establishment:', establishmentId);
     
     this.establishmentService.getCanchaTypes(establishmentId).subscribe({
       next: (types) => {
-        console.log('✅ Tipos de cancha recibidos:', types);
         this.canchaTypes.set(types);
       },
       error: (err) => {
@@ -93,13 +85,12 @@ export class Make {
     });
   }
 
-  // ✅ Cargar horarios disponibles
+  // cargar horarios disponibles
   private loadAvailableHours(establishmentId: number, date: string, canchaType: string) {
   this.loading.set(true);
   this.reservationService.getAvailableHours(establishmentId, date, canchaType)
     .subscribe({
       next: (response) => {
-        console.log("Horas del tipo seleccionado:", response);
         this.availableHours.set(response); // ahora es solo un array de horas
         this.loading.set(false);
       },
@@ -131,7 +122,6 @@ onCanchaTypeChange() {
   }
 }
 
-  // ✅ ARREGLADO: handleSubmit mejorado
   handleSubmit() {
     if (this.form.invalid) {
       console.warn('⚠️ Formulario inválido:', this.form.value);
@@ -168,14 +158,8 @@ onCanchaTypeChange() {
       return;
     }
 
-    console.log('📤 Enviando reserva:', {
-      establishmentId,
-      canchaType: selectedCanchaType,
-      matchDate: matchDate.toISOString(),
-      isEditing: this.isEditing()
-    });
 
-    // 🟦 SI ES EDICIÓN
+    // SI ES EDICIÓN
     if (this.isEditing()) {
       const reservationId = this.reservationId();
       
@@ -192,12 +176,10 @@ onCanchaTypeChange() {
         matchDate
       };
 
-      console.log('🔄 Actualizando reserva:', updateRequest);
 
       this.reservationService.updateReservation(reservationId, updateRequest)
         .subscribe({
           next: (res) => {
-            console.log('✅ Reserva actualizada:', res);
             this.reservationEdited.emit(res);
           },
           error: (err) => {
@@ -209,7 +191,7 @@ onCanchaTypeChange() {
       return;
     }
 
-    // 🟩 SI ES CREACIÓN
+    // SI ES CREACIÓN
     const createRequest: ReservationRequest = {
       establishmentId,
       canchaType: selectedCanchaType,  // Enviar tipo en vez de ID
@@ -218,12 +200,10 @@ onCanchaTypeChange() {
       matchDate
     };
 
-    console.log('➕ Creando reserva:', createRequest);
 
     this.reservationService.createReservation(createRequest)
       .subscribe({
         next: (res) => {
-          console.log('✅ Reserva creada:', res);
           this.reserved.emit(res);
           this.form.reset();
         },
