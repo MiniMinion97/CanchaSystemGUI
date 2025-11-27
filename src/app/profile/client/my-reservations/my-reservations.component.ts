@@ -3,6 +3,9 @@ import { ReservationService } from '../../../reservation/services/reservation/re
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { AuthService } from '../../../auth/services/authservice';
+import { ReservationResponse } from '../../../reservation/models/reservation-response';
+import { EstablishmentService } from '../../../canchas/services/establishment/establishment-service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-my-reservations',
@@ -14,47 +17,71 @@ import { AuthService } from '../../../auth/services/authservice';
 export class MyReservationsComponent {
   protected readonly auth = inject(AuthService);
   private readonly reservationService = inject(ReservationService);
+  private readonly establishmentService = inject(EstablishmentService);
   private readonly router = inject(Router);
   protected clientId = this.auth.getCurrentClientId()!;
-  
+
 
   protected loading = signal<boolean>(true);
 
   protected reservations = signal<any[]>([]);
+  protected allnames = signal<any>([]);
 
   constructor() {
     effect(() => {
-      this.loading.set(true); //cada vez que cambian inputs, arranca en "cargando"
+      this.loading.set(true);
+
       this.reservationService.getReservationsByClient(this.clientId).subscribe({
-          next: (res) => {
-            this.reservations.set(res);
+        next: (reservations) => {
+          this.reservations.set(reservations);
+
+          if (reservations.length === 0) {
             this.loading.set(false);
-          },
-          error: (err) => {
-            console.error('Error obteniendo marcas:', err);
-            this.reservations.set([]);
-            this.loading.set(false);
+            return;
           }
-        });
+
+          const ids = reservations.map(r => r.establishmentId);
+
+          this.establishmentService.getEstablishmentsNames(ids).subscribe({
+            next: (names) => {
+              this.allnames.set(names);
+              this.loading.set(false);
+            }
+          });
+        }
       });
+    });
+  }
+
+  handleDetails(reservation: any) {
+    this.router.navigate([`perfil/mis-reservas/${reservation.id}`], {
+      state: {
+        establishmentName: this.allnames().get(reservation.establishmentId)
+      }
+    });
+  }
+
+  goToExplore() {
+    this.router.navigateByUrl('explore');
+  }
+
+  protected getStatusLabel(status: string): string {
+    const statusMap: { [key: string]: string } = {
+      'PENDING': 'Pendiente',
+      'COMPLETED': 'Completada',
+      'CANCELLED': 'Cancelada',
+      'CANCELED': 'Cancelada'
+    };
+    return statusMap[status] || status;
+  }
+
+  getEstablishmentsName() {
+    let ids = []
+    for (let i = 0; i < this.reservations().length; i++) {
+      ids.push(this.reservations()[i].establishmentId)
     }
 
-    handleDetails(id: Number){
-      this.router.navigateByUrl(`perfil/mis-reservas/${id}`)
-    }
+    return this.establishmentService.getEstablishmentsNames(ids);
+  }
 
-    goToExplore(){
-      this.router.navigateByUrl('explore');
-    }
-  
-    protected getStatusLabel(status: string): string {
-      const statusMap: { [key: string]: string } = {
-        'PENDING': 'Pendiente',
-        'COMPLETED': 'Completada',
-        'CANCELLED': 'Cancelada',
-        'CANCELED': 'Cancelada'
-      };
-      return statusMap[status] || status;
-    }
-  
 }
