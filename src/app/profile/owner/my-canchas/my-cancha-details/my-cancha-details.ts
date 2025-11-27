@@ -42,12 +42,21 @@ export class MyCanchaDetails {
     }
 
   handleDelete(){
-    this.canchaService.deleteCancha(this.id).subscribe({
-      next: (res) => {
-        console.log('Cancha deleted', res);
-        this.router.navigateByUrl('/perfil/mis-canchas');
-      },
-      error: (err) => console.error('Error deleting cancha', err)
-    });
+  const confirmed = confirm('¿Estás seguro de que deseas eliminar esta cancha? Esta acción no se puede deshacer.');
+
+  if (!confirmed) {
+    return;
   }
+
+  this.canchaService.deleteCancha(this.id).subscribe({
+    next: (res) => {
+      console.log('✅ Cancha eliminada', res);
+      this.router.navigateByUrl('/perfil/mis-canchas');
+    },
+    error: (err) => {
+      alert('❌ Error eliminando cancha');  
+      console.error('❌ Error eliminando cancha', err)
+    }
+  });
+}
 }
