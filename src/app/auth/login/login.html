@@ -6,7 +6,7 @@
     }
     </label>  
     <label>    Contraseña    
-        <input type="text" formControlName="password" />  
+        <input type="password" formControlName="password" />  
          @if( form.get('password')?.touched || form.get('password')?.dirty){
         @if(form.get('password')?.hasError('required')){
             <span>La contraseña es obligatoria</span>

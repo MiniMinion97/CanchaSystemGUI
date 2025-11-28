@@ -124,6 +124,17 @@ handleDelete() {
     };
     return statusMap[status] || status;
   }
+
+  protected getCanchaTypeLabel(type: string): string{
+    const typemap: {[key: string]: string} = {
+      'FUTBOL_5': 'Fútbol 5',
+      'FUTBOL_7': 'Fútbol 7',
+      'FUTBOL_9': 'Fútbol 9',
+      'FUTBOL_11': 'Fútbol 11'
+    };
+
+    return typemap[type] || type;
+  }
 }
 
 
