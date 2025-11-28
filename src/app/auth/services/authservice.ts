@@ -142,7 +142,7 @@ export class AuthService {
       const payload = JSON.parse(atob(token.split('.')[1]));
       const exp = payload.exp * 1000; // ✅ CORREGIDO
       const now = Date.now();
-      const fiveMinutes = 5 * 60 * 1000;
+      const fiveMinutes = 1 * 60 * 1000;
       
       const expiringSoon = (exp - now) < fiveMinutes;
       
