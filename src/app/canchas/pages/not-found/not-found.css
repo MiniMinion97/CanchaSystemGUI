@@ -1,0 +1,269 @@
+.not-found-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #EEEDEB 0%, #f9f9f9 100%);
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.not-found-content {
+  max-width: 600px;
+  text-align: center;
+  z-index: 10;
+  position: relative;
+}
+
+/* Icono 404 con pelota */
+.icon-wrapper {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.icon-404 {
+  font-size: 8rem;
+  font-weight: 900;
+  color: #5F7D36;
+  text-shadow: 4px 4px 0 #EEEDEB;
+  animation: bounce 2s ease-in-out infinite;
+  display: inline-block;
+}
+
+.soccer-ball {
+  position: absolute;
+  top: -20px;
+  right: -40px;
+  font-size: 3rem;
+  animation: rotate 3s linear infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Textos */
+.title {
+  font-size: 2.5rem;
+  color: #221F20;
+  margin: 0 0 1rem 0;
+  font-weight: 700;
+}
+
+.subtitle {
+  font-size: 1.25rem;
+  color: #666;
+  margin: 0 0 3rem 0;
+  line-height: 1.6;
+}
+
+/* Sugerencias */
+.suggestions {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  text-align: left;
+}
+
+.suggestions-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #5F7D36;
+  margin: 0 0 1rem 0;
+}
+
+.suggestions-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.suggestions-list li {
+  padding: 0.75rem 0;
+  color: #555;
+  font-size: 1rem;
+  border-bottom: 1px solid #EEEDEB;
+}
+
+.suggestions-list li:last-child {
+  border-bottom: none;
+}
+
+/* Botones */
+.actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-primary,
+.btn-secondary {
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-primary {
+  background: #5F7D36;
+  color: white;
+  box-shadow: 0 4px 16px rgba(95, 125, 54, 0.3);
+}
+
+.btn-primary:hover {
+  background: #4d6529;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(95, 125, 54, 0.4);
+}
+
+.btn-secondary {
+  background: white;
+  color: #5F7D36;
+  border: 2px solid #5F7D36;
+}
+
+.btn-secondary:hover {
+  background: #5F7D36;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(95, 125, 54, 0.2);
+}
+
+.btn-primary:active,
+.btn-secondary:active {
+  transform: translateY(0);
+}
+
+/* Decoración de fondo */
+.background-decoration {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.circle {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.1;
+}
+
+.circle-1 {
+  width: 300px;
+  height: 300px;
+  background: #5F7D36;
+  top: -100px;
+  left: -100px;
+  animation: float 6s ease-in-out infinite;
+}
+
+.circle-2 {
+  width: 200px;
+  height: 200px;
+  background: #B6B6B7;
+  bottom: -50px;
+  right: -50px;
+  animation: float 8s ease-in-out infinite reverse;
+}
+
+.circle-3 {
+  width: 150px;
+  height: 150px;
+  background: #5F7D36;
+  top: 50%;
+  right: 10%;
+  animation: float 7s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-30px) scale(1.05);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .not-found-container {
+    padding: 1.5rem;
+  }
+
+  .icon-404 {
+    font-size: 6rem;
+  }
+
+  .soccer-ball {
+    font-size: 2rem;
+    right: -20px;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .subtitle {
+    font-size: 1.1rem;
+  }
+
+  .suggestions {
+    padding: 1.5rem;
+  }
+
+  .actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .icon-404 {
+    font-size: 4.5rem;
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .suggestions-list li {
+    font-size: 0.95rem;
+  }
+}

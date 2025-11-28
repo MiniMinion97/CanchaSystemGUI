@@ -1,1 +1,41 @@
-<p>not-found works!</p>
+<main class="not-found-container">
+  <div class="not-found-content">
+    
+    <!-- Icono animado -->
+    <div class="icon-wrapper">
+      <div class="icon-404">404</div>
+      <div class="soccer-ball">⚽</div>
+    </div>
+    
+    <!-- Mensaje principal -->
+    <h1 class="title">¡Ups! Página no encontrada</h1>
+    <p class="subtitle">
+      Parece que esta cancha no existe en nuestro sistema
+    </p>
+    
+    <!-- Sugerencias -->
+    <div class="suggestions">
+      <p class="suggestions-title">Podés intentar:</p>
+      <ul class="suggestions-list">
+        <li>✓ Verificar que la URL esté escrita correctamente</li>
+        <li>✓ Volver a la página anterior</li>
+        <li>✓ Explorar nuestras canchas disponibles</li>
+      </ul>
+    </div>
+    
+    <!-- Botones de acción -->
+    <div class="actions">
+      <button class="btn-primary" (click)="goHome()">
+        🏠 Ir al inicio
+      </button>
+    </div>
+    
+  </div>
+  
+  <!-- Decoración de fondo -->
+  <div class="background-decoration">
+    <div class="circle circle-1"></div>
+    <div class="circle circle-2"></div>
+    <div class="circle circle-3"></div>
+  </div>
+</main>
