@@ -1,8 +1,82 @@
-<main>
-    <section class="container-header">
-        <h2>Contacto</h2>
-    </section>
+<main class="contact-container">
+  
+  <section class="container-header">
+    <h2>Contacto</h2>
+  </section>
+  
+  <div class="contact-content">
     
-    <p>Si sos un dueño y queres probar nuestro servicio contactate a este numero +54 9 223 534 8845
-        a la brevedad nos comunicaremos y vamos a asegurarnos de brindarle la mejor experiencia posible </p>
+    <!-- Card principal -->
+    <div class="contact-card">
+      <div class="icon-wrapper">
+        <span class="icon">📞</span>
+      </div>
+      
+      <h3 class="card-title">¿Sos dueño de una cancha?</h3>
+      
+      <p class="card-description">
+        Si querés probar nuestro servicio y formar parte de nuestra red de establecimientos, 
+        contactate con nosotros. Te aseguraremos la mejor experiencia posible.
+      </p>
+      
+      <div class="contact-info">
+        <div class="info-item">
+          <span class="info-icon">📱</span>
+          <div class="info-content">
+            <span class="info-label">WhatsApp</span>
+            <a href="https://wa.me/5492235348845" class="phone-number" target="_blank">
+              +54 9 223 534 8845
+            </a>
+          </div>
+        </div>
+        
+        <div class="info-item">
+          <span class="info-icon">📧</span>
+          <div class="info-content">
+            <span class="info-label">Email</span>
+            <a href="mailto:canchasystem@gmail.com" class="email">
+              canchasystemV2@gmail.com
+            </a>
+          </div>
+        </div>
+        
+        <div class="info-item">
+          <span class="info-icon">🕐</span>
+          <div class="info-content">
+            <span class="info-label">Horario de atención</span>
+            <span class="schedule">Lunes a Viernes: 9:00 - 18:00</span>
+          </div>
+        </div>
+      </div>
+      
+      <button class="cta-button" (click)="openWhatsApp()">
+        <span>💬</span>
+        Contactar por WhatsApp
+      </button>
+    </div>
+    
+    <!-- Beneficios -->
+    <div class="benefits-section">
+      <h3 class="benefits-title">¿Por qué unirte?</h3>
+      <div class="benefits-grid">
+        <div class="benefit-card">
+          <span class="benefit-icon">📈</span>
+          <h4>Más reservas</h4>
+          <p>Aumentá la visibilidad de tu cancha</p>
+        </div>
+        <div class="benefit-card">
+          <span class="benefit-icon">💰</span>
+          <h4>Sin comisiones</h4>
+          <p>Primeros 3 meses gratis</p>
+        </div>
+        <div class="benefit-card">
+          <span class="benefit-icon">⭐</span>
+          <h4>Reseñas</h4>
+          <p>Mejorá tu reputación online</p>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  
 </main>
