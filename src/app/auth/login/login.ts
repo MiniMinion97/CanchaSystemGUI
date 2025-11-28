@@ -36,7 +36,6 @@ export class Login {
     
     this.authService.login(loginrequest).subscribe({
       next: (res) => {
-        console.log('✅ Login exitoso');
         
         // El AuthService ya guarda todo automáticamente
         // Solo redirigir según el rol

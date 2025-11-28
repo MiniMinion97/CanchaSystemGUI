@@ -35,7 +35,6 @@ export class AuthService {
   username = signal<string>(localStorage.getItem('username') || '');
   clientId = signal<string | null>(localStorage.getItem('userId'));
 
-  // ⚙️ Nueva bandera para no repetir el mensaje
   private tokenExpiredAlertShown = false;
 
   constructor(
@@ -43,16 +42,18 @@ export class AuthService {
     private router: Router
   ) {
     this.checkTokenValidity();
-    setInterval(() => this.checkTokenValidity(true), 60000);
+    
+    // Verificar cada minuto
+    setInterval(() => {
+      this.checkTokenValidity(true);
+    }, 60000);
   }
 
   login(credentials: LoginRequest): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/auth/login`, credentials)
       .pipe( 
         tap(res => {
-          console.log('✅ Login exitoso, guardando datos...');
 
-          // Reiniciar alerta al loguearse
           this.tokenExpiredAlertShown = false;
           
           this.clearAuthData();
@@ -67,13 +68,14 @@ export class AuthService {
           this.username.set(res.username);
           this.clientId.set(res.id);
           
-          console.log('✅ Token guardado:', res.token.substring(0, 20) + '...');
+          
+          // Verificar inmediatamente la validez del nuevo token
+          this.checkTokenValidity();
         })
       );
   }
 
   register(data: RegisterRequest): Observable<any> {
-    // Reiniciar alerta al registrarse también
     this.tokenExpiredAlertShown = false;
     return this.http.post(`${this.apiUrl}/client/insertClient`, data); 
   }
@@ -84,13 +86,11 @@ export class AuthService {
   }
 
   logout(): void {
-    console.log('🚪 Cerrando sesión...');
     this.clearAuthData();
     this.loggedIn.set(false);
     this.role.set('');
     this.username.set('');
     this.clientId.set(null);
-    console.log('✅ Sesión cerrada correctamente');
   }
 
   private clearAuthData(): void {
@@ -101,6 +101,7 @@ export class AuthService {
   }
 
   private checkTokenValidity(showAlert: boolean = false): void {
+    
     const token = this.getToken();
     
     if (!token) {
@@ -110,20 +111,19 @@ export class AuthService {
 
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
-      const exp = payload.exp * 1000000;
+      const exp = payload.exp * 1000; // ✅ CORREGIDO: multiplicar por 1000, no 1000000
       const now = Date.now();
-      
+     
       if (exp < now) {
         this.handleExpiredToken(showAlert);
-      }
+      } 
     } catch (error) {
-      console.error('❌ Error al verificar token:', error);
       this.handleExpiredToken(showAlert);
     }
   }
 
   private handleExpiredToken(showAlert: boolean): void {
-    // 🧠 Mostrar el alert solo una vez
+    
     if (showAlert && !this.tokenExpiredAlertShown) {
       alert('⚠️ Tu sesión ha expirado. Por favor, inicia sesión nuevamente.');
       this.tokenExpiredAlertShown = true;
@@ -140,11 +140,13 @@ export class AuthService {
 
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
-      const exp = payload.exp * 1000;
+      const exp = payload.exp * 1000; // ✅ CORREGIDO
       const now = Date.now();
       const fiveMinutes = 5 * 60 * 1000;
       
-      return (exp - now) < fiveMinutes;
+      const expiringSoon = (exp - now) < fiveMinutes;
+      
+      return expiringSoon;
     } catch (error) {
       return true;
     }

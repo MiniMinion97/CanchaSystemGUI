@@ -34,7 +34,6 @@ export class AdminOwners {
 
     this.ownerService.getOwners().subscribe({
       next: (res) => {
-        console.log('✅ Owners cargados:', res);
         this.owners.set(res);
         this.loading.set(false);
       },

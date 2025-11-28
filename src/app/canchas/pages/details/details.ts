@@ -31,7 +31,6 @@ export class Details {
   protected readonly reviews = signal<ReviewResponse[]>([]);
   protected readonly editingReview = signal<ReviewResponse | null>(null);
 
-  // ✅ NUEVO: Signals para verificar si el usuario ya tiene review
   protected readonly hasReviewed = signal<boolean>(false);
   protected readonly checkingReview = signal<boolean>(false);
 
@@ -40,7 +39,6 @@ export class Details {
     this.loadEstablishment();
     this.loadReviews();
 
-    // ✅ Verificar si el cliente ya tiene review cuando cambia el estado de login
     effect(() => {
       if (this.loggedIn() && this.role() === 'ROLE_CLIENT') {
         this.checkIfClientReviewed();
@@ -53,24 +51,14 @@ export class Details {
     effect(() => {
     const currentReviews = this.reviews();
     const userId = this.authService.getCurrentClientId();
-    
-    console.log('📝 Reviews actualizadas:', currentReviews.length);
-    console.log('👤 Current user ID:', userId);
-    
     // Verificar si el usuario tiene una review en la lista
     const userReview = currentReviews.find(r => r.clientId === userId);
-    if (userReview) {
-      console.log('✅ Usuario tiene review:', userReview.id);
-    } else {
-      console.log('❌ Usuario NO tiene review');
-    }
   });
   }
 
   private loadEstablishment() {
     this.establishmentService.getEstablishmentById(this.establishmentId).subscribe({
       next: (data) => {
-        console.log('✅ Establecimiento cargado:', data);
         this.establishment.set(data);
       },
       error: (err) => {
@@ -82,8 +70,6 @@ export class Details {
   private loadReviews() {
     this.reviewService.getReviewsByEstablishment(this.establishmentId).subscribe({
       next: (data) => {
-        console.log('✅ Reviews cargadas:', data.length);
-        console.log(data);
         
         this.reviews.set(data);
       },
@@ -93,7 +79,6 @@ export class Details {
     });
   }
 
-  // ✅ NUEVO: Verificar si el cliente ya tiene una review en este establecimiento
   private checkIfClientReviewed() {
     const clientId = this.authService.getCurrentClientId();
     
@@ -104,14 +89,12 @@ export class Details {
       return;
     }
 
-    console.log('🔍 Verificando si el cliente ya tiene review...');
     this.checkingReview.set(true);
     
-    // ✅ Pasar clientId como string (UUID), no como Number
+    // pasar clientId como string (UUID), no como Number
     this.reviewService.clientAlreadyReviewed(this.establishmentId, clientId)
       .subscribe({
         next: (exists) => {
-          console.log('✅ ¿Ya tiene review?', exists);
           this.hasReviewed.set(exists);
           this.checkingReview.set(false);
         },
@@ -124,13 +107,11 @@ export class Details {
   }
 
   protected startEdit(review: ReviewResponse) {
-    console.log('✏️ Editando review:', review.id);
     this.editingReview.set(review);
   }
 
   /** Called when a review form emits `edited` */
   protected onReviewEdited(updated: ReviewResponse) {
-    console.log('✅ Review actualizada:', updated.id);
     
     const updatedList = this.reviews().map((r) =>
       r.id === updated.id ? updated : r
@@ -142,12 +123,11 @@ export class Details {
 
 
   protected onReviewCreated(newReview: ReviewResponse) {
-    console.log('✅ Review creada:', newReview.id);
     
     this.reviews.set([newReview, ...this.reviews()]);
     this.editingReview.set(null);
     
-    // ✅ Actualizar estado: ahora sí tiene review
+    // actualizar estado: ahora sí tiene review
     this.hasReviewed.set(true);
   }
 
@@ -155,16 +135,14 @@ export class Details {
   protected deleteReview(reviewId: number) {
     if (!confirm('¿Estás seguro de que quieres eliminar esta reseña?')) return;
 
-    console.log('🗑️ Eliminando review:', reviewId);
 
     this.reviewService.deleteReview(reviewId).subscribe({
       next: () => {
-        console.log('✅ Review eliminada');
         
         const filtered = this.reviews().filter((r) => r.id !== reviewId);
         this.reviews.set(filtered);
         
-        // ✅ Actualizar estado: ya no tiene review
+        // actualizar estado: ya no tiene review
         this.hasReviewed.set(false);
         this.editingReview.set(null);
       },
@@ -176,8 +154,7 @@ export class Details {
   }
 
   protected onReservationCreated(reservation: any) {
-    console.log('✅ Reserva creada:', reservation);
-    // Aquí podrías agregar lógica adicional, como mostrar un mensaje de éxito
+    alert("reserva creada con éxito!")
   }
 
   protected get currentUserId() {

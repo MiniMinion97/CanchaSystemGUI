@@ -38,26 +38,21 @@ export class Register {
   handleSubmit() {
     if (this.form.invalid) return;
 
-    console.log("Formulario válido");
     const registerrequest = this.form.getRawValue()
 
     let obs;
 
     if (this.shiftPressed) {
-      console.log("Registrado como dueño, shift presionado")
       obs = this.authService.registerOwner(registerrequest);
     } else {
-      console.log("Registrado como cliente, shift no presionado")
       obs = this.authService.register(registerrequest)
     }
 
     obs.subscribe({
           next: (res) => {
-            console.log('Registration successful:', res);
             this.errorMessage = '';
             this.authService.login({ username: registerrequest.username, password: registerrequest.password }).subscribe({
               next: () => {
-                console.log('✅ Login exitoso');
                 
                 const role = this.authService.getRole();
                 

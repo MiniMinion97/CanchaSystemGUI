@@ -51,7 +51,6 @@ export class AdminEstablishmentDetails {
 
     this.establishmentService.getEstablishmentById(Number(establishmentId)).subscribe({
       next: (res) => {
-        console.log('✅ Establishmente cargado:', res);
         this.establishment.set(res);
         this.loading.set(false);
 
@@ -73,12 +72,10 @@ export class AdminEstablishmentDetails {
       return;
     }
     
-    console.log("✅ Formulario válido");
     const value = this.form.getRawValue();
 
     this.establishmentService.updateEstablishment(this.establishment()?.id!, { ...value, brandId: this.establishment()?.brandId! }).subscribe({
         next: (res) => {
-          console.log('✅ Edición de sucursal exitosa:', res);
           alert('La sucursal fue editada con éxito.');
         },
         error: (err) => {
@@ -92,7 +89,6 @@ export class AdminEstablishmentDetails {
 
     this.establishmentService.deleteEstablishment(this.establishment()?.id!).subscribe({
         next: (res) => {
-          console.log('✅ Sucursal eliminada con éxito:', res);
           alert("Sucursal eliminada con éxito.")
           this.goBack();
         },

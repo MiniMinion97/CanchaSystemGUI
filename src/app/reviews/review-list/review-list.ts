@@ -20,7 +20,7 @@ export class ReviewList {
   readonly reviewsWithPermissions = computed(() =>
   this.reviews().map(review => ({
     review,
-    canModify: this.isLoggedIn() && review.clientId === this.currentUserId()  // ✅ review.clientId
+    canModify: this.isLoggedIn() && review.clientId === this.currentUserId()  // review.clientId
   }))
 );
 }

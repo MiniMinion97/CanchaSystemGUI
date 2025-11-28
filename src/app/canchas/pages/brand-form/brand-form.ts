@@ -46,7 +46,6 @@ export class BrandForm {
     ...brandData, ownerId
   }).subscribe({
   next: (res) => {
-    console.log('Marca actualizada', res);
     alert('Marca actualizada con éxito');
     this.brandEdited.emit(res);
     

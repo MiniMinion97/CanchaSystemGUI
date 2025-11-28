@@ -26,14 +26,12 @@ export class Make {
 
   protected readonly today = new Date().toISOString().split('T')[0];
 
-
   readonly canchaTypes = signal<string[]>([]);
 
   readonly reservationData = input<ReservationResponse>();
   readonly isEditing = input(false);
   readonly reservationEdited = output<ReservationResponse>();
   readonly reservationId = input<number>();
-
 
   readonly form = this.fb.nonNullable.group({
     canchaType: ['', Validators.required], 
@@ -43,10 +41,6 @@ export class Make {
 
   constructor() {
     effect(() => {
-      console.log("🟩 isEditing:", this.isEditing());
-      console.log("🟩 reservationData:", this.reservationData());
-      console.log("🟩 reservationId:", this.reservationId());
-      console.log("🟩 establishmentId input:", this.establishmentId());
 
       const data = this.reservationData();
 
@@ -77,13 +71,11 @@ export class Make {
     });
   }
 
-
+  // cargar tipos de cancha correctamente
   private loadCanchaTypes(establishmentId: number) {
-    console.log('📋 Cargando tipos de cancha para establishment:', establishmentId);
     
     this.establishmentService.getCanchaTypes(establishmentId).subscribe({
       next: (types) => {
-        console.log('✅ Tipos de cancha recibidos:', types);
         this.canchaTypes.set(types);
       },
       error: (err) => {
@@ -92,13 +84,13 @@ export class Make {
     });
   }
 
+  // cargar horarios disponibles
   private loadAvailableHours(establishmentId: number, date: string, canchaType: string) {
   this.loading.set(true);
   this.reservationService.getAvailableHours(establishmentId, date, canchaType)
     .subscribe({
       next: (response) => {
-        console.log("Horas del tipo seleccionado:", response);
-        this.availableHours.set(response); 
+        this.availableHours.set(response); // ahora es solo un array de horas
         this.loading.set(false);
       },
       error: (err) => {
@@ -127,7 +119,6 @@ onCanchaTypeChange() {
     this.loadAvailableHours(establishmentId, date, canchaType);
   }
 }
-
 
   handleSubmit() {
     if (this.form.invalid) {
@@ -166,6 +157,7 @@ onCanchaTypeChange() {
     }
 
 
+    // SI ES EDICIÓN
     if (this.isEditing()) {
       const reservationId = this.reservationId();
       
@@ -198,6 +190,7 @@ onCanchaTypeChange() {
       return;
     }
 
+    // SI ES CREACIÓN
     const createRequest: ReservationRequest = {
       establishmentId,
       canchaType: selectedCanchaType,  // Enviar tipo en vez de ID
@@ -206,7 +199,6 @@ onCanchaTypeChange() {
       matchDate
     };
 
-    console.log('➕ Creando reserva:', createRequest);
 
     this.reservationService.createReservation(createRequest)
       .subscribe({

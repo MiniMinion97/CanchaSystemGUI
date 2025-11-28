@@ -57,7 +57,6 @@ export class AdminBrandDetails implements OnInit {
 
     this.brandService.getBrand(Number(brandId)).subscribe({
       next: (res) => {
-        console.log('✅ Marca cargada:', res);
         this.brand.set(res);
         this.loading.set(false);
 
@@ -79,12 +78,10 @@ export class AdminBrandDetails implements OnInit {
       return;
     }
     
-    console.log("✅ Formulario válido");
     const value = this.form.getRawValue();
 
     this.brandService.updateBrand(this.brand()?.id!, { ...value, active: true, ownerId: this.brand()?.ownerId! }).subscribe({
         next: (res) => {
-          console.log('✅ Edición de marca exitosa:', res);
           alert('La marca fue editada con éxito.');
         },
         error: (err) => {
@@ -98,7 +95,6 @@ export class AdminBrandDetails implements OnInit {
 
     this.brandService.deleteBrand(this.brand()?.id!).subscribe({
         next: (res) => {
-          console.log('✅ Marca eliminada con éxito:', res);
           alert('Marca eliminada con éxito.');
           this.goBack();
         },

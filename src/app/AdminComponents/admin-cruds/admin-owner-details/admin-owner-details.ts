@@ -49,7 +49,6 @@ export class AdminOwnerDetails {
 
     this.ownerService.getOwner(ownerId).subscribe({
       next: (res) => {
-        console.log('✅ Dueño cargado:', res);
         this.owner.set(res);
         this.loading.set(false);
 
@@ -71,12 +70,10 @@ export class AdminOwnerDetails {
       return;
     }
     
-    console.log("✅ Formulario válido");
     const value = this.form.getRawValue();
 
     this.ownerService.updateOwner(this.owner()?.id!, { ...value, active: true, password: '' }).subscribe({
         next: (res) => {
-          console.log('✅ Edición de dueño exitosa:', res);
           alert('El dueño fue editado con éxito.');
         },
         error: (err) => {
@@ -90,7 +87,6 @@ export class AdminOwnerDetails {
 
     this.ownerService.deleteOwner(this.owner()?.id!).subscribe({
         next: (res) => {
-          console.log('✅ Dueño eliminado con éxito:', res);
           alert("Dueño eliminado con éxito.")
           this.goBack();
         },

@@ -31,11 +31,9 @@ export class EstablishmentStore {
                          (now - this.lastFetch() < this.CACHE_DURATION);
     
     if (cacheIsValid) {
-      console.log('📦 Using cached establishments');
       return this.establishments.asReadonly();
     }
     
-    console.log('🌐 Fetching establishments from server');
     this.loading.set(true);
     
     this.service.getEstablishments().subscribe({
@@ -61,11 +59,9 @@ export class EstablishmentStore {
     const cached = this.establishments().find(e => e.id === id);
     
     if (cached) {
-      console.log('📦 Using cached establishment:', id);
       return of(cached);
     }
     
-    console.log('🌐 Fetching establishment from server:', id);
     return this.service.getEstablishmentById(id).pipe(
       tap(establishment => {
         // Add to cache
@@ -118,7 +114,6 @@ export class EstablishmentStore {
         this.establishments.update(establishments => 
           [...establishments, newEstablishment]
         );
-        console.log('✅ Establishment created and added to cache');
       })
     );
   }
@@ -130,7 +125,6 @@ export class EstablishmentStore {
     return this.service.updateEstablishment(id, establishment).pipe(
       tap(updatedEstablishment => {
         this.findAndUpdateEstablishment(updatedEstablishment);
-        console.log('✅ Establishment updated in cache');
       })
     );
   }
@@ -144,7 +138,6 @@ export class EstablishmentStore {
         this.establishments.update(establishments => 
           establishments.filter(e => e.id !== id)
         );
-        console.log('✅ Establishment deleted from cache');
       })
     );
   }
@@ -162,7 +155,6 @@ export class EstablishmentStore {
   clearCache(): void {
     this.establishments.set([]);
     this.lastFetch.set(0);
-    console.log('🗑️ Cache cleared');
   }
   
   /**

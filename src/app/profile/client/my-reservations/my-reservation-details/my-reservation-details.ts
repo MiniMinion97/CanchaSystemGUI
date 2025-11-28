@@ -38,40 +38,34 @@ export class MyReservationDetails {
     const mm = matchDate ? String(matchDate.getMonth() + 1).padStart(2, '0') : '';
     const dd = matchDate ? String(matchDate.getDate()).padStart(2, '0') : '';
 
-    return {
-      canchaId: res.canchaId,
-      date: matchDate ? `${yyyy}-${mm}-${dd}` : '',
-      hour: matchDate ? matchDate.toTimeString().slice(0, 5) : '',
-      establishmentId: res.establishmentId // <-- IMPORTANTE: para que Make cargue las canchas
-    };
+  return {
+    canchaId: res.canchaId,
+    date: matchDate ? `${yyyy}-${mm}-${dd}` : '',
+    hour: matchDate ? matchDate.toTimeString().slice(0, 5) : '',
+    establishmentId: res.establishmentId // <-- IMPORTANTE: para que Make cargue las canchas
+  };
+}
+
+
+
+
+  constructor() {      
+    this.loading.set(true); 
+
+  this.reservationService.getReservation(this.id).subscribe({
+  next: (res) => {
+
+  this.reservation.set(res);
+  this.reservationRequestData.set(this.mapResponseToRequest(res));
+  this.loading.set(false);
+  },
+  error: (err) => {
+    console.error('Error fetching reservation:', err);
+    this.loading.set(false);
   }
+});
 
-
-
-
-  constructor() {
-    // 🆕 Obtener el nombre del establecimiento del router state
-    const state = history.state as { establishmentName?: string };
-    if (state?.establishmentName) {
-      this.establishmentName.set(state.establishmentName);
-    }
-    
-    this.loading.set(true);
-    this.reservationService.getReservation(this.id).subscribe({
-      next: (res) => {
-        console.log("🔎 canchaId:", res.canchaId);
-        console.log("🔎 establishmentId:", res.establishmentId);
-        this.reservation.set(res);
-        this.reservationRequestData.set(this.mapResponseToRequest(res));
-        this.loading.set(false);
-      },
-      error: (err) => {
-        console.error('Error fetching reservation:', err);
-        this.loading.set(false);
-      }
-    });
-  }
-
+}
 
   toggleEdit() {
     this.isEditing.update(v => !v);

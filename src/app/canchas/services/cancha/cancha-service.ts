@@ -31,7 +31,6 @@ export class CanchaService {
     }
 
     createCancha(cancha: CanchaRequest){
-        console.log('POST /cancha ->', cancha);
         return this.http.post<CanchaResponse>(`${this.url}/insert`, cancha);
     }
 

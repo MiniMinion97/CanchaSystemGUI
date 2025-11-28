@@ -16,7 +16,6 @@ export class BrandService {
   }
 
   getBrand(id: number) {
-  console.log('Llamando a:', `${this.url}/findCanchaBrand/${id}`);
 
     return this.http.get<BrandResponse>(`${this.url}/findCanchaBrand/${id}`);
   }

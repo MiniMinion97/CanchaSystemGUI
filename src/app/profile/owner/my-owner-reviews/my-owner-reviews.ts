@@ -35,10 +35,7 @@ private readonly reviewService = inject(ReviewService);
         this.reviewService.getReviewsByEstablishment(establishmentId).subscribe({
           next: (res) => {
             this.reviews.set(res);
-            this.loading.set(false);
-
-            console.log(this.reviews);
-            
+            this.loading.set(false);            
           },
           error: (err) => {
             console.error('Error obteniendo canchas por establecimiento:', err);

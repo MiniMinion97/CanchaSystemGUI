@@ -64,7 +64,7 @@ export class MyBrandDetails {
 
   handleDelete() {
     this.brandService.deleteBrand(this.id).subscribe({
-      next: () => {this.router.navigateByUrl('/perfil/mis-marcas'); alert('Marca eliminada perfecto pa');},
+      next: () => this.router.navigateByUrl('/perfil/mis-marcas'),
       error: (err) => console.error('Error deleting brand:', err)
     });
   }
