@@ -2,6 +2,7 @@ import { Component, effect, inject, signal } from '@angular/core';
 import { ReservationService } from '../../../reservation/services/reservation/reservation-service';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../auth/services/authservice';
 import { ReservationResponse } from '../../../reservation/models/reservation-response';
 import { EstablishmentService } from '../../../canchas/services/establishment/establishment-service';
@@ -10,7 +11,7 @@ import { forkJoin } from 'rxjs';
 @Component({
   selector: 'app-my-reservations',
   standalone: true,
-  imports: [DatePipe],
+  imports: [DatePipe, FormsModule],
   templateUrl: './my-reservations.component.html',
   styleUrl: './my-reservations.component.css'
 })
@@ -21,11 +22,10 @@ export class MyReservationsComponent {
   private readonly router = inject(Router);
   protected clientId = this.auth.getCurrentClientId()!;
 
-
   protected loading = signal<boolean>(true);
-
   protected reservations = signal<any[]>([]);
   protected allnames = signal<any>([]);
+  protected selectedFilter = signal<string | null>(null);
 
   constructor() {
     effect(() => {
@@ -53,6 +53,16 @@ export class MyReservationsComponent {
     });
   }
 
+  protected setStatusFilter(status: string | null) {
+    this.selectedFilter.set(status || null);
+  }
+
+  protected getFilteredReservations() {
+    const filter = this.selectedFilter();
+    if (!filter) return this.reservations();
+    return this.reservations().filter(r => r.status === filter);
+  }
+
   handleDetails(reservation: any) {
     this.router.navigate([`perfil/mis-reservas/${reservation.id}`], {
       state: {
@@ -70,7 +80,7 @@ export class MyReservationsComponent {
       'PENDING': 'Pendiente',
       'COMPLETED': 'Completada',
       'CANCELLED': 'Cancelada',
-      'CANCELED': 'Cancelada'
+      'CANCELED': 'Cancelada',
     };
     return statusMap[status] || status;
   }
@@ -83,5 +93,4 @@ export class MyReservationsComponent {
 
     return this.establishmentService.getEstablishmentsNames(ids);
   }
-
 }

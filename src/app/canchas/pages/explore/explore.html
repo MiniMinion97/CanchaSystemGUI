@@ -1,11 +1,9 @@
-<!-- explore.html -->
 @let establishments = this.filteredEstablishments();
 @let loading = this.loading();
 
 <main>
   <section class="establishment-container">
     
-    <!-- Header con botón de refresh -->
     <div class="container-header">
       <h2>Explorar Establecimientos</h2>
       <button 
@@ -16,9 +14,7 @@
       </button>
     </div>
     
-    <!-- Filter Bar -->
     <div class="filter-bar">
-      <!-- Search -->
       <div class="filter-item search-box">
         <label>
           <span class="filter-icon">🔍</span>
@@ -31,7 +27,6 @@
         </label>
       </div>
       
-      <!-- Sort by rating -->
       <div class="filter-item">
         <label>
           <span class="filter-icon">⭐</span>
@@ -46,7 +41,6 @@
         </label>
       </div>
       
-      <!-- Filter by cancha type -->
       <div class="filter-item">
         <label>
           <span class="filter-icon">⚽</span>
@@ -61,7 +55,6 @@
         </label>
       </div>
       
-      <!-- Clear filters button -->
       @if (hasActiveFilters()) {
         <button class="clear-filters-btn" (click)="clearFilters()">
           ✕ Limpiar filtros
@@ -69,7 +62,6 @@
       }
     </div>
     
-    <!-- Results count -->
     @if (!loading && this.establishments().length > 0) {
       <div class="results-info">
         <span class="results-count">
@@ -77,8 +69,7 @@
         </span>
       </div>
     }
-    
-    <!-- Loading state -->
+    ->
     @if (loading && (!this.establishments() || this.establishments().length === 0)) {
       <div class="loading-container">
         <div class="spinner"></div>
@@ -86,7 +77,6 @@
       </div>
     }
     
-    <!-- Lista de establecimientos -->
     @if (establishments && establishments.length > 0) {
       <div class="establishments-wrapper">
         @for (establishment of establishments; track establishment.id) {
@@ -114,7 +104,6 @@
       </div>
     }
     
-    <!-- Empty state - No results from filters -->
     @if (!loading && this.establishments().length > 0 && establishments.length === 0) {
       <div class="empty-container">
         <div class="empty-icon">🔍</div>
@@ -126,7 +115,6 @@
       </div>
     }
     
-    <!-- Empty state - No establishments at all -->
     @if (!loading && this.establishments().length === 0) {
       <div class="empty-container">
         <div class="empty-icon">🏟️</div>

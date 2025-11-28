@@ -1,4 +1,5 @@
-@let reservations = this.reservations();
+
+@let reservations = this.getFilteredReservations();
 @let loading = this.loading();
 
 @if(this.auth.isLoggedIn()){
@@ -9,11 +10,26 @@
     <p>Cargando reservas...</p>
   </div>
   } @else {
-  @if (reservations && reservations.length > 0) {
+  @if (this.reservations() && this.reservations().length > 0) {
   <header class="list-header">
     <h1>Mis Reservas</h1>
-    <span class="reservation-count">{{ reservations.length }} reserva{{ reservations.length !== 1 ? 's' : '' }}</span>
+    <span class="reservation-count">{{ this.reservations().length }} reserva{{ this.reservations().length !== 1 ? 's' : '' }}</span>
   </header>
+
+  <div class="filter-item">
+    <label>
+      <span class="filter-icon">📋</span>
+      <select 
+        [(ngModel)]="selectedFilter"
+        (ngModelChange)="setStatusFilter($event)"
+        class="filter-select">
+        <option value="">Todas</option>
+        <option value="PENDING">Pendiente</option>
+        <option value="COMPLETED">Completada</option>
+        <option value="CANCELED">Cancelada</option>
+      </select>
+    </label>
+  </div>
 
   <div class="reservations-list">
     @for (r of reservations; track r.id) {
@@ -41,14 +57,16 @@
             <span class="value">{{ r.matchDate | date: 'dd/MM/yyyy HH:mm' }}</span>
           </div>
         </div>
-
-
       </div>
 
       <button class="details-btn" (click)="handleDetails(r)">
         Ver detalles →
       </button>
     </article>
+    } @empty {
+    <div class="empty-filter-state">
+      <p>No hay reservas con este estado</p>
+    </div>
     }
   </div>
   } @else {

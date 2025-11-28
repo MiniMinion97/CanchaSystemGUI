@@ -36,6 +36,50 @@
   font-size: 0.95rem;
 }
 
+/* Filter item */
+.filter-item {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid #EEEDEB;
+}
+
+.filter-item label {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.filter-icon {
+  font-size: 1.5rem;
+}
+
+.filter-select {
+  padding: 0.75rem 1rem;
+  border: 2px solid #EEEDEB;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: white;
+  color: #333;
+  font-weight: 500;
+  min-width: 200px;
+}
+
+.filter-select:hover {
+  border-color: #5F7D36;
+  background: #fafaf9;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: #5F7D36;
+  box-shadow: 0 0 0 3px rgba(95, 125, 54, 0.1);
+}
+
 /* Lista de reservas */
 .reservations-list {
   display: grid;
@@ -86,15 +130,6 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-}
-
-.status-badge {
-  padding: 0.4rem 1rem;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
   color: white;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
@@ -116,6 +151,12 @@
 .status-badge.status-canceled,
 .status-badge.status-cancelada {
   background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+/* Estado: CONFIRMED / CONFIRMADA (Verde oscuro) */
+.status-badge.status-confirmed,
+.status-badge.status-confirmada {
+  background: linear-gradient(135deg, #5F7D36 0%, #4d6529 100%);
 }
 
 /* Info items */
@@ -224,6 +265,16 @@
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
+.empty-filter-state {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  color: #999;
+  font-size: 1.1rem;
+}
+
 .empty-icon {
   font-size: 5rem;
   margin-bottom: 1.5rem;
@@ -275,6 +326,15 @@
   
   .list-header h1 {
     font-size: 2rem;
+  }
+  
+  .filter-item {
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .filter-select {
+    min-width: 100%;
   }
   
   .reservations-list {
