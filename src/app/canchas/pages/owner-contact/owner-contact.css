@@ -1,53 +1,294 @@
-main {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    width: 60vw;
-    max-width: 1200px;
-    margin: auto;
-    margin-top: 20vh;
-    height: 40vh;
-    background-color: var(--background-color-dark);
-    border: var(--green-accent) 2px solid;
-    color: var(--font-color);
-    border-radius: 15px;
-    overflow: auto;
-    box-shadow: 0 8px 24px var(--shadow-color);
-}
+/* contact.component.css */
 
-h2 {
-    font-size: 1.75rem;
-}
-
-p {
-    margin: 15px;
-    font-size: 1.2rem;
-}
-
-
-/* Scrollbar styling */
-.establishment-container::-webkit-scrollbar {
-    width: 8px;
-}
-
-.establishment-container::-webkit-scrollbar-track {
-    background: #d0cfc9;
-    border-radius: 10px;
-}
-
-.establishment-container::-webkit-scrollbar-thumb {
-    background: var(--green-accent);
-    border-radius: 10px;
-}
-
-.establishment-container::-webkit-scrollbar-thumb:hover {
-    background: var(--green-accent);
+.contact-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f7f7f7 0%, #EEEDEB 100%);
+  padding: 2rem 1rem;
 }
 
 .container-header {
-    padding: 1rem 1.5rem;
-    background-color: var(--green-accent);
-    color: var(--background-color);
-    border-bottom: 2px solid var(--green-accent);
-    flex-shrink: 0;
+  text-align: center;
+  padding: 2rem 0;
+  margin-bottom: 2rem;
+}
+
+.container-header h2 {
+  font-size: 3rem;
+  color: #5F7D36;
+  margin: 0;
+  font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.contact-content {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Card principal */
+.contact-card {
+  background: white;
+  border-radius: 20px;
+  padding: 3rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.icon-wrapper {
+  margin-bottom: 1.5rem;
+}
+
+.icon {
+  font-size: 4rem;
+  display: inline-block;
+  animation: ring 2s ease-in-out infinite;
+}
+
+@keyframes ring {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  10%, 30% {
+    transform: rotate(-10deg);
+  }
+  20%, 40% {
+    transform: rotate(10deg);
+  }
+}
+
+.card-title {
+  font-size: 2rem;
+  color: #221F20;
+  margin: 0 0 1rem 0;
+  font-weight: 700;
+}
+
+.card-description {
+  font-size: 1.1rem;
+  color: #666;
+  line-height: 1.8;
+  margin: 0 0 2rem 0;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Info de contacto */
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin: 2rem 0;
+  text-align: left;
+}
+
+.info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: #EEEDEB;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.info-item:hover {
+  background: #e0dfd9;
+  transform: translateX(5px);
+}
+
+.info-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.info-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.info-label {
+  font-size: 0.85rem;
+  color: #5F7D36;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.phone-number,
+.email {
+  font-size: 1.3rem;
+  color: #221F20;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.phone-number:hover,
+.email:hover {
+  color: #5F7D36;
+}
+
+.schedule {
+  font-size: 1.1rem;
+  color: #555;
+  font-weight: 500;
+}
+
+/* Botón CTA */
+.cta-button {
+  background: linear-gradient(135deg, #5F7D36 0%, #4d6529 100%);
+  color: white;
+  border: none;
+  padding: 1.25rem 2.5rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(95, 125, 54, 0.4);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.cta-button span {
+  font-size: 1.5rem;
+}
+
+.cta-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(95, 125, 54, 0.5);
+}
+
+.cta-button:active {
+  transform: translateY(-1px);
+}
+
+/* Sección de beneficios */
+.benefits-section {
+  background: white;
+  border-radius: 20px;
+  padding: 3rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.benefits-title {
+  font-size: 2rem;
+  color: #5F7D36;
+  text-align: center;
+  margin: 0 0 2rem 0;
+  font-weight: 700;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.benefit-card {
+  background: #EEEDEB;
+  padding: 2rem 1.5rem;
+  border-radius: 16px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.benefit-card:hover {
+  background: #5F7D36;
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(95, 125, 54, 0.3);
+}
+
+.benefit-card:hover .benefit-icon,
+.benefit-card:hover h4,
+.benefit-card:hover p {
+  color: white;
+}
+
+.benefit-icon {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.benefit-card h4 {
+  font-size: 1.3rem;
+  color: #221F20;
+  margin: 0 0 0.5rem 0;
+  font-weight: 700;
+  transition: color 0.3s ease;
+}
+
+.benefit-card p {
+  font-size: 0.95rem;
+  color: #666;
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .contact-container {
+    padding: 1.5rem 1rem;
+  }
+
+  .container-header h2 {
+    font-size: 2.5rem;
+  }
+
+  .contact-card,
+  .benefits-section {
+    padding: 2rem 1.5rem;
+  }
+
+  .card-title {
+    font-size: 1.75rem;
+  }
+
+  .card-description {
+    font-size: 1rem;
+  }
+
+  .info-item {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .phone-number,
+  .email {
+    font-size: 1.1rem;
+  }
+
+  .cta-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .benefits-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .container-header h2 {
+    font-size: 2rem;
+  }
+
+  .card-title {
+    font-size: 1.5rem;
+  }
+
+  .icon {
+    font-size: 3rem;
+  }
+
+  .benefits-title {
+    font-size: 1.75rem;
+  }
 }
