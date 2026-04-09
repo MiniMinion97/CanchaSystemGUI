@@ -8,6 +8,8 @@ import { ReviewList } from '../../../reviews/review-list/review-list';
 import { ReviewResponse } from '../../../reviews/models/review-response';
 import { Make } from '../../../reservation/pages/make/make';
 import { StarRatingComponent } from "../../../layout/star-rating/star-rating";
+import { Image } from '../../../image/models/image';
+import { ImageService } from '../../../image/services/image-service';
 
 @Component({
   selector: 'app-details',
@@ -18,6 +20,7 @@ import { StarRatingComponent } from "../../../layout/star-rating/star-rating";
 export class Details {
   private readonly establishmentService = inject(EstablishmentService);
   private readonly reviewService = inject(ReviewService);
+  private readonly imageService = inject(ImageService)
   protected readonly authService = inject(AuthService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
@@ -28,6 +31,7 @@ export class Details {
   protected readonly establishmentId = Number(this.route.snapshot.paramMap.get('id'));
 
   protected readonly establishment = signal<any | null>(null);
+  protected readonly images = signal<Image[]>([]);
   protected readonly reviews = signal<ReviewResponse[]>([]);
   protected readonly editingReview = signal<ReviewResponse | null>(null);
 
@@ -38,6 +42,7 @@ export class Details {
     // Cargar datos al iniciar el componente
     this.loadEstablishment();
     this.loadReviews();
+    this.loadImages();
 
     effect(() => {
       if (this.loggedIn() && this.role() === 'ROLE_CLIENT') {
@@ -77,6 +82,21 @@ export class Details {
         console.error('❌ Error loading reviews:', err);
       }
     });
+  }
+
+  private loadImages() {
+    this.imageService.getImagesByEstablishment(this.establishmentId).subscribe({
+      next: (data) => {
+        this.images.set(data);
+      },
+      error: (err) => {
+        console.error('❌ Error loading images:', err);
+      }
+    });
+  }
+
+  public getImage(imageId: number | string) {
+    return this.imageService.getImageUrl(imageId);
   }
 
   private checkIfClientReviewed() {

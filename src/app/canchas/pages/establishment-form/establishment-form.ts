@@ -2,6 +2,8 @@ import { Component, effect, inject, input, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { EstablishmentService } from '../../services/establishment/establishment-service';
 import { EstablishmentRequest } from '../../models/establishment-request';
+import { ImageService } from '../../../image/services/image-service';
+import { ImageProviderType } from '../../../image/models/image-provider-type';
 
 // Validador que verifica si el input time tiene valor real (no el placeholder --:--)
 function timeInputRequired(control: AbstractControl): ValidationErrors | null {
@@ -24,13 +26,16 @@ function timeInputRequired(control: AbstractControl): ValidationErrors | null {
 export class EstablishmentForm {
   private readonly formBuilder = inject(FormBuilder);
   private readonly establishmentService = inject(EstablishmentService);
+  private readonly imageService = inject(ImageService);
+
+  private selectedImages: File[] = [];
   
   protected readonly form = this.formBuilder.nonNullable.group({
     name: ['', [Validators.required, Validators.minLength(3)]],
     address: ['', Validators.required],
     canShower: [false, Validators.required],
     openingHour: ['', timeInputRequired],  // String vacío para validar correctamente
-    closingHour: ['', timeInputRequired]   // String vacío para validar correctamente
+    closingHour: ['', timeInputRequired],  // String vacío para validar correctamente
   });
   
   readonly brandId = input<number>();
@@ -84,10 +89,26 @@ export class EstablishmentForm {
       });
     } else {
       this.establishmentService.createEstablishment(establishmentData).subscribe({  
-       
+        next: (res) => {
+          console.log("Submitting images");
+          this.submitImages(res.id);
+        },
         error: (err) => console.error('Error al crear establecimiento', err)
       });
     }
+  }
+
+  onImagesSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.selectedImages = input.files ? Array.from(input.files) : [];
+  }
+
+  private submitImages(id: number) {
+    console.log("Images: ", this.selectedImages);
+    this.imageService.createImages(id, ImageProviderType.CANCHA, this.selectedImages).subscribe({
+      next: () => alert('Imágenes subidas con éxito'),
+      error: (err) => console.error('Error subiendo imágenes', err)
+    });
   }
 
   // Convierte Date a string "HH:MM" para el input (solo para edición)
