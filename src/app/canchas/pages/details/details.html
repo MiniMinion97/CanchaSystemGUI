@@ -12,16 +12,16 @@
         </div>
         
         <!-- Espacio reservado para fotos (2/3 del ancho) -->
-        <div class="photos-placeholder">
-          <div class="photo-grid">
+        <div class="pictures">
+          <button (click)="previousImage()">‹</button>
+          <div class="picture-container" [style.transform]="'translateX(-' + imageIndex * 100 + '%)'">
             @for (image of images(); track $index) {
-              @if ($index === 0) {
-                <img class="photo-slot main" [src]="getImage(image.id)" [alt]="image.fileName" />
-              } @else {
-                <img class="photo-slot" [src]="getImage(image.id)" [alt]="image.fileName" />
-              }
+              <div class="picture-filler">
+                <img class="picture-content" [src]="getImage(image.id)" [alt]="image.fileName" />
+              </div>
             }
           </div>
+          <button (click)="nextImage()">›</button>
         </div>
         
         <!-- Detalles del establecimiento -->

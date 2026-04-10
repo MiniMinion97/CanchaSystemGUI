@@ -99,6 +99,16 @@ export class Details {
     return this.imageService.getImageUrl(imageId);
   }
 
+  imageIndex: number = 0;
+  public previousImage() {
+    const length = this.images().length;
+    this.imageIndex = (this.imageIndex - 1 + length) % length;
+  }
+  public nextImage() {
+    const length = this.images().length;
+    this.imageIndex = (this.imageIndex + 1) % length;
+  }
+
   private checkIfClientReviewed() {
     const clientId = this.authService.getCurrentClientId();
     
