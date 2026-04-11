@@ -56,6 +56,33 @@
   <input type="file" enctype="multipart/form-data" multiple accept="image/*" (change)="onImagesSelected($event)" />
 </label>
 
+@if (isEditing() && existingImages.length > 0) {
+  <section class="image-preview-section">
+    <h3>Imágenes actuales</h3>
+    <div class="image-grid">
+      @for (img of existingImages; track $index) {
+        <div class="image-card">
+          <img [src]="getImage(img)" [alt]="`Imagen existente ${$index}`" />
+          <button type="button" (click)="removeExistingImage(img)">Eliminar</button>
+        </div>
+      }
+    </div>
+  </section>
+}
+
+@if (selectedPreviews.length > 0) {
+  <section class="image-preview-section">
+    <h3>Nuevas imágenes seleccionadas</h3>
+    <div class="image-grid">
+      @for (preview of selectedPreviews; track preview; let i = $index) {
+        <div class="image-card">
+          <img [src]="preview" [alt]="`Imagen nueva ${$index}`" />
+          <button type="button" (click)="removeSelectedImage(i)">Quitar</button>
+        </div>
+      }
+    </div>
+  </section>
+}
 
  
 
