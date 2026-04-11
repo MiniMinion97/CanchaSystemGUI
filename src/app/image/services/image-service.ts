@@ -44,7 +44,11 @@ export class ImageService {
     return this.http.put<Image>(`${this.url}/update/${id}`, image);
   }
 
+  deleteImages(ids: string[]) {
+    return this.http.post(`${this.url}/delete`, ids);
+  }
+
   deleteImage(id: string) {
-    return this.http.delete(`${this.url}/delete/${id}`);
+    return this.http.delete(`${this.url}/${id}`);
   }
 }

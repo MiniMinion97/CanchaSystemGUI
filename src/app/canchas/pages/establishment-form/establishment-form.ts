@@ -87,6 +87,15 @@ export class EstablishmentForm {
         next: (res) => {
           alert('Establecimiento actualizado con éxito');
           this.estEdited.emit(res);
+
+          this.imageService.deleteImages(this.imagesToDelete).subscribe({
+            next: () => {
+              console.log("Imágenes borradas con éxito");
+            }
+          });
+
+          console.log("Submitting images");
+          this.submitImages(res.id);
         },
         error: (err) => {
           console.error('Error al actualizar establecimiento', err)
