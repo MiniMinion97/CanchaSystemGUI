@@ -29,6 +29,10 @@ export class EstablishmentForm {
   private readonly imageService = inject(ImageService);
 
   private selectedImages: File[] = [];
+
+  protected existingImages: string[] = [];
+  protected imagesToDelete: string[] = [];
+  protected selectedPreviews: string[] = [];
   
   protected readonly form = this.formBuilder.nonNullable.group({
     name: ['', [Validators.required, Validators.minLength(3)]],
@@ -56,6 +60,8 @@ export class EstablishmentForm {
           openingHour: typeof data.openingHour === 'string' ? data.openingHour : this.dateToTimeString(data.openingHour as any),
           closingHour: typeof data.closingHour === 'string' ? data.closingHour : this.dateToTimeString(data.closingHour as any)
         });
+
+        this.loadImages();
       }
     });
   }
@@ -96,6 +102,32 @@ export class EstablishmentForm {
         error: (err) => console.error('Error al crear establecimiento', err)
       });
     }
+  }
+
+  public removeSelectedImage(imageId: number) {
+    if (confirm("¿Seguro que quiere eliminar esta imagen?")) {
+      this.selectedImages = this.selectedImages.splice(imageId, 1);
+    }
+  }
+
+  public removeExistingImage(imageId: number | string) {
+    if (confirm("¿Seguro que quiere eliminar esta imagen?")) {
+      this.existingImages = this.existingImages.filter(id => id !== imageId);
+      this.imagesToDelete.push(`${imageId}`);
+    }
+  }
+
+  public getImage(imageId: number | string) {
+    return this.imageService.getImageUrl(imageId);
+  }
+
+  private loadImages() {
+    this.imageService.getImagesByEstablishment(this.estId()!).subscribe({
+      next: (data) => this.existingImages = data.map(img => img.id),
+      error: (err) => {
+        console.error('❌ Error loading images:', err);
+      }
+    });
   }
 
   onImagesSelected(event: Event) {
