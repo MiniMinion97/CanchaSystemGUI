@@ -60,19 +60,19 @@
     <div class="picture-container">
       @if (isEditing() && existingImages.length > 0) {
         @for (img of existingImages; track $index) {
-          <div class="image-card">
+          <div class="picture-instance">
             <div class="picture-filler">
-              <img [src]="getImage(img)" [alt]="`Imagen existente ${$index}`" />
+              <img class="picture-content" [src]="getImage(img)" [alt]="`Imagen existente ${$index}`" />
+              <button type="button" (click)="removeExistingImage(img)">Eliminar</button>
             </div>
-            <button type="button" (click)="removeExistingImage(img)">Eliminar</button>
           </div>
         }
       }
       @if (selectedPreviews.length > 0) {
         @for (preview of selectedPreviews; track $index) {
-          <div class="image-card">
+          <div class="picture-instance">
             <div class="picture-filler">
-              <img [src]="preview" [alt]="`Imagen nueva ${$index}`" />
+              <img class="picture-content" [src]="preview" [alt]="`Imagen nueva ${$index}`" />
             </div>
             <button type="button" (click)="removeSelectedImage($index)">Eliminar</button>
           </div>

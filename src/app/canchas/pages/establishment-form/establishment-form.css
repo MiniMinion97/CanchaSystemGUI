@@ -1,5 +1,37 @@
 /* establishment-form.css */
 
+.pictures {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: #e8e8e8;
+  overflow: hidden;
+  border-radius: 0.6rem;
+}
+
+.picture-container {
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
+  width: 100%;
+  border-radius: 8px;
+  overflow: scroll;
+}
+
+.picture-filler {
+  min-width: 100%;
+  height: 100%;
+}
+
+.picture-content {
+  margin: auto 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  z-index: 1;
+}
+
 form {
     display: flex;
     flex-direction: column;
