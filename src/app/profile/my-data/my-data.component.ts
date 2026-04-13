@@ -3,6 +3,8 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../auth/services/authservice';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { Image } from '../../image/models/image';
+import { ImageService } from '../../image/services/image-service';
 
 @Component({
   selector: 'app-my-data',
@@ -15,9 +17,12 @@ export class MyDataComponent {
   private readonly fb = inject(FormBuilder);
   protected readonly auth = inject(AuthService);
   private readonly http = inject(HttpClient);
+  private readonly imageService = inject(ImageService);
 
   readonly loading = signal(false);
   readonly success = signal(false);
+
+  protected profilePicture = signal<Image | null>(null);
 
   form = this.fb.group({
     name: ['', Validators.required],
@@ -39,6 +44,7 @@ export class MyDataComponent {
         ? `http://localhost:8080/owner/findOwner/${id}`
         : `http://localhost:8080/client/findClient/${id}`;
 
+    this.loadProfilePicture(id);
 
     this.http.get<any>(baseUrl).subscribe({
       next: (user) => {
@@ -54,6 +60,21 @@ export class MyDataComponent {
       error: (err) => {
         console.error('❌ Error cargando datos del usuario', err);
         this.loading.set(false);
+      }
+    });
+  }
+
+  public getImage(imageId: number | string) {
+    return this.imageService.getImageUrl(imageId);
+  }
+
+  private loadProfilePicture(id: string) {
+    this.imageService.getImagesByClient(id).subscribe({
+      next: (data) => {
+        this.profilePicture.set(data[0]);
+      },
+      error: (err) => {
+        console.error('❌ Error loading images:', err);
       }
     });
   }
