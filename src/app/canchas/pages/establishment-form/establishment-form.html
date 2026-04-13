@@ -73,8 +73,8 @@
           <div class="picture-instance">
             <div class="picture-filler">
               <img class="picture-content" [src]="preview" [alt]="`Imagen nueva ${$index}`" />
+              <button type="button" (click)="removeSelectedImage($index)">Eliminar</button>
             </div>
-            <button type="button" (click)="removeSelectedImage($index)">Eliminar</button>
           </div>
         }
       }
