@@ -28,63 +28,58 @@
   </label>
 
   <label>
-  Hora apertura
-  <input type="time" formControlName="openingHour" required />
-  @if(form.get('openingHour')?.touched || form.get('openingHour')?.dirty){
-    @if(form.get('openingHour')?.hasError('required')){
-      <span>La hora de apertura es obligatoria</span>
-    } @else if (form.get('openingHour')?.hasError('defaultTime')) {
-      <span>Por favor seleccioná la hora de apertura (no usar el valor por defecto)</span>
+    Hora apertura
+    <input type="time" formControlName="openingHour" required />
+    @if(form.get('openingHour')?.touched || form.get('openingHour')?.dirty){
+      @if(form.get('openingHour')?.hasError('required')){
+        <span>La hora de apertura es obligatoria</span>
+      } @else if (form.get('openingHour')?.hasError('defaultTime')) {
+        <span>Por favor seleccioná la hora de apertura (no usar el valor por defecto)</span>
+      }
     }
-  }
-</label>
+  </label>
 
-<label>
-  Hora cierre
-  <input type="time" formControlName="closingHour" required />
-  @if(form.get('closingHour')?.touched || form.get('closingHour')?.dirty){
-    @if(form.get('closingHour')?.hasError('required')){
-      <span>La hora de cierre es obligatoria</span>
-    } @else if (form.get('closingHour')?.hasError('defaultTime')) {
-      <span>Por favor seleccioná la hora de cierre (no usar el valor por defecto)</span>
+  <label>
+    Hora cierre
+    <input type="time" formControlName="closingHour" required />
+    @if(form.get('closingHour')?.touched || form.get('closingHour')?.dirty){
+      @if(form.get('closingHour')?.hasError('required')){
+        <span>La hora de cierre es obligatoria</span>
+      } @else if (form.get('closingHour')?.hasError('defaultTime')) {
+        <span>Por favor seleccioná la hora de cierre (no usar el valor por defecto)</span>
+      }
     }
-  }
-</label>
+  </label>
 
-<label>
-  Imágenes
-  <input type="file" enctype="multipart/form-data" multiple accept="image/*" (change)="onImagesSelected($event)" />
-</label>
+  <label>
+    Imágenes
+    <input type="file" enctype="multipart/form-data" multiple accept="image/*" (change)="onImagesSelected($event)" />
+  </label>
 
-@if (isEditing() && existingImages.length > 0) {
-  <section class="image-preview-section">
-    <h3>Imágenes actuales</h3>
-    <div class="image-grid">
-      @for (img of existingImages; track $index) {
-        <div class="image-card">
-          <img [src]="getImage(img)" [alt]="`Imagen existente ${$index}`" />
-          <button type="button" (click)="removeExistingImage(img)">Eliminar</button>
-        </div>
+  <section class="pictures">
+    <div class="picture-container">
+      @if (isEditing() && existingImages.length > 0) {
+        @for (img of existingImages; track $index) {
+          <div class="image-card">
+            <div class="picture-filler">
+              <img [src]="getImage(img)" [alt]="`Imagen existente ${$index}`" />
+            </div>
+            <button type="button" (click)="removeExistingImage(img)">Eliminar</button>
+          </div>
+        }
+      }
+      @if (selectedPreviews.length > 0) {
+        @for (preview of selectedPreviews; track $index) {
+          <div class="image-card">
+            <div class="picture-filler">
+              <img [src]="preview" [alt]="`Imagen nueva ${$index}`" />
+            </div>
+            <button type="button" (click)="removeSelectedImage($index)">Eliminar</button>
+          </div>
+        }
       }
     </div>
   </section>
-}
-
-@if (selectedPreviews.length > 0) {
-  <section class="image-preview-section">
-    <h3>Nuevas imágenes seleccionadas</h3>
-    <div class="image-grid">
-      @for (preview of selectedPreviews; track preview; let i = $index) {
-        <div class="image-card">
-          <img [src]="preview" [alt]="`Imagen nueva ${$index}`" />
-          <button type="button" (click)="removeSelectedImage(i)">Quitar</button>
-        </div>
-      }
-    </div>
-  </section>
-}
-
- 
 
   <button type="submit" [disabled]="form.invalid">
     {{ this.isEditing() ? 'Editar establecimiento' : 'Crear establecimiento' }}

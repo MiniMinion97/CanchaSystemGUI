@@ -34,8 +34,6 @@ export class ImageService {
     for (const file of images) {
       formData.append('files', file);
     }
-    console.log("Posting! ", formData.get('type'));
-    console.log("Posting! ", formData.getAll('files'));
     return this.http.post(`${this.url}/insert/${uploadData}`, formData);
   }
 

@@ -94,7 +94,6 @@ export class EstablishmentForm {
             }
           });
 
-          console.log("Submitting images");
           this.submitImages(res.id);
         },
         error: (err) => {
@@ -105,7 +104,6 @@ export class EstablishmentForm {
     } else {
       this.establishmentService.createEstablishment(establishmentData).subscribe({  
         next: (res) => {
-          console.log("Submitting images");
           this.submitImages(res.id);
         },
         error: (err) => console.error('Error al crear establecimiento', err)
@@ -115,7 +113,10 @@ export class EstablishmentForm {
 
   public removeSelectedImage(imageId: number) {
     if (confirm("¿Seguro que quiere eliminar esta imagen?")) {
-      this.selectedImages = this.selectedImages.splice(imageId, 1);
+      console.log("Previous: ", this.selectedImages, this.selectedPreviews);
+      this.selectedImages.splice(imageId, 1);
+      this.selectedPreviews.splice(imageId, 1);
+      console.log("Current: ", this.selectedImages, this.selectedPreviews);
     }
   }
 
@@ -142,10 +143,18 @@ export class EstablishmentForm {
   onImagesSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     this.selectedImages = input.files ? Array.from(input.files) : [];
+    if (this.selectedImages[0]) {
+      this.selectedImages.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = (event: any) => this.selectedPreviews.push(event.target.result);
+        reader.readAsDataURL(file);
+      });
+    }
   }
 
   private submitImages(id: number) {
     console.log("Images: ", this.selectedImages);
+    if (!this.selectedImages[0]) return;
     this.imageService.createImages(id, ImageProviderType.CANCHA, this.selectedImages).subscribe({
       next: () => alert('Imágenes subidas con éxito'),
       error: (err) => console.error('Error subiendo imágenes', err)
