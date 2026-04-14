@@ -2,15 +2,25 @@
 
 @if(this.auth.loggedIn()){
   <div class="profile-container">
-
-    <img [src]="profilePicture() ? getImage(profilePicture()?.id!) : ''" alt="Imagen de perfil">
-
     <h2>Mi información personal</h2>
 
     @if (loading()) {
       <p class="loading">Cargando datos...</p>
     } @else {
       <form [formGroup]="form" (ngSubmit)="saveChanges()">
+        <div class="profile-picture">
+          <button class="profile-picture">
+            @if (profilePicture()) {
+              <img [src]="getImage(profilePicture()?.id!)" alt="Imagen de perfil">
+            } @else {
+              <svg>
+                <use href="user.svg"></use>
+              </svg>
+            }
+          </button>
+        </div>
+        
+
         <div class="form-group">
           <label>Nombre</label>
           <input type="text" formControlName="name" />
