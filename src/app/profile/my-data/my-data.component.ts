@@ -23,6 +23,8 @@ export class MyDataComponent {
   readonly success = signal(false);
 
   protected profilePicture = signal<Image | null>(null);
+  protected newProfilePicture: File | null = null;
+  protected newProfilePicturePreview: string | null = null;
 
   form = this.fb.group({
     name: ['', Validators.required],
@@ -44,8 +46,6 @@ export class MyDataComponent {
         ? `http://localhost:8080/owner/findOwner/${id}`
         : `http://localhost:8080/client/findClient/${id}`;
 
-    this.loadProfilePicture(id);
-
     this.http.get<any>(baseUrl).subscribe({
       next: (user) => {
         this.form.patchValue({
@@ -55,6 +55,7 @@ export class MyDataComponent {
           mail: user.mail,
           cellNumber: user.cellNumber
         });
+        this.loadProfilePicture(user.username);
         this.loading.set(false);
       },
       error: (err) => {
@@ -71,7 +72,7 @@ export class MyDataComponent {
   private loadProfilePicture(id: string) {
     this.imageService.getImagesByClient(id).subscribe({
       next: (data) => {
-        this.profilePicture.set(data[0]);
+        this.profilePicture.set(data);
       },
       error: (err) => {
         console.error('❌ Error loading images:', err);
@@ -107,6 +108,15 @@ export class MyDataComponent {
       headers: { 'Content-Type': 'application/json' }
     }).subscribe({
       next: (response) => {
+        if (this.newProfilePicture) {
+          this.imageService.updateProfilePicture(this.form.getRawValue().username!, this.newProfilePicture).subscribe({
+            next: () => {
+            },
+            error: (err) => {
+              console.error('❌ Error al actualizar foto de perfil', err);
+            }
+          });
+        }
         this.success.set(true);
         this.loading.set(false);
       },
@@ -115,5 +125,15 @@ export class MyDataComponent {
         this.loading.set(false);
       }
     });
+  }
+
+  chooseProfilePicture(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      this.newProfilePicture = input.files[0];
+      const reader = new FileReader();
+      reader.onload = (event: any) => this.newProfilePicturePreview = event.target.result;
+      reader.readAsDataURL(this.newProfilePicture);
+    }
   }
 }

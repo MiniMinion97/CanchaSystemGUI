@@ -9,8 +9,11 @@
     } @else {
       <form [formGroup]="form" (ngSubmit)="saveChanges()">
         <div class="profile-picture">
-          <button class="profile-picture">
-            @if (profilePicture()) {
+          <input #fileInput type="file" enctype="multipart/form-data" accept="image/*" (change)="chooseProfilePicture($event)" style="display: none;" />
+          <button type="button" class="profile-picture" (click)="fileInput.click()">
+            @if (newProfilePicturePreview) {
+              <img [src]="newProfilePicturePreview" alt="Imagen de perfil">
+            } @else if (profilePicture()) {
               <img [src]="getImage(profilePicture()?.id!)" alt="Imagen de perfil">
             } @else {
               <svg>

@@ -24,7 +24,7 @@ export class ImageService {
   }
 
   getImagesByClient(clientUsername: string) {
-    return this.http.get<Image[]>(`${this.url}/user/${clientUsername}`);
+    return this.http.get<Image>(`${this.url}/user/${clientUsername}`);
   }
 
   createImages(uploadData: number, imageType: ImageProviderType, images: File[]): Observable<any> {
@@ -48,5 +48,12 @@ export class ImageService {
 
   deleteImage(id: string) {
     return this.http.delete(`${this.url}/${id}`);
+  }
+
+  updateProfilePicture(username: string, image: File) {
+    const formData = new FormData();
+    formData.append('file', image);
+
+    return this.http.put(`${this.url}/user/${username}`, formData);
   }
 }
