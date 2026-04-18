@@ -76,3 +76,7 @@ nav{
 .nav-item:hover:not(.active) img {
     filter: brightness(0.8) invert(1);
 }
+
+div.header-padding {
+    height: 18vh;
+}
