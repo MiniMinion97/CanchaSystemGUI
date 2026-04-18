@@ -5,7 +5,6 @@ main {
     width: 60vw;
     max-width: 1200px;
     margin: auto;
-    margin-top: 20vh;
     height: 60vh;
     background-color: var(--background-color-dark);
     border: var(--green-accent) 2px solid;

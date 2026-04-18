@@ -5,7 +5,6 @@ main {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    padding: 2rem 0;
 }
 
 /* Estado no autenticado */
@@ -49,13 +48,13 @@ app-admin:empty::after {
 /* Responsive */
 @media (max-width: 1200px) {
     main {
-        padding: 1.5rem 0;
+        padding: 0 0;
     }
 }
 
 @media (max-width: 768px) {
     main {
-        padding: 1rem 0;
+        padding: 0 0;
         min-height: auto;
     }
 
@@ -68,7 +67,7 @@ app-admin:empty::after {
 
 @media (max-width: 480px) {
     main {
-        padding: 0.75rem 0;
+        padding: 0 0;
     }
 
     main > span {
