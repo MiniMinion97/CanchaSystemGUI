@@ -1,8 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { AuthService, RegisterRequest } from '../services/authservice';
-import { Login } from '../login/login';
+import { AuthService } from '../services/authservice';
 import { Router } from '@angular/router';
 
 
@@ -17,7 +16,7 @@ export class Register {
   private readonly formBuilder = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
-  
+
   errorMessage: string = '';
 
   protected readonly form = this.formBuilder.nonNullable.group({
@@ -30,11 +29,13 @@ export class Register {
   })
 
   shiftPressed = false;
+  ctrlPressed = false;
 
-  setShift(e: MouseEvent) {
+  setKeys(e: MouseEvent) {
     this.shiftPressed = e.shiftKey;
+    this.ctrlPressed = e.ctrlKey;
   }
-  
+
   handleSubmit() {
     if (this.form.invalid) return;
 
@@ -42,20 +43,22 @@ export class Register {
 
     let obs;
 
-    if (this.shiftPressed) {
+    if (this.ctrlPressed) {
+      obs = this.authService.registerAdminTest(registerrequest);
+    } else if (this.shiftPressed) {
       obs = this.authService.registerOwner(registerrequest);
     } else {
       obs = this.authService.register(registerrequest)
     }
 
     obs.subscribe({
-          next: (res) => {
+          next: () => {
             this.errorMessage = '';
             this.authService.login({ username: registerrequest.username, password: registerrequest.password }).subscribe({
               next: () => {
-                
+
                 const role = this.authService.getRole();
-                
+
                 if (role === 'OWNER') {
                   this.router.navigate(['/owner-dashboard']);
                 } else if (role === 'CLIENT') {
