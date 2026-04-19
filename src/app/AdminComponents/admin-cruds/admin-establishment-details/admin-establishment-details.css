@@ -2,8 +2,8 @@ main {
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    padding: 22vh 2rem;
-    min-height: 100vh;
+    padding: 0 2rem;
+    min-height: 100%;
 }
 
 /* Contenedor principal de la sucursal */

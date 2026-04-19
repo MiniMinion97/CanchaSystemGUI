@@ -9,6 +9,7 @@
     --background-color: #FAFAFA;
     --border-color: #B6B6B7;
     --green-accent: #5F7D37;
+    --green-accent-rgb: var(--green-accent);
     --font-color: #221F20;
     --shadow-color: rgba(0, 0, 0, 0.1);
 }

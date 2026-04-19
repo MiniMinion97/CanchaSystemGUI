@@ -1,8 +1,7 @@
 button {
     border-radius: 10px;
-    transition: background-color 0.08s ease;
-    transition: border 0.08s ease;
-     
+    transition: background-color 0.08s ease, border 0.08s ease;
+
     border: 2px solid var(--border-color);
     background-color: var(--background-color);
 
@@ -19,9 +18,9 @@ button:hover {
 main {
     display: flex;
     justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 2rem 0;
+    align-items: start;
+    min-height: 100%;
+    padding: 0 0;
 }
 
 .owner-container {
@@ -30,7 +29,7 @@ main {
     flex-direction: column;
     width: 60vw;
     max-width: 1200px;
-    margin-top: 15vh;
+    margin-top: 0;
     height: 75vh;
     background-color: var(--background-color-dark);
     border: var(--green-accent) 2px solid;
@@ -83,7 +82,7 @@ th, td {
 thead {
     font-size: 1.2rem;
     position: sticky;
-    top: 0px;
+    top: 0;
 }
 
 tbody tr:nth-child(odd) {
