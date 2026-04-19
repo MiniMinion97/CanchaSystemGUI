@@ -1,8 +1,8 @@
 p {
     display: flex;
     justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+    align-items: start;
+    min-height: 100%;
     font-size: 1.2rem;
     font-weight: 600;
     color: var(--font-color);
@@ -12,9 +12,9 @@ p {
 main {
     display: flex;
     justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 2rem 0;
+    align-items: start;
+    min-height: 100%;
+    padding: 0;
 }
 
 .brand-container {

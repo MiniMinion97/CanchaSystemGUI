@@ -1,14 +1,12 @@
 
 main{
     display: flex;
-    padding-top: 100px;
-    
 }
 
 .profile-container {
   width: 500px;
   max-width: 800px;
-  margin: 2rem auto;
+  margin: 0 auto;
   padding: 2rem;
   background: #fff;
   border-radius: 12px;

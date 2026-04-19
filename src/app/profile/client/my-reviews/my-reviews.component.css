@@ -4,9 +4,8 @@
 .my-reviews-container {
   max-width: 1200px;
   margin: 0 auto;
-  margin-top: 120px;
   top: 100px;
-  padding: 2rem 1.5rem;
+  padding: 0 1.5rem;
   min-height: 90vh;
   background: #f7f7f7;
 }
@@ -224,32 +223,32 @@
   .my-reviews-container {
     padding: 1rem;
   }
-  
+
   .reviews-header {
     padding: 1.5rem;
   }
-  
+
   .header-content h1 {
     font-size: 2rem;
   }
-  
+
   .header-stats {
     flex-direction: column;
   }
-  
+
   .stat-card {
     min-width: 100%;
   }
-  
+
   .edit-section,
   .reviews-list-section {
     padding: 1.5rem;
   }
-  
+
   .empty-state {
     padding: 3rem 1rem;
   }
-  
+
   .empty-icon {
     font-size: 4rem;
   }
@@ -259,11 +258,11 @@
   .header-content h1 {
     font-size: 1.75rem;
   }
-  
+
   .stat-number {
     font-size: 1.5rem;
   }
-  
+
   .edit-header h3 {
     font-size: 1.25rem;
   }

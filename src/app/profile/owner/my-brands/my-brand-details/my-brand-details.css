@@ -5,8 +5,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    padding: 2rem;
+    min-height: 100%;
+    padding: 0 2rem;
     max-width: 1200px;
     margin: 0 auto;
     gap: 1.5rem;

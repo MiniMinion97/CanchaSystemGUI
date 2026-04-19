@@ -3,22 +3,22 @@
 p {
     display: flex;
     justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+    align-items: start;
+    min-height: 100%;
     font-size: 1.2rem;
     font-weight: 600;
     color: var(--font-color);
     text-align: center;
-    padding: 2rem;
+    padding: 0 2rem;
 }
 
 .establishment-list {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: start;
     flex-wrap: wrap;
-    min-height: 100vh;
-    padding: 2rem;
+    min-height: 100%;
+    padding: 0 2rem;
     gap: 1.5rem;
     max-width: 1400px;
     margin: 0 auto;
