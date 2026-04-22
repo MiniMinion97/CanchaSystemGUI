@@ -13,7 +13,7 @@ export interface LoginResponse {
   role: string;
   username: string;
   id: string;
-} 
+}
 
 export interface RegisterRequest {
   name: string;
@@ -28,8 +28,8 @@ export interface RegisterRequest {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080'; 
-  
+  private apiUrl = 'http://localhost:8080';
+
   loggedIn = signal<boolean>(!!localStorage.getItem('token'));
   role = signal<string>(localStorage.getItem('role') || '');
   username = signal<string>(localStorage.getItem('username') || '');
@@ -42,7 +42,7 @@ export class AuthService {
     private router: Router
   ) {
     this.checkTokenValidity();
-    
+
     // Verificar cada minuto
     setInterval(() => {
       this.checkTokenValidity(true);
@@ -51,24 +51,24 @@ export class AuthService {
 
   login(credentials: LoginRequest): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/auth/login`, credentials)
-      .pipe( 
+      .pipe(
         tap(res => {
 
           this.tokenExpiredAlertShown = false;
-          
+
           this.clearAuthData();
-          
+
           localStorage.setItem('token', res.token);
           localStorage.setItem('username', res.username);
           localStorage.setItem('role', res.role);
           localStorage.setItem('userId', res.id);
-          
+
           this.loggedIn.set(true);
           this.role.set(res.role);
           this.username.set(res.username);
           this.clientId.set(res.id);
-          
-          
+
+
           // Verificar inmediatamente la validez del nuevo token
           this.checkTokenValidity();
         })
@@ -77,12 +77,17 @@ export class AuthService {
 
   register(data: RegisterRequest): Observable<any> {
     this.tokenExpiredAlertShown = false;
-    return this.http.post(`${this.apiUrl}/client/insertClient`, data); 
+    return this.http.post(`${this.apiUrl}/client/insertClient`, data);
   }
 
   registerOwner(data: RegisterRequest): Observable<any> {
     this.tokenExpiredAlertShown = false;
-    return this.http.post(`${this.apiUrl}/owner/insert`, data); 
+    return this.http.post(`${this.apiUrl}/owner/insert`, data);
+  }
+
+  registerAdminTest(data: RegisterRequest): Observable<any> {
+    this.tokenExpiredAlertShown = false;
+    return this.http.post(`${this.apiUrl}/admin/testInsert`, data);
   }
 
   logout(): void {
@@ -101,11 +106,10 @@ export class AuthService {
   }
 
   private checkTokenValidity(showAlert: boolean = false): void {
-    
+
     const token = this.getToken();
-    
+
     if (!token) {
-      this.handleExpiredToken(showAlert);
       return;
     }
 
@@ -113,17 +117,17 @@ export class AuthService {
       const payload = JSON.parse(atob(token.split('.')[1]));
       const exp = payload.exp * 1000; // ✅ CORREGIDO: multiplicar por 1000, no 1000000
       const now = Date.now();
-     
+
       if (exp < now) {
         this.handleExpiredToken(showAlert);
-      } 
+      }
     } catch (error) {
       this.handleExpiredToken(showAlert);
     }
   }
 
   private handleExpiredToken(showAlert: boolean): void {
-    
+
     if (showAlert && !this.tokenExpiredAlertShown) {
       alert('⚠️ Tu sesión ha expirado. Por favor, inicia sesión nuevamente.');
       this.tokenExpiredAlertShown = true;
@@ -135,7 +139,7 @@ export class AuthService {
 
   isTokenExpiringSoon(): boolean {
     const token = this.getToken();
-    
+
     if (!token) return true;
 
     try {
@@ -143,9 +147,9 @@ export class AuthService {
       const exp = payload.exp * 1000; // ✅ CORREGIDO
       const now = Date.now();
       const fiveMinutes = 1 * 60 * 1000;
-      
+
       const expiringSoon = (exp - now) < fiveMinutes;
-      
+
       return expiringSoon;
     } catch (error) {
       return true;
