@@ -67,6 +67,7 @@ export const routes: Routes = [
     {path: 'admin/sucursales/:id', component: AdminEstablishmentDetails, canActivate: [isAdminGuard, isAuthenticatedGuard]},
     {path: 'admin/reservation/:id', component: AdminReservation, canActivate: [isAdminGuard, isAuthenticatedGuard]},
     {path: 'admin/review/:id', component: AdminReviews, canActivate: [isAdminGuard, isAuthenticatedGuard]},
-    
+
+    {path: '', redirectTo: 'explorar', pathMatch: 'full'},
     {path: '**', component: NotFound}
 ];
