@@ -54,6 +54,9 @@
 
     <button type="submit" (click)="setKeys($event)">Registrarse</button>
 
+    <span>[Ctrl] - Admin</span>
+    <span>[Shift] - Owner</span>
+
     @if (hasError()) {
         <span>{{errorMessage}}</span>
     }
