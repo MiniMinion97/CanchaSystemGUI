@@ -2,7 +2,6 @@ import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/authservice';
-import { Router } from '@angular/router';
 
 
 @Component({
@@ -15,7 +14,6 @@ import { Router } from '@angular/router';
 export class Register {
   private readonly formBuilder = inject(FormBuilder);
   private readonly authService = inject(AuthService);
-  private readonly router = inject(Router);
 
   errorMessage: string = '';
 
@@ -53,24 +51,7 @@ export class Register {
 
     obs.subscribe({
           next: () => {
-            this.errorMessage = '';
-            this.authService.login({ username: registerrequest.username, password: registerrequest.password }).subscribe({
-              next: () => {
-
-                const role = this.authService.getRole();
-
-                if (role === 'OWNER') {
-                  this.router.navigate(['/owner-dashboard']);
-                } else if (role === 'CLIENT') {
-                  this.router.navigate(['/explorar']);
-                } else {
-                  this.router.navigate(['/explorar']);
-                }
-              },
-              error: (err) => {
-                console.error('❌ Login fallido:', err);
-              }
-            });
+            this.errorMessage = 'Un email de verificación fue mandado a tu correo.';
           },
           error: (err) => {
             console.error('Registration failed:', err);
