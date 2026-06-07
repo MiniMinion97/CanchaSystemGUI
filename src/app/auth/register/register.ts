@@ -51,7 +51,7 @@ export class Register {
 
     obs.subscribe({
           next: () => {
-            this.errorMessage = 'Un email de verificación fue mandado a tu correo.';
+            this.errorMessage = 'Un correo de verificación fue mandado a tu email.';
           },
           error: (err) => {
             console.error('Registration failed:', err);

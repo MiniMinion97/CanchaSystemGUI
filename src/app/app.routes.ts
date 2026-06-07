@@ -24,13 +24,17 @@ import { AdminBrandDetails } from './AdminComponents/admin-cruds/admin-brand-det
 import { AdminEstablishmentDetails } from './AdminComponents/admin-cruds/admin-establishment-details/admin-establishment-details';
 import { MyOwnerReviews } from './profile/owner/my-owner-reviews/my-owner-reviews';
 import { MyOwnerReservations } from './profile/owner/my-owner-reservations/my-owner-reservations';
-import { isAdminGuard, isAuthenticatedGuard, isClientGuard, isOwnerGuard, isNotAuthenticatedGuard } from './core/guards/auth/auth-guard';
+import { isAdminGuard, isAuthenticatedGuard, isClientGuard, isOwnerGuard } from './core/guards/auth/auth-guard';
 import { AdminReservation } from './AdminComponents/admin-reservation/admin-reservation';
 import { AdminReviews } from './AdminComponents/admin-reviews/admin-reviews';
 import { NotFound } from './canchas/pages/not-found/not-found';
+import { Verify } from './auth/verify/verify';
 
 export const routes: Routes = [
     {path: 'explorar', component: Explore},
+
+    {path: 'verificar/:token', component: Verify},
+
     {path: 'perfil', component: View},
     {path: 'perfil/mis-datos',component: MyDataComponent, canActivate: [isAuthenticatedGuard]},
 
