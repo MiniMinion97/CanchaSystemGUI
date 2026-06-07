@@ -18,7 +18,7 @@ export class Verify {
   ngOnInit() {
     this.verificationService.verifyToken(this.token!).subscribe({
       next: () => {
-        this.message.set("Verificación completada. Regístrese para ingresar")
+        this.message.set("Verificación completada. Inicie sesión para ingresar")
         setTimeout(() => {
           this.router.navigate(['/explorar']);
         }, 5000);

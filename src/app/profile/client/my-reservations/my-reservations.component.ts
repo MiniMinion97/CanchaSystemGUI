@@ -4,9 +4,7 @@ import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../auth/services/authservice';
-import { ReservationResponse } from '../../../reservation/models/reservation-response';
 import { EstablishmentService } from '../../../canchas/services/establishment/establishment-service';
-import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-my-reservations',
@@ -72,7 +70,7 @@ export class MyReservationsComponent {
   }
 
   goToExplore() {
-    this.router.navigateByUrl('explore');
+    this.router.navigateByUrl('explorar');
   }
 
   protected getStatusLabel(status: string): string {
