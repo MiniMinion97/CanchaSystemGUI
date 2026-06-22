@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { ClientService } from '../client-service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/services/authservice';
+import { AdminService } from '../admin-service';
 
 @Component({
   selector: 'app-admin-clients',
@@ -11,6 +12,7 @@ import { AuthService } from '../../auth/services/authservice';
 })
 export class AdminClients {
   private readonly clientService = inject(ClientService);
+  private readonly adminService = inject(AdminService);
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
 
@@ -47,6 +49,18 @@ export class AdminClients {
 
   handleDetails(clientId: string) {
     this.router.navigateByUrl(`/admin/clientes/${clientId}`);
+  }
+
+  promoteClient(clientId: string) {
+    this.adminService.promoteClient(clientId).subscribe({
+      next: () => {
+        alert("Cliente convertido en dueño con éxito");
+      },
+      error: (res) => {
+        console.log(`Error convirtiendo cliente en dueño.`);
+        console.error(res);
+      }
+    });
   }
 }
 

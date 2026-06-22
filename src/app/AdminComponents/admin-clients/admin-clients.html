@@ -21,6 +21,7 @@
                         <th>Email</th>
                         <th>Teléfono</th>
                         <th>Detalles</th>
+                        <th>Dueño</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,6 +34,9 @@
                             <td>{{ client.cellNumber }}</td>
                             <td>
                                 <button (click)="handleDetails(client.id!)">Ver más &RightArrow;</button>
+                            </td>
+                            <td>
+                                <button (click)="promoteClient(client.id!)">Convertir en dueño</button>
                             </td>
                         </tr>
                     }
