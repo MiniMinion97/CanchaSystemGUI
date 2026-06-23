@@ -4,7 +4,6 @@
 @if (loading) {
     <p>Cargando reservas...</p>
 } @else {
-    @if (reservations.length > 0) {
     <main>
         <section class="reservation-container">
 
@@ -12,33 +11,30 @@
                 <h2>Administrar Reservas</h2>
             </div>
 
-            <table class="reservation">
-                <thead class="container-header">
-                    <tr>
-                        <th>Cancha</th>
-                        <th>Fecha de reserva</th>
-                        <th>Fecha de partido</th>
-                        <th>Estado</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (reservation of reservations; track reservation.id) {
+            @if (reservations.length > 0) {
+                <table class="reservation">
+                    <thead class="container-header">
                         <tr>
-                            <td>{{ reservation.canchaType }}</td>
-                            <td>{{ reservation.reservationDate }}</td>
-                            <td>{{ reservation.matchDate }}</td>
-                            <td>{{ reservation.status }}</td>
+                            <th>Cancha</th>
+                            <th>Fecha de reserva</th>
+                            <th>Fecha de partido</th>
+                            <th>Estado</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @for (reservation of reservations; track reservation.id) {
+                            <tr>
+                                <td>{{ reservation.canchaType }}</td>
+                                <td>{{ reservation.reservationDate }}</td>
+                                <td>{{ reservation.matchDate }}</td>
+                                <td>{{ reservation.status }}</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            } @else {
+              <p>No hay reservas registradas</p>
+            }
         </section>
     </main>
-    } @else {
-        <p>No hay reservas registradas</p>
-    } 
-
 }
-
-
-

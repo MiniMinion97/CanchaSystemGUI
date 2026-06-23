@@ -4,49 +4,48 @@
 @if (loading) {
     <p>Cargando clientes...</p>
 } @else {
-    @if (clients.length > 0) {
     <main>
         <section class="client-container">
 
             <div class="container-header">
                 <h2>Administrar Clientes</h2>
             </div>
-        
-            <table class="client-item">
-                <thead class="container-header">
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Apellido</th>
-                        <th>Usuario</th>
-                        <th>Email</th>
-                        <th>Teléfono</th>
-                        <th>Detalles</th>
-                        <th>Dueño</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (client of clients; track client.id) {
+
+            @if (clients.length > 0) {
+                <table class="client-item">
+                    <thead class="container-header">
                         <tr>
-                            <td>{{ client.name }}</td>
-                            <td>{{ client.lastName }}</td>
-                            <td>{{ client.username }}</td>
-                            <td>{{ client.mail }}</td>
-                            <td>{{ client.cellNumber }}</td>
-                            <td>
-                                <button (click)="handleDetails(client.id!)">Ver más &RightArrow;</button>
-                            </td>
-                            <td>
-                                <button (click)="promoteClient(client.id!)">Convertir en dueño</button>
-                            </td>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Usuario</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                            <th>Detalles</th>
+                            <th>Dueño</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @for (client of clients; track client.id) {
+                            <tr>
+                                <td>{{ client.name }}</td>
+                                <td>{{ client.lastName }}</td>
+                                <td>{{ client.username }}</td>
+                                <td>{{ client.mail }}</td>
+                                <td>{{ client.cellNumber }}</td>
+                                <td>
+                                    <button (click)="handleDetails(client.id!)">Ver más &RightArrow;</button>
+                                </td>
+                                <td>
+                                    <button (click)="promoteClient(client.id!)">Convertir en dueño</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            } @else {
+              <p>No hay clientes registrados</p>
+            }
         </section>
     </main>
-    } @else {
-        <p>No hay clientes registrados</p>
-    } 
-
 }
 

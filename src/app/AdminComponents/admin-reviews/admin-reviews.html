@@ -4,7 +4,6 @@
 @if (loading) {
     <p>Cargando reseñas...</p>
 } @else {
-    @if (reviews.length > 0) {
     <main>
         <section class="review-container">
 
@@ -12,34 +11,30 @@
                 <h2>Administrar Reseñas</h2>
             </div>
 
-            <table class="review">
-                <thead class="container-header">
-                    <tr>
-                        <th>Cliente</th>
-                        <th>Rating</th>
-                        <th>Mensaje</th>
-                        <th>Fecha</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (review of reviews; track review.id) {
+            @if (reviews.length > 0) {
+                <table class="review">
+                    <thead class="container-header">
                         <tr>
-                            <td>{{ review.clientName }}</td>
-                            <td>{{ review.rating }}</td>
-                            <td>{{ review.message }}</td>
-                            <td>{{ review.createdAt }}</td>
+                            <th>Cliente</th>
+                            <th>Rating</th>
+                            <th>Mensaje</th>
+                            <th>Fecha</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @for (review of reviews; track review.id) {
+                            <tr>
+                                <td>{{ review.clientName }}</td>
+                                <td>{{ review.rating }}</td>
+                                <td>{{ review.message }}</td>
+                                <td>{{ review.createdAt }}</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            } @else {
+              <p>No hay reviews registradas</p>
+            }
         </section>
     </main>
-    } @else {
-        <p>No hay reviews registradas</p>
-    } 
-
 }
-
-
-
-
