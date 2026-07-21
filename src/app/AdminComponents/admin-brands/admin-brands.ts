@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { BrandService } from '../../canchas/services/brand/brand-service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/services/authservice';
@@ -7,6 +7,7 @@ import { AuthService } from '../../auth/services/authservice';
   selector: 'app-admin-brands',
   imports: [],
   templateUrl: './admin-brands.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './admin-brands.css'
 })
 export class AdminBrands {

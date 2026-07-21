@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CanchaService } from '../../../../canchas/services/cancha/cancha-service';
 import { CanchaResponse } from '../../../../canchas/models/cancha-response';
@@ -9,6 +9,7 @@ import { CanchaRequest } from '../../../../canchas/models/cancha-request';
   selector: 'app-my-cancha-details',
   imports: [CanchaForm],
   templateUrl: './my-cancha-details.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './my-cancha-details.css'
 })
 export class MyCanchaDetails {

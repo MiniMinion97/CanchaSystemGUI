@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, output } from '@angular/core';
+import { Component, effect, inject, input, output, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { EstablishmentService } from '../../services/establishment/establishment-service';
 import { EstablishmentRequest } from '../../models/establishment-request';
@@ -21,6 +21,7 @@ function timeInputRequired(control: AbstractControl): ValidationErrors | null {
   selector: 'app-establishment-form',
   imports: [ReactiveFormsModule],
   templateUrl: './establishment-form.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './establishment-form.css'
 })
 export class EstablishmentForm {

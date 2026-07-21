@@ -1,4 +1,4 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { ReservationService } from '../../../reservation/services/reservation/reservation-service';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
@@ -11,6 +11,7 @@ import { EstablishmentService } from '../../../canchas/services/establishment/es
   standalone: true,
   imports: [DatePipe, FormsModule],
   templateUrl: './my-reservations.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './my-reservations.component.css'
 })
 export class MyReservationsComponent {

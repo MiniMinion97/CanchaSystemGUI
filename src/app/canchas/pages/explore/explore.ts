@@ -1,6 +1,6 @@
-import { Component, inject, OnInit, signal, computed } from '@angular/core';
+import { Component, inject, OnInit, signal, computed, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { StarRatingComponent } from '../../../layout/star-rating/star-rating';
 import { EstablishmentStore } from '../../services/establishment/establishment-store';
@@ -12,8 +12,9 @@ type CanchaType = 'ALL' | 'FUTBOL_5' | 'FUTBOL_7' | 'FUTBOL_9' | 'FUTBOL_11';
 @Component({
   selector: 'app-explore',
   standalone: true,
-  imports: [CommonModule, StarRatingComponent, FormsModule],
+  imports: [StarRatingComponent, FormsModule],
   templateUrl: './explore.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./explore.css']
 })
 export class Explore implements OnInit {

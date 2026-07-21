@@ -1,4 +1,4 @@
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, inject, input, signal, ChangeDetectionStrategy } from '@angular/core';
 import { ClientResponse, ClientService } from '../../client-service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../auth/services/authservice';
@@ -11,6 +11,7 @@ import { Location } from '@angular/common';
   selector: 'app-admin-client-details',
   imports: [ReactiveFormsModule, AdminReservation, AdminReviews],
   templateUrl: './admin-client-details.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './admin-client-details.css'
 })
 export class AdminClientDetails {

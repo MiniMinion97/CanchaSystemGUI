@@ -1,4 +1,4 @@
-import { Component, inject, input, OnInit, signal } from '@angular/core';
+import { Component, inject, input, OnInit, signal, ChangeDetectionStrategy } from '@angular/core';
 import { EstablishmentService } from '../../canchas/services/establishment/establishment-service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/services/authservice';
@@ -9,6 +9,7 @@ import { EstablishmentResponse } from '../../canchas/models/establishment-respon
   selector: 'app-admin-establishments',
   imports: [],
   templateUrl: './admin-establishments.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './admin-establishments.css'
 })
 export class AdminEstablishments implements OnInit {

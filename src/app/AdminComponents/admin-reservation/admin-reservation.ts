@@ -1,4 +1,4 @@
-import { Component, inject, input, OnInit, signal } from '@angular/core';
+import { Component, inject, input, OnInit, signal, ChangeDetectionStrategy } from '@angular/core';
 import { ReservationService } from '../../reservation/services/reservation/reservation-service';
 import { Router, RouterOutlet } from '@angular/router';
 import { Auth } from '../../core/services/auth/auth';
@@ -8,6 +8,7 @@ import { AuthService } from '../../auth/services/authservice';
   selector: 'app-admin-reservation',
   imports: [],
   templateUrl: './admin-reservation.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './admin-reservation.css'
 })
 export class AdminReservation implements OnInit {

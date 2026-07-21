@@ -1,4 +1,4 @@
-import { Component, inject, input, output, effect } from '@angular/core';
+import { Component, inject, input, output, effect, ChangeDetectionStrategy } from '@angular/core';
 import { ReviewService } from '../review-service';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ReviewResponse } from '../models/review-response';
@@ -9,6 +9,7 @@ import { AuthService } from '../../auth/services/authservice';
   selector: 'app-form',
   imports: [ReactiveFormsModule],
   templateUrl: './form.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './form.css'
 })
 export class Form {

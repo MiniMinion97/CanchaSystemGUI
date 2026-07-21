@@ -1,14 +1,15 @@
-import { Component, effect, inject, input, Input, output } from '@angular/core';
+import { Component, effect, inject, input, Input, output, ChangeDetectionStrategy } from '@angular/core';
 import { BrandService } from '../../services/brand/brand-service';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BrandRequest } from '../../models/brand-request';
-import { CommonModule } from '@angular/common';
+
 import { Action } from 'rxjs/internal/scheduler/Action';
 
 @Component({
   selector: 'app-brand-form',
-  imports: [ReactiveFormsModule,CommonModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './brand-form.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './brand-form.css'
 })
 export class BrandForm {

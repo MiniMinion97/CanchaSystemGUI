@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { BrandForm } from '../../canchas/pages/brand-form/brand-form';
 
@@ -6,6 +6,7 @@ import { BrandForm } from '../../canchas/pages/brand-form/brand-form';
   selector: 'app-owner',
   imports: [BrandForm],
   templateUrl: './owner.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './owner.css'
 })
 export class Owner {

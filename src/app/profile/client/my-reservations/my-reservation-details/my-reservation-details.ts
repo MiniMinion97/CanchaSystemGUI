@@ -1,4 +1,4 @@
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, inject, input, signal, ChangeDetectionStrategy } from '@angular/core';
 import { ReservationService } from '../../../../reservation/services/reservation/reservation-service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReservationResponse } from '../../../../reservation/models/reservation-response';
@@ -11,6 +11,7 @@ import { AuthService } from '../../../../auth/services/authservice';
   selector: 'app-my-reservation-details',
   imports: [Make, DatePipe],
   templateUrl: './my-reservation-details.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './my-reservation-details.css'
 })
 export class MyReservationDetails {

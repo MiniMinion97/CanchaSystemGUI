@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CanchaService } from '../../../canchas/services/cancha/cancha-service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../auth/services/authservice';
@@ -10,6 +10,7 @@ import { Location } from '@angular/common';
   selector: 'app-admin-cancha-details',
   imports: [ReactiveFormsModule],
   templateUrl: './admin-cancha-details.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './admin-cancha-details.css'
 })
 export class AdminCanchaDetails {

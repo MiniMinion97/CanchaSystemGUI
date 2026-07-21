@@ -3,10 +3,6 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "lib": [
-      "ES2020",
-      "DOM"
-    ],
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,

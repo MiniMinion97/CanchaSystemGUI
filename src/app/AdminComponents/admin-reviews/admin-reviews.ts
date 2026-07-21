@@ -1,4 +1,4 @@
-import { Component, inject, input, OnInit, signal } from '@angular/core';
+import { Component, inject, input, OnInit, signal, ChangeDetectionStrategy } from '@angular/core';
 import { ReviewService } from '../../reviews/review-service';
 import { RouterOutlet } from '@angular/router';
 import { AuthService } from '../../auth/services/authservice';
@@ -7,6 +7,7 @@ import { AuthService } from '../../auth/services/authservice';
   selector: 'app-admin-reviews',
   imports: [],
   templateUrl: './admin-reviews.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './admin-reviews.css'
 })
 export class AdminReviews implements OnInit {

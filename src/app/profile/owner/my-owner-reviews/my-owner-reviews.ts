@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, signal } from '@angular/core';
+import { Component, effect, inject, input, signal, ChangeDetectionStrategy } from '@angular/core';
 import { ReviewService } from '../../../reviews/review-service';
 import { Router } from '@angular/router';
 import { Auth } from '../../../core/services/auth/auth';
@@ -8,6 +8,7 @@ import { AuthService } from '../../../auth/services/authservice';
   selector: 'app-my-owner-reviews',
   imports: [],
   templateUrl: './my-owner-reviews.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './my-owner-reviews.css'
 })
 export class MyOwnerReviews {

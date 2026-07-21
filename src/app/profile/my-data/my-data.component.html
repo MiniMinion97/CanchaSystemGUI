@@ -14,7 +14,7 @@
             @if (newProfilePicturePreview) {
               <img [src]="newProfilePicturePreview" alt="Imagen de perfil">
             } @else if (profilePicture()) {
-              <img [src]="getImage(profilePicture()?.id!)" alt="Imagen de perfil">
+              <img [src]="getImage($safeNavigationMigration(profilePicture()?.id)!)" alt="Imagen de perfil">
             } @else {
               <svg>
                 <use href="user.svg"></use>

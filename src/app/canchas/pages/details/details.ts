@@ -1,4 +1,4 @@
-import { Component, inject, signal, effect } from '@angular/core';
+import { Component, inject, signal, effect, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EstablishmentService } from '../../services/establishment/establishment-service';
 import { ReviewService } from '../../../reviews/review-service';
@@ -15,6 +15,7 @@ import { ImageService } from '../../../image/services/image-service';
   selector: 'app-details',
   imports: [Form, ReviewList, Make, StarRatingComponent],
   templateUrl: './details.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './details.css'
 })
 export class Details {

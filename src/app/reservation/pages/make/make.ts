@@ -1,6 +1,6 @@
-import { Component, inject, input, output, signal, effect } from '@angular/core';
+import { Component, inject, input, output, signal, effect, ChangeDetectionStrategy } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+
 import { ReservationService } from '../../services/reservation/reservation-service';
 import { EstablishmentService } from '../../../canchas/services/establishment/establishment-service';
 import { ReservationRequest } from '../../models/reservation-request';
@@ -8,8 +8,9 @@ import { ReservationResponse } from '../../models/reservation-response';
 
 @Component({
   selector: 'app-make',
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './make.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './make.css'
 })
 export class Make {

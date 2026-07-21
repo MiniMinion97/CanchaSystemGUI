@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { EstablishmentService } from '../../../canchas/services/establishment/establishment-service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../auth/services/authservice';
@@ -12,6 +12,7 @@ import { Location } from '@angular/common';
   selector: 'app-admin-establishment-details',
   imports: [ReactiveFormsModule, AdminReservation, AdminReviews],
   templateUrl: './admin-establishment-details.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './admin-establishment-details.css'
 })
 export class AdminEstablishmentDetails {

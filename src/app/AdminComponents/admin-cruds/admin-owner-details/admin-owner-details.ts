@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { Location } from '@angular/common'
 import { OwnerResponse, OwnerService } from '../../owner-service';
 import { ActivatedRoute } from '@angular/router';
@@ -10,6 +10,7 @@ import { AdminEstablishments } from '../../admin-establishments/admin-establishm
   selector: 'app-admin-owner-details',
   imports: [ReactiveFormsModule, AdminEstablishments],
   templateUrl: './admin-owner-details.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './admin-owner-details.css'
 })
 export class AdminOwnerDetails {

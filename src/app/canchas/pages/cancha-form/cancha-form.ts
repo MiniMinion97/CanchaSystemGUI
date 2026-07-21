@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, output } from '@angular/core';
+import { Component, effect, inject, input, output, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CanchaService } from '../../services/cancha/cancha-service';
 import { CanchaRequest } from '../../models/cancha-request';
@@ -7,6 +7,7 @@ import { CanchaRequest } from '../../models/cancha-request';
   selector: 'app-cancha-form',
   imports: [ReactiveFormsModule],
   templateUrl: './cancha-form.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './cancha-form.css'
 })
 export class CanchaForm {

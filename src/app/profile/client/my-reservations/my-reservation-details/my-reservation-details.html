@@ -49,8 +49,8 @@
         <app-make
           [isEditing]="isEditing()"
           [reservationData]="reservation()!"
-          [establishmentId]="reservation()?.establishmentId"
-          [reservationId]="reservation()?.id"
+          [establishmentId]="$safeNavigationMigration(reservation()?.establishmentId)"
+          [reservationId]="$safeNavigationMigration(reservation()?.id)"
           (reservationEdited)="handleEdit($event)"
         ></app-make>
       }

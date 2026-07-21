@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EstablishmentService } from '../../../../canchas/services/establishment/establishment-service';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -15,6 +15,7 @@ import { MyOwnerReviews } from '../../my-owner-reviews/my-owner-reviews';
   selector: 'app-my-establishment-details',
   imports: [CanchaForm, EstablishmentForm, MyCanchasComponent, MyOwnerReservations, MyOwnerReviews],
   templateUrl: './my-establishment-details.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './my-establishment-details.css'
 })
 export class MyEstablishmentDetails {
