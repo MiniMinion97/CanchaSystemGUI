@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 import * as L from 'leaflet';
 import {LeafletDirective, LeafletLayersDirective} from '@bluehalo/ngx-leaflet';
+import {LatLngExpression} from 'leaflet';
 
 @Component({
   selector: 'app-map',
@@ -9,6 +10,9 @@ import {LeafletDirective, LeafletLayersDirective} from '@bluehalo/ngx-leaflet';
   styleUrl: './map.css',
 })
 export class Map {
+  @Input() editable = false;
+  @Input() coords?: LatLngExpression;
+
   map!: L.Map;
 
   selectedMarker?: L.Marker;
@@ -22,14 +26,6 @@ export class Map {
 
     zoom: 13,
     center: L.latLng(-38.003838, -57.556553),
-
-    dragging: false,
-    scrollWheelZoom: false,
-    doubleClickZoom: false,
-    boxZoom: false,
-    keyboard: false,
-    zoomControl: false,
-    touchZoom: false,
   };
 
   layers: L.Layer[] = [];
@@ -37,12 +33,32 @@ export class Map {
   onMapReady(map: L.Map): void {
     this.map = map;
 
-    map.on('click', (e: L.LeafletMouseEvent) => {
-      if (this.selectedMarker) {
-        this.selectedMarker.remove();
+    if (!this.editable) {
+      map.dragging.disable();
+      map.scrollWheelZoom.disable();
+      map.doubleClickZoom.disable();
+      map.boxZoom.disable();
+      map.keyboard.disable();
+      map.touchZoom.disable();
+
+      if (map.tapHold) {
+        map.tapHold.disable();
       }
-      this.selectedMarker = L.marker(e.latlng);
-      this.map.addLayer(this.selectedMarker);
-    });
+    } else {
+      map.on('click', e => this.putMarker(e.latlng));
+    }
+
+    if (this.coords) {
+      this.putMarker(this.coords);
+      map.setView(this.coords);
+    }
+  }
+
+  putMarker(coords: LatLngExpression): void { // When non-editable, should be called only once with set latitude and longitude
+    if (this.selectedMarker) {
+      this.selectedMarker.remove();
+    }
+    this.selectedMarker = L.marker(coords);
+    this.map.addLayer(this.selectedMarker);
   }
 }
