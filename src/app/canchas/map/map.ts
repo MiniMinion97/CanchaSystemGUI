@@ -40,6 +40,7 @@ export class Map {
       map.boxZoom.disable();
       map.keyboard.disable();
       map.touchZoom.disable();
+      map.zoomControl.remove();
 
       if (map.tapHold) {
         map.tapHold.disable();
