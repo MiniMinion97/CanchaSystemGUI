@@ -29,8 +29,11 @@ import { AdminReservation } from './AdminComponents/admin-reservation/admin-rese
 import { AdminReviews } from './AdminComponents/admin-reviews/admin-reviews';
 import { NotFound } from './canchas/pages/not-found/not-found';
 import { Verify } from './auth/verify/verify';
+import { Map } from './canchas/map/map';
 
 export const routes: Routes = [
+    {path: 'mapa', component: Map},
+
     {path: 'explorar', component: Explore},
 
     {path: 'verificar/:token', component: Verify},
