@@ -1,0 +1,123 @@
+
+<main class="recovery-container">
+  <div class="recovery-card">
+
+    @if (step() === 'username') {
+      <form [formGroup]="usernameForm" (ngSubmit)="submitUsername()">
+        <h2>Recuperar contraseña</h2>
+        <p class="step-description">
+          Ingresá tu nombre de usuario y te enviaremos un código de verificación a tu correo asociado.
+        </p>
+
+        <label>
+          Nombre de Usuario
+          <input type="text" formControlName="username" placeholder="Tu usuario" />
+          @if (usernameForm.get('username')?.hasError('required') && (usernameForm.get('username')?.touched || usernameForm.get('username')?.dirty)) {
+            <span class="field-error">El nombre de usuario es obligatorio</span>
+          }
+        </label>
+
+        @if (hasError()) {
+          <span class="form-error">{{ errorMessage }}</span>
+        }
+
+        <div class="actions">
+          <button type="button" class="btn-secondary" (click)="cancel()">Cancelar</button>
+          <button type="submit" class="btn-primary" [disabled]="isLoading()">
+            {{ isLoading() ? 'Enviando...' : 'Enviar código' }}
+          </button>
+        </div>
+      </form>
+    }
+
+    @if (step() === 'code') {
+      <form [formGroup]="codeForm" (ngSubmit)="submitCode()">
+        <h2>Verificar código</h2>
+        <p class="step-description">
+          Te enviamos un código de 6 dígitos a tu correo. Ingresalo a continuación.
+        </p>
+
+        <label>
+          Código de verificación
+          <input type="text" formControlName="code" placeholder="123456" maxlength="6" />
+          @if (codeForm.get('code')?.touched || codeForm.get('code')?.dirty) {
+            @if (codeForm.get('code')?.hasError('required')) {
+              <span class="field-error">El código es obligatorio</span>
+            } @else if (codeForm.get('code')?.hasError('minlength') || codeForm.get('code')?.hasError('maxlength')) {
+              <span class="field-error">El código debe tener 6 dígitos</span>
+            }
+          }
+        </label>
+
+        @if (hasError()) {
+          <span class="form-error">{{ errorMessage }}</span>
+        }
+
+        <div class="actions">
+          <button type="button" class="btn-secondary" (click)="cancel()">Cancelar</button>
+          <button type="submit" class="btn-primary" [disabled]="isLoading()">
+            {{ isLoading() ? 'Verificando...' : 'Verificar código' }}
+          </button>
+        </div>
+      </form>
+    }
+
+    @if (step() === 'newPassword') {
+      <form [formGroup]="passwordForm" (ngSubmit)="submitNewPassword()">
+        <h2>Nueva contraseña</h2>
+        <p class="step-description">
+          Elegí tu nueva contraseña.
+        </p>
+
+        <label>
+          Nueva contraseña
+          <input type="password" formControlName="newPassword" placeholder="••••••••" />
+          @if (passwordForm.get('newPassword')?.touched || passwordForm.get('newPassword')?.dirty) {
+            @if (passwordForm.get('newPassword')?.hasError('required')) {
+              <span class="field-error">La contraseña es obligatoria</span>
+            } @else if (passwordForm.get('newPassword')?.hasError('minlength')) {
+              <span class="field-error">Mínimo 6 caracteres</span>
+            }
+          }
+        </label>
+
+        <label>
+          Confirmar contraseña
+          <input type="password" formControlName="confirmPassword" placeholder="••••••••" />
+          @if (passwordForm.get('confirmPassword')?.touched || passwordForm.get('confirmPassword')?.dirty) {
+            @if (passwordForm.get('confirmPassword')?.hasError('required')) {
+              <span class="field-error">Debés confirmar la contraseña</span>
+            } @else if (passwordForm.hasError('passwordsMismatch')) {
+              <span class="field-error">Las contraseñas no coinciden</span>
+            }
+          }
+        </label>
+
+        @if (hasError()) {
+          <span class="form-error">{{ errorMessage }}</span>
+        }
+
+        <div class="actions">
+          <button type="button" class="btn-secondary" (click)="cancel()">Cancelar</button>
+          <button type="submit" class="btn-primary" [disabled]="isLoading()">
+            {{ isLoading() ? 'Guardando...' : 'Guardar cambios' }}
+          </button>
+        </div>
+      </form>
+    }
+
+    @if (step() === 'success') {
+      <div class="success-view">
+        <span class="success-icon">✅</span>
+        <h2>¡Contraseña actualizada!</h2>
+        <p class="step-description">
+          Tu contraseña se actualizó correctamente. Ya podés iniciar sesión con tu nueva contraseña.
+        </p>
+        <div class="actions">
+          <button type="button" class="btn-primary" (click)="goToLogin()">Ir a iniciar sesión</button>
+        </div>
+      </div>
+    }
+
+  </div>
+</main>

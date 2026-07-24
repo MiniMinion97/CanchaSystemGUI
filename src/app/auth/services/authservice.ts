@@ -175,4 +175,21 @@ export class AuthService {
   isLoggedIn(): boolean {
     return this.loggedIn();
   }
+
+  
+  requestPasswordReset(username: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/auth/recovery/request`, { username });
+  }
+
+  verifyResetCode(username: string, code: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/auth/recovery/verify`, { username, code });
+  }
+
+  resetPassword(username: string, code: string, newPassword: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/auth/recovery/reset`, { 
+      username, 
+      code, 
+      newPassword 
+    });
+  }
 }

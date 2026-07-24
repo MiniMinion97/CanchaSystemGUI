@@ -7,15 +7,15 @@
     </label>  
     <label>    Contraseña    
         <input type="password" formControlName="password" />  
-         @if( form.get('password')?.touched || form.get('password')?.dirty){
+        @if( form.get('password')?.touched || form.get('password')?.dirty){
         @if(form.get('password')?.hasError('required')){
             <span>La contraseña es obligatoria</span>
         }@else if (form.get('password')?.hasError('minlength')) {
-    <span>Mínimo 2 caracteres para la contraseña</span>
-}
-
+        <span>Mínimo 2 caracteres para la contraseña</span>
+        }
     }
     </label>  
+    <a routerLink="/recovery">¿Olvidaste tu contraseña?</a>
     <button type="submit">Iniciar sesión</button>
 
     @if (hasError()) {
