@@ -28,22 +28,31 @@
             @if (error) {
                 <p class="error-msg">{{ error }}</p>
             } @else if (stats) {
+
                 <div class="stats-grid">
                     <div class="stat-card">
                         <span class="stat-value">{{ stats.totalReservations }}</span>
                         <span class="stat-label">Reservas Totales</span>
                     </div>
                     <div class="stat-card">
-                        <span class="stat-value">{{ stats.completedReservations }}</span>
-                        <span class="stat-label">Completadas</span>
+                        <span class="stat-value">{{ stats.averageReservationsPerDay }}</span>
+                        <span class="stat-label">Promedio Reservas/Día</span>
                     </div>
                     <div class="stat-card">
-                        <span class="stat-value">{{ stats.pendingReservations }}</span>
-                        <span class="stat-label">Pendientes</span>
+                        <span class="stat-value">{{ stats.cancellationRate }}%</span>
+                        <span class="stat-label">Tasa de Cancelación</span>
                     </div>
                     <div class="stat-card">
-                        <span class="stat-value">{{ stats.canceledReservations }}</span>
-                        <span class="stat-label">Canceladas</span>
+                        <span class="stat-value">{{ stats.totalActiveCanchas }}</span>
+                        <span class="stat-label">Canchas Activas</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value">{{ stats.totalActiveEstablishments }}</span>
+                        <span class="stat-label">Sucursales Activas</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value">{{ stats.totalActiveBrands }}</span>
+                        <span class="stat-label">Marcas Activas</span>
                     </div>
                     <div class="stat-card">
                         <span class="stat-value">{{ stats.totalOwners }}</span>
@@ -52,6 +61,43 @@
                     <div class="stat-card">
                         <span class="stat-value">{{ stats.totalClients }}</span>
                         <span class="stat-label">Clientes Activos</span>
+                    </div>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h3>Canchas por Tipo</h3>
+                        @if (stats.canchasByType.length > 0) {
+                            <canvas baseChart
+                                [type]="pieChartType"
+                                [data]="pieChartData()"
+                                [options]="pieChartOptions">
+                            </canvas>
+                        } @else {
+                            <p>Sin datos</p>
+                        }
+                    </div>
+
+                    <div class="chart-card">
+                        <h3>Reservas por Estado</h3>
+                        <canvas baseChart
+                            [type]="pieChartType"
+                            [data]="statusPieChartData()"
+                            [options]="pieChartOptions">
+                        </canvas>
+                    </div>
+
+                    <div class="chart-card chart-card-wide">
+                        <h3>Top 5 Establecimientos con Más Reservas</h3>
+                        @if (stats.topEstablishments.length > 0) {
+                            <canvas baseChart
+                                [type]="barChartType"
+                                [data]="barChartData()"
+                                [options]="barChartOptions">
+                            </canvas>
+                        } @else {
+                            <p>Sin datos</p>
+                        }
                     </div>
                 </div>
             }
