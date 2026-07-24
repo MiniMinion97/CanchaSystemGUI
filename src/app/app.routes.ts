@@ -31,6 +31,7 @@ import { NotFound } from './canchas/pages/not-found/not-found';
 import { Verify } from './auth/verify/verify';
 import { AdminStats } from './AdminComponents/admin-stats/admin-stats';
 
+import { OwnerMetrics } from './dashboard/owner-metrics/owner-metrics';
 
 export const routes: Routes = [
     {path: 'explorar', component: Explore},
@@ -51,6 +52,8 @@ export const routes: Routes = [
 
     {path: 'perfil/mis-sucursales/mis-owner-reviews/:id', component: MyOwnerReviews, canActivate: [isOwnerGuard, isAuthenticatedGuard]},
     {path: 'perfil/mis-sucursales/mis-owner-reservations/:id', component: MyOwnerReservations, canActivate: [isOwnerGuard, isAuthenticatedGuard]},
+
+    {path: 'perfil/estadisticas', component: OwnerMetrics, canActivate: [isOwnerGuard, isAuthenticatedGuard]},
 
 
     {path: 'perfil/mis-reseñas', component: MyReviewsComponent, canActivate: [isClientGuard, isAuthenticatedGuard]},
