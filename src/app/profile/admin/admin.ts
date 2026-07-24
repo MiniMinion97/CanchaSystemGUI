@@ -27,4 +27,8 @@ export class Admin {
     this.router.navigateByUrl("admin/sucursales");
   }
 
+  goToStats(){
+    this.router.navigateByUrl("admin/estadisticas");
+  }
+
 }

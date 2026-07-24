@@ -29,6 +29,8 @@ import { AdminReservation } from './AdminComponents/admin-reservation/admin-rese
 import { AdminReviews } from './AdminComponents/admin-reviews/admin-reviews';
 import { NotFound } from './canchas/pages/not-found/not-found';
 import { Verify } from './auth/verify/verify';
+import { AdminStats } from './AdminComponents/admin-stats/admin-stats';
+
 
 export const routes: Routes = [
     {path: 'explorar', component: Explore},
@@ -71,7 +73,7 @@ export const routes: Routes = [
     {path: 'admin/sucursales/:id', component: AdminEstablishmentDetails, canActivate: [isAdminGuard, isAuthenticatedGuard]},
     {path: 'admin/reservation/:id', component: AdminReservation, canActivate: [isAdminGuard, isAuthenticatedGuard]},
     {path: 'admin/review/:id', component: AdminReviews, canActivate: [isAdminGuard, isAuthenticatedGuard]},
-
+    {path: 'admin/estadisticas', component: AdminStats, canActivate: [isAdminGuard, isAuthenticatedGuard]},
     {path: '', redirectTo: 'explorar', pathMatch: 'full'},
     {path: '**', component: NotFound}
 ];
