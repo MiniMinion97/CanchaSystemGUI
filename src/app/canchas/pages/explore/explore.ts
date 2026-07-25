@@ -92,6 +92,15 @@ export class Explore implements OnInit {
            this.sortBy() !== 'none' || 
            this.canchaTypeFilter() !== 'ALL';
   }
+
+  /**
+   * NUEVO — solo formatea el string de tipo de cancha para mostrar en los chips
+   * de cada card (ej: "FUTBOL_5" -> "Fútbol 5"). No modifica ningún estado.
+   */
+  protected formatType(type: string): string {
+    const found = this.canchaTypes.find(t => t.value === type);
+    return found ? found.label : type;
+  }
   
   private setupVisibilityListener(): void {
     document.addEventListener('visibilitychange', () => {

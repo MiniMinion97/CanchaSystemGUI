@@ -1,1 +1,41 @@
-<p>footer works!</p>
+<footer>
+  <div class="footer-content">
+
+    <div class="footer-brand">
+      <img src="/logo.png" alt="CanchaSystem" class="footer-logo" draggable="false">
+      <p class="footer-tagline">
+        Reservá tu cancha de fútbol en segundos. Simple, rápido y sin vueltas.
+      </p>
+    </div>
+
+    <div class="footer-links">
+      <h4>Explorar</h4>
+      <a routerLink="/explorar">Establecimientos</a>
+      <a routerLink="/FAQ">Preguntas frecuentes</a>
+      <a routerLink="/contacto">Sos dueño de una cancha</a>
+    </div>
+
+    <div class="footer-links">
+      <h4>Mi cuenta</h4>
+      <a routerLink="/perfil">Mi perfil</a>
+      <a routerLink="/perfil/mis-reservas">Mis reservas</a>
+      <a routerLink="/perfil/mis-reseñas">Mis reseñas</a>
+    </div>
+
+    <div class="footer-contact">
+      <h4>Contacto</h4>
+      <button class="footer-whatsapp" (click)="openWhatsApp()">
+        <span>💬</span> WhatsApp
+      </button>
+      <a href="mailto:canchasystem@gmail.com" class="footer-email">
+        📧 canchasystemV2&#64;gmail.com
+      </a>
+      <span class="footer-schedule">🕐 Lun a Vie: 9:00 - 18:00</span>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <span>© {{ currentYear }} CanchaSystem. Todos los derechos reservados.</span>
+  </div>
+</footer>

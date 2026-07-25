@@ -1,35 +1,99 @@
-form{
+form {
     height: 100%;
     display: flex;
     flex-direction: column;
-    align-items: start;
-    justify-content: start;
-    gap: 20px;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 1.1rem;
 }
 
-label, input, button{
-    font-size: 1.3rem;
-    width: 100%;
-    color: var(--font-color);
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.field-icon {
+    font-size: 0.95rem;
 }
 
 input {
-    border-radius: 20px;
-    border: 3px solid var(--border-color);
-    padding: 2px 10px;
+    font-size: 0.95rem;
+    width: 100%;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--border-color);
+    background-color: var(--surface-alt);
+    color: var(--text-primary);
+    padding: 0.65rem 0.85rem;
+    transition: var(--transition-base);
 }
 
-button {
-    border-radius: 10px;
-    transition: background-color 0.08s ease;
-    transition: border 0.08s ease;
-     
-    border: 2px solid var(--border-color);
-    background-color: var(--background-color);
+input:focus {
+    outline: none;
+    border-color: var(--primary);
+    background-color: var(--surface);
+    box-shadow: 0 0 0 3px var(--primary-soft);
 }
 
-button:hover {
+.field-error {
+    font-size: 0.78rem;
+    color: var(--danger);
+    font-weight: 500;
+}
+
+.submit-btn {
+    font-size: 1rem;
+    font-weight: 700;
+    width: 100%;
+    border-radius: var(--radius-sm);
+    border: none;
+    background-color: var(--primary);
+    color: var(--text-inverse);
+    padding: 0.85rem;
     cursor: pointer;
-    border: 2px solid var(--font-color);
-    background-color: var(--green-accent);
+    transition: var(--transition-base);
+    margin-top: 0.3rem;
+}
+
+.submit-btn:hover {
+    background-color: var(--primary-dark);
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-1px);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+}
+
+.dev-hints {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.dev-hint {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background-color: var(--surface-sunken);
+    padding: 0.3rem 0.6rem;
+    border-radius: var(--radius-xl);
+}
+
+.form-error {
+    font-size: 0.85rem;
+    color: var(--danger);
+    background-color: var(--danger-soft);
+    padding: 0.6rem 0.8rem;
+    border-radius: var(--radius-sm);
+    text-align: center;
 }
