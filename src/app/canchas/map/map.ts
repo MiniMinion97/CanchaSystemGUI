@@ -1,7 +1,7 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, output} from '@angular/core';
 import * as L from 'leaflet';
 import {LeafletDirective, LeafletLayersDirective} from '@bluehalo/ngx-leaflet';
-import {LatLngExpression} from 'leaflet';
+import {LatLng, LatLngExpression} from 'leaflet';
 
 @Component({
   selector: 'app-map',
@@ -12,6 +12,14 @@ import {LatLngExpression} from 'leaflet';
 export class Map {
   @Input() editable = false;
   @Input() coords?: LatLngExpression;
+
+  ngOnChanges() {
+    if (this.coords) {
+      this.putMarker(this.coords);
+    }
+  }
+
+  markerClicked = output<LatLng>();
 
   map!: L.Map;
 
@@ -52,6 +60,11 @@ export class Map {
     if (this.coords) {
       this.putMarker(this.coords);
       map.setView(this.coords);
+      if (this.coords instanceof L.LatLng) {
+        this.markerClicked.emit(this.coords);
+      } else {
+        this.markerClicked.emit(L.latLng(this.coords));
+      }
     }
   }
 
