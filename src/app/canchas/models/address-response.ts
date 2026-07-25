@@ -1,6 +1,6 @@
 export interface AddressResponse {
   id: number;
-  address: string;
+  street: string;
   lat: number;
   lng: number;
 }

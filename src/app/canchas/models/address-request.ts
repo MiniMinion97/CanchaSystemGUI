@@ -1,5 +1,5 @@
 export interface AddressRequest {
-  address: string;
+  street: string;
   lat: number;
   lng: number;
 }
