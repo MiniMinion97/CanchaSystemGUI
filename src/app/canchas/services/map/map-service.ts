@@ -10,4 +10,8 @@ export class MapService {
   getAutocomplete(address: string) {
     return this.http.get<AddressRequest[]>(`${this.url}/autocomplete/${address}`);
   }
+
+  getReverseGeocoding(lat: number, lng: number) {
+    return this.http.get<AddressRequest>(`${this.url}/reversegeocoding/${lat}/${lng}`);
+  }
 }
