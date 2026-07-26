@@ -2,18 +2,25 @@
 @let loading = this.loading();
 
 @if (loading) {
-    <p>Cargando clientes...</p>
+    <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Cargando clientes...</p>
+    </div>
 } @else {
     <main>
         <section class="client-container">
 
             <div class="container-header">
-                <h2>Administrar Clientes</h2>
+                <h2>👥 Administrar Clientes</h2>
+                @if (clients.length > 0) {
+                    <span class="header-count">{{ clients.length }} en total</span>
+                }
             </div>
 
             @if (clients.length > 0) {
+                <div class="table-scroll">
                 <table class="client-item">
-                    <thead class="container-header">
+                    <thead>
                         <tr>
                             <th>Nombre</th>
                             <th>Apellido</th>
@@ -33,19 +40,22 @@
                                 <td>{{ client.mail }}</td>
                                 <td>{{ client.cellNumber }}</td>
                                 <td>
-                                    <button (click)="handleDetails(client.id!)">Ver más &RightArrow;</button>
+                                    <button class="details-btn" (click)="handleDetails(client.id!)">Ver más →</button>
                                 </td>
                                 <td>
-                                    <button (click)="promoteClient(client.id!)">Convertir en dueño</button>
+                                    <button class="promote-btn" (click)="promoteClient(client.id!)">Convertir en dueño</button>
                                 </td>
                             </tr>
                         }
                     </tbody>
                 </table>
+                </div>
             } @else {
-              <p>No hay clientes registrados</p>
+              <div class="empty-state">
+                <span class="empty-icon">👥</span>
+                <p>No hay clientes registrados</p>
+              </div>
             }
         </section>
     </main>
 }
-

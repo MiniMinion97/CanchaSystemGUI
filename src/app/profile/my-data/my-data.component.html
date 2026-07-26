@@ -2,13 +2,17 @@
 
 @if(this.auth.loggedIn()){
   <div class="profile-container">
-    <h2>Mi información personal</h2>
+
+    <div class="profile-header">
+      
+      <h2>Mi información personal</h2>
+    </div>
 
     @if (loading()) {
       <p class="loading">Cargando datos...</p>
     } @else {
       <form [formGroup]="form" (ngSubmit)="saveChanges()">
-        <div class="profile-picture">
+        <div class="profile-picture-wrap">
           <input #fileInput type="file" enctype="multipart/form-data" accept="image/png, image/jpeg, image/webp" (change)="chooseProfilePicture($event)" style="display: none;" />
           <button type="button" class="profile-picture" (click)="fileInput.click()">
             @if (newProfilePicturePreview) {
@@ -20,9 +24,10 @@
                 <use href="user.svg"></use>
               </svg>
             }
+            <span class="picture-overlay">📷</span>
           </button>
+          <span class="picture-hint">Tocá para cambiar tu foto</span>
         </div>
-        
 
         <div class="form-group">
           <label>Nombre</label>
@@ -49,7 +54,7 @@
           <input type="text" formControlName="cellNumber" />
         </div>
 
-        <button type="submit" [disabled]="form.invalid || loading()">Guardar cambios</button>
+        <button type="submit" class="submit-btn" [disabled]="form.invalid || loading()">Guardar cambios</button>
 
         @if (success()) {
           <p class="success">✅ Datos actualizados correctamente.</p>
@@ -59,4 +64,4 @@
   </div>
 }
 
-</main>
+</main> 

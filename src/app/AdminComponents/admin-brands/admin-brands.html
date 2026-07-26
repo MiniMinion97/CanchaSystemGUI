@@ -2,18 +2,24 @@
 @let loading = this.loading();
 
 @if (loading) {
-    <p>Cargando Marcas...</p>
+    <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Cargando marcas...</p>
+    </div>
 } @else {
     <main>
         <section class="brand-container">
 
             <div class="container-header">
-                <h2>Administrar Marcas</h2>
+                <h2>🏷️ Administrar Marcas</h2>
+                @if (brands.length > 0) {
+                    <span class="header-count">{{ brands.length }} en total</span>
+                }
             </div>
 
             @if (brands.length > 0) {
                 <table class="brand-item">
-                    <thead class="container-header">
+                    <thead>
                         <tr>
                             <th>Nombre</th>
                             <th>Detalles</th>
@@ -24,18 +30,18 @@
                         <tr>
                             <td>{{ brand.brandName }}</td>
                             <td>
-                                <button (click)="handleDetails(brand.id!)">Ver más &RightArrow;</button>
+                                <button (click)="handleDetails(brand.id!)">Ver más →</button>
                             </td>
                         </tr>
                     }
                     </tbody>
                 </table>
             } @else {
-              <p>No hay marcas registradas</p>
+              <div class="empty-state">
+                <span class="empty-icon">🏷️</span>
+                <p>No hay marcas registradas</p>
+              </div>
             }
         </section>
     </main>
-
 }
-
-

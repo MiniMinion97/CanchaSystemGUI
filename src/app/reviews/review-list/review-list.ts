@@ -9,6 +9,7 @@ import { ReviewItem } from '../review-item/review-item';
   standalone: true,
   imports: [CommonModule, ReviewItem],
   templateUrl: './review-list.html',
+  styleUrls: ['./review-list.css']
 })
 export class ReviewList {
   readonly reviews = input.required<ReviewResponse[]>();

@@ -2,36 +2,36 @@
 @let loading = this.loading();
 
 @if (loading) {
-    <p>Cargando dueño...</p>
+    <p class="status-msg">Cargando dueño...</p>
 } @else if (!owner) {
-    <p>El dueño buscado no existe.</p>
+    <p class="status-msg">El dueño buscado no existe.</p>
 } @else {
     <main>
-        <section class="owner-container">
+        <section class="crud-container">
             <div class="container-header">
-                <h2>Datos del dueño {{owner.name}} {{owner.lastName}}</h2>
+                <span class="header-tag">🏢 Dueño</span>
+                <h2>{{owner.name}} {{owner.lastName}}</h2>
             </div>
-
 
             <form [formGroup]="form" (ngSubmit)="handleSubmit()">
                 <label>Nombre
                     <input type="text" formControlName="name" [placeholder]="owner.name || 'Nombre'">
                     @if(form.get('name')?.hasError('required') && (form.get('name')?.touched || form.get('name')?.dirty) ){
-                        <span>El nombre es obligatorio</span>
+                        <span class="field-error">El nombre es obligatorio</span>
                     }
                 </label>
 
                 <label>Apellido
                     <input type="text" formControlName="lastName" [placeholder]="owner.lastName || 'Apellido'">
                     @if(form.get('lastName')?.hasError('required') && (form.get('lastName')?.touched || form.get('lastName')?.dirty) ){
-                        <span>El apellido es obligatorio</span>
+                        <span class="field-error">El apellido es obligatorio</span>
                     }
                 </label>
 
                 <label>Nombre de usuario
                     <input type="text" formControlName="username" [placeholder]="owner.username || 'Nombre de usuario'">
                     @if(form.get('username')?.hasError('required') && (form.get('username')?.touched || form.get('username')?.dirty) ){
-                        <span>El nombre de usuario es obligatorio</span>
+                        <span class="field-error">El nombre de usuario es obligatorio</span>
                     }
                 </label>
 
@@ -40,9 +40,9 @@
                     @let email = form.get('mail');
                     @if (email?.touched || email?.dirty) {
                         @if (email?.hasError('required')) {
-                            <span>El mail es obligatorio</span>
+                            <span class="field-error">El mail es obligatorio</span>
                         } @else if (email?.hasError('email')) {
-                            <span>Debe ser tipo mail</span>
+                            <span class="field-error">Debe ser tipo mail</span>
                         }
                     }
                 </label>
@@ -50,18 +50,20 @@
                 <label>Número de teléfono
                     <input type="text" formControlName="cellNumber" [placeholder]="owner.cellNumber || 'Número de teléfono'">
                     @if(form.get('cellNumber')?.hasError('required') && (form.get('cellNumber')?.touched || form.get('cellNumber')?.dirty) ){
-                        <span>El celular es obligatorio</span>
+                        <span class="field-error">El celular es obligatorio</span>
                     }
                 </label>
 
-                <button type="reset">Limpiar</button>
-                <button type="submit">Guardar</button>
+                <div class="form-actions">
+                    <button type="reset" class="reset-btn">Limpiar</button>
+                    <button type="submit" class="save-btn">Guardar</button>
+                </div>
             </form>
 
-            <button (click)="handleDelete()">Borrar Dueño</button>
+            <button class="delete-btn" (click)="handleDelete()">🗑️ Borrar Dueño</button>
         </section>
 
-        <section>
+        <section class="nested-section">
             <app-admin-establishments [type]="'owner'" [targetId]="owner.id"></app-admin-establishments>
         </section>
     </main>

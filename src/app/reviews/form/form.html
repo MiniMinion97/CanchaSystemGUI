@@ -1,14 +1,19 @@
 @let stars = [5, 4, 3, 2, 1];
 
-<main>
+<main class="review-form-wrap">
   @if (!isLoggedIn) {
     <p class="warning">⚠️ Debes iniciar sesión para dejar una reseña</p>
   }
 
   <form [formGroup]="form" (ngSubmit)="handleSubmit()">
-    
-    <div class="rating">
-      <div>
+
+    <div class="form-title">
+      <h3>{{ isEditing() ? 'Editar tu reseña' : 'Dejá tu reseña' }}</h3>
+    </div>
+
+    <div class="rating-block">
+      <span class="rating-label">Tu valoración</span>
+      <div class="rating">
         @for(star of stars; track $index){
           <input
             type="radio"
@@ -17,30 +22,28 @@
             [value]="star"
           />
           <label [for]="'star' + star" [title]="star + ' estrellas'">&#9733;</label>
-        }  
+        }
       </div>
-
-      <h3>Valoración</h3>
     </div>
 
     @if(form.get('rating')?.touched || form.get('rating')?.dirty){
       @if(form.get('rating')?.hasError('required')){
-        <span>La valoración es obligatoria</span>
+        <span class="field-error">La valoración es obligatoria</span>
       }@else if(form.get('rating')?.hasError('min') || form.get('rating')?.hasError('max')){
-        <span>La valoración debe ser entre 1 y 5 estrellas</span>
+        <span class="field-error">La valoración debe ser entre 1 y 5 estrellas</span>
       }
     }
 
     <textarea
       formControlName="message"
-      placeholder="Escribe tu reseña aquí... (opcional)"
+      placeholder="Escribí tu reseña aquí... (opcional)"
       maxlength="500"
       rows="4"
     ></textarea>
 
     @if(form.get('message')?.touched || form.get('message')?.dirty){
       @if(form.get('message')?.hasError('maxlength')){
-        <span>El mensaje no puede superar los 500 caracteres</span>
+        <span class="field-error">El mensaje no puede superar los 500 caracteres</span>
       }
     }
 
@@ -48,10 +51,11 @@
       <p class="char-count">{{ form.get('message')?.value?.length }} / 500</p>
     }
 
-    <button 
-      type="submit" 
+    <button
+      type="submit"
+      class="submit-btn"
       [disabled]="form.invalid || !isLoggedIn">
-      {{ isEditing() ? 'Actualizar reseña' : 'Publicar reseña' }}
+      {{ isEditing() ? '✏️ Actualizar reseña' : '📝 Publicar reseña' }}
     </button>
   </form>
 </main>

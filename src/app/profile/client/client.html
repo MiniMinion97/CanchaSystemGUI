@@ -1,5 +1,36 @@
 <main>
-    <section (click)="goToMyData()">Informacion Personal</section>
-    <section (click)="goToMyReservations()">Mis Reservas</section>
-    <section (click)="goToMyReviews()">Mis Reseñas</section>
+  <div class="profile-hero">
+   
+    <h1>Tu perfil</h1>
+    <p class="hero-subtitle">Gestioná tus datos, reservas y reseñas desde acá.</p>
+  </div>
+
+  <div class="menu-grid">
+    <section class="menu-card" (click)="goToMyData()">
+      <span class="menu-icon">🧾</span>
+      <div class="menu-text">
+        <h3>Información Personal</h3>
+        <p>Actualizá tus datos de contacto y cuenta</p>
+      </div>
+      <span class="menu-arrow">→</span>
+    </section>
+
+    <section class="menu-card" (click)="goToMyReservations()">
+      <span class="menu-icon">📅</span>
+      <div class="menu-text">
+        <h3>Mis Reservas</h3>
+        <p>Revisá el historial y estado de tus reservas</p>
+      </div>
+      <span class="menu-arrow">→</span>
+    </section>
+
+    <section class="menu-card" (click)="goToMyReviews()">
+      <span class="menu-icon">⭐</span>
+      <div class="menu-text">
+        <h3>Mis Reseñas</h3>
+        <p>Editá o eliminá las reseñas que dejaste</p>
+      </div>
+      <span class="menu-arrow">→</span>
+    </section>
+  </div>
 </main>

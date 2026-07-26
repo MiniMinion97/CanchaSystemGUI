@@ -1,7 +1,7 @@
 @let reviews = this.reviews();
-<main>
+<main class="review-list-wrap">
   @if (reviews && reviews.length > 0) {
-    <section>
+    <section class="review-list-section">
       @for (review of reviews; track review.id) {
         <app-review-item
           [review]="review"
@@ -9,10 +9,13 @@
           [isLoggedIn]="isLoggedIn()"
           (edit)="edit.emit($event)"
           (delete)="delete.emit($event)">
-</app-review-item>
+        </app-review-item>
       }
     </section>
   } @else {
-    <span>Todavía no hay reseñas, sé el primero en compartir tu experiencia</span>
+    <div class="empty-reviews">
+      <span class="empty-icon">💭</span>
+      <span class="empty-text">Todavía no hay reseñas, sé el primero en compartir tu experiencia</span>
+    </div>
   }
 </main>

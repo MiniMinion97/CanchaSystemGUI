@@ -2,42 +2,48 @@
 
 @if (brand) {
   <div class="brand">
-    <h1>{{ brand.brandName }}</h1>
 
-    <button (click)="toggleCreate()">Crear establecimiento</button>
+    <div class="brand-hero">
+      <span class="hero-tag">🏷️ Marca</span>
+      <h1>{{ brand.brandName }}</h1>
+    </div>
+
+    <button class="primary-action" (click)="toggleCreate()">➕ Crear establecimiento</button>
 
     @if (creating()) {
-      <app-establishment-form [brandId]="brand.id"></app-establishment-form>
+      <div class="form-wrap">
+        <app-establishment-form [brandId]="brand.id"></app-establishment-form>
+      </div>
     }
 
     <hr />
 
     <div class="btnActions">
-      <button (click)="handleDelete()">Borrar</button>
-      <button (click)="toggleEdit()">Editar</button>
+      <button class="danger-btn" (click)="handleDelete()">🗑️ Borrar</button>
+      <button class="edit-btn" (click)="toggleEdit()">✏️ Editar</button>
+    </div>
 
-      @if (isEditing()) {
-        <app-brand-form 
-          [brandData]="brand" 
-          [brandId]="brand.id" 
-          [isEditing]="true" 
+    @if (isEditing()) {
+      <div class="form-wrap">
+        <app-brand-form
+          [brandData]="brand"
+          [brandId]="brand.id"
+          [isEditing]="true"
           (brandEdited)="handleEdit($event)">
         </app-brand-form>
-      }
-    </div>
+      </div>
+    }
 
     <hr />
 
-    
-
-    <button (click)="toggleShow()">
-      {{ showAll() ? 'Esconder establecimientos' : 'Mostrar establecimientos' }}
+    <button class="toggle-btn" (click)="toggleShow()">
+      {{ showAll() ? '⬆️ Esconder establecimientos' : '⬇️ Mostrar establecimientos' }}
     </button>
 
     @if (showAll()) {
       <h2>Establecimientos</h2>
-      <app-my-establishments 
-        [idBrand]="brand.id" 
+      <app-my-establishments
+        [idBrand]="brand.id"
         [isInsideBrand]="true">
       </app-my-establishments>
     }

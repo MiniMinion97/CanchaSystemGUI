@@ -1,23 +1,39 @@
-/* Contenedor principal de la tarjeta */
+/* Contenedor principal */
 .reservation-detail-card {
-  background: #ffffff;
-  border-radius: 16px;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
   padding: 2rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-md);
   max-width: 600px;
   margin: 2rem auto;
   margin-top: 9rem;
-  border: 1px solid #EEEDEB;
+  border: 1px solid var(--border-color);
 }
 
-/* Título principal */
-.reservation-detail-card h2 {
-  color: #5F7D36;
-  font-size: 1.75rem;
-  margin: 0 0 1.5rem 0;
+.detail-card-header {
+  margin-bottom: 1.5rem;
   padding-bottom: 1rem;
-  border-bottom: 3px solid #5F7D36;
-  font-weight: 700;
+  border-bottom: 2px solid var(--surface-sunken);
+}
+
+.header-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background-color: var(--primary-soft);
+  color: var(--primary-dark);
+  font-weight: 600;
+  font-size: 0.8rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: var(--radius-xl);
+  margin-bottom: 0.6rem;
+}
+
+.reservation-detail-card h2 {
+  color: var(--text-primary);
+  font-size: 1.6rem;
+  margin: 0;
+  font-weight: 800;
 }
 
 /* Filas de detalles */
@@ -27,135 +43,134 @@
   align-items: center;
   padding: 0.875rem 1rem;
   margin-bottom: 0.5rem;
-  background: #EEEDEB;
-  border-radius: 10px;
-  transition: all 0.2s ease;
+  background: var(--surface-alt);
+  border-radius: var(--radius-sm);
+  transition: var(--transition-base);
+  gap: 1rem;
 }
 
 .detail-row:hover {
-  background: #e0dfd9;
+  background: var(--surface-sunken);
   transform: translateX(4px);
 }
 
-/* Labels con emojis */
 .detail-row .label {
   font-weight: 600;
-  color: #5F7D36;
-  font-size: 0.95rem;
+  color: var(--primary);
+  font-size: 0.92rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  white-space: nowrap;
 }
 
-.detail-row span:last-child {
-  color: #333;
+.detail-row .value {
+  color: var(--text-primary);
   font-weight: 500;
+  text-align: right;
 }
 
 .detail-row .status {
   color: white;
   padding: 0.35rem 1rem;
-  border-radius: 20px;
-  font-size: 0.875rem;
-  font-weight: 600;
+  border-radius: var(--radius-xl);
+  font-size: 0.8rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.4px;
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-sm);
+  white-space: nowrap;
 }
 
-/* Estado: COMPLETED (Verde brillante) */
 .detail-row .status.completed,
 .detail-row .status[class*="COMPLETED"] {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  background: linear-gradient(135deg, #2FA36A 0%, #1F7A4E 100%);
 }
 
-/* Estado: PENDING (Azul claro) */
 .detail-row .status.pending,
 .detail-row .status[class*="PENDING"] {
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  background: linear-gradient(135deg, #3B82C4 0%, #2563A0 100%);
 }
 
-/* Estado: CANCELLED (Rojo coral) */
 .detail-row .status.canceled,
 .detail-row .status[class*="CANCELLED"] {
-  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  background: linear-gradient(135deg, #D6564A 0%, #B8382D 100%);
 }
 
-/* Contenedor de acciones */
+/* Acciones */
 .actions {
   display: flex;
   gap: 1rem;
   margin-top: 2rem;
   padding-top: 1.5rem;
-  border-top: 2px solid #EEEDEB;
+  border-top: 2px solid var(--surface-sunken);
 }
 
-/* Botones */
 .edit-btn,
 .cancel-btn {
   flex: 1;
   padding: 0.875rem 1.5rem;
   border: none;
-  border-radius: 10px;
-  font-size: 1rem;
-  font-weight: 600;
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: var(--transition-base);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
 }
 
-/* Botón editar */
 .edit-btn {
-  background: #5F7D36;
-  color: white;
-  box-shadow: 0 4px 12px rgba(95, 125, 54, 0.3);
+  background: var(--primary);
+  color: var(--text-inverse);
+  box-shadow: var(--shadow-sm);
 }
 
-.edit-btn:hover {
-  background: #4d6529;
+.edit-btn:hover:not(:disabled) {
+  background: var(--primary-dark);
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(95, 125, 54, 0.4);
+  box-shadow: var(--shadow-md);
 }
 
-.edit-btn:active {
+.edit-btn:active:not(:disabled) {
   transform: translateY(0);
 }
 
-/* Botón cancelar */
 .cancel-btn {
-  background: #EEEDEB;
-  color: #d32f2f;
-  border: 2px solid #d32f2f;
+  background: var(--surface-alt);
+  color: var(--danger);
+  border: 2px solid var(--danger);
 }
 
-.cancel-btn:hover {
-  background: #d32f2f;
+.cancel-btn:hover:not(:disabled) {
+  background: var(--danger);
   color: white;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(211, 47, 47, 0.3);
+  box-shadow: var(--shadow-md);
 }
 
-.cancel-btn:active {
+.cancel-btn:active:not(:disabled) {
   transform: translateY(0);
 }
 
 .actions button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  background-color: #B6B6B7;
+  background-color: var(--border-color);
+  color: var(--text-secondary);
+  border-color: var(--border-color);
   transform: none;
 }
 
 .actions button:disabled:hover {
   transform: none;
   box-shadow: none;
-  background-color: #B6B6B7;
+  background-color: var(--border-color);
 }
 
 /* Estados de carga y sin datos */
@@ -163,20 +178,19 @@
 .no-data {
   text-align: center;
   padding: 3rem 2rem;
-  color: #B6B6B7;
-  font-size: 1.1rem;
-  background: #EEEDEB;
-  border-radius: 12px;
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  background: var(--surface-alt);
+  border-radius: var(--radius-md);
   margin: 2rem auto;
   max-width: 600px;
 }
 
 .loading {
-  color: #5F7D36;
+  color: var(--primary);
   font-weight: 600;
 }
 
-/* Animación de carga */
 .loading::after {
   content: '...';
   display: inline-block;
@@ -189,41 +203,35 @@
   60%, 100% { content: '...'; }
 }
 
-/* Formulario de edición dentro */
+/* Formulario de edición embebido */
 .reservation-detail-card app-make {
   margin-top: 2rem;
   padding-top: 2rem;
-  border-top: 2px solid #EEEDEB;
+  border-top: 2px solid var(--surface-sunken);
   display: block;
 }
 
-/* Responsivo */
 @media (max-width: 640px) {
   .reservation-detail-card {
     padding: 1.5rem;
     margin: 1rem;
   }
-  
+
   .reservation-detail-card h2 {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
   }
-  
+
   .actions {
     flex-direction: column;
   }
-  
-  .edit-btn,
-  .cancel-btn {
-    width: 100%;
-  }
-  
+
   .detail-row {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.5rem;
+    gap: 0.4rem;
   }
-  
-  .detail-row span:last-child {
-    padding-left: 1.5rem;
+
+  .detail-row .value {
+    text-align: left;
   }
 }
