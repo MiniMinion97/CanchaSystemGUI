@@ -2,18 +2,25 @@
 @let loading = this.loading();
 
 @if (loading) {
-    <p>Cargando reservas...</p>
+    <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Cargando reservas...</p>
+    </div>
 } @else {
     <main>
         <section class="reservation-container">
 
             <div class="container-header">
-                <h2>Administrar Reservas</h2>
+                <h2>🗓️ Administrar Reservas</h2>
+                @if (reservations.length > 0) {
+                    <span class="header-count">{{ reservations.length }} en total</span>
+                }
             </div>
 
             @if (reservations.length > 0) {
+                <div class="table-scroll">
                 <table class="reservation">
-                    <thead class="container-header">
+                    <thead>
                         <tr>
                             <th>Cancha</th>
                             <th>Fecha de reserva</th>
@@ -27,13 +34,19 @@
                                 <td>{{ reservation.canchaType }}</td>
                                 <td>{{ reservation.reservationDate }}</td>
                                 <td>{{ reservation.matchDate }}</td>
-                                <td>{{ reservation.status }}</td>
+                                <td>
+                                    <span class="status-badge">{{ reservation.status }}</span>
+                                </td>
                             </tr>
                         }
                     </tbody>
                 </table>
+                </div>
             } @else {
-              <p>No hay reservas registradas</p>
+              <div class="empty-state">
+                <span class="empty-icon">🗓️</span>
+                <p>No hay reservas registradas</p>
+              </div>
             }
         </section>
     </main>

@@ -2,18 +2,25 @@
 @let loading = this.loading();
 
 @if (loading) {
-    <p>Cargando reseñas...</p>
+    <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Cargando reseñas...</p>
+    </div>
 } @else {
     <main>
         <section class="review-container">
 
             <div class="container-header">
-                <h2>Administrar Reseñas</h2>
+                <h2>⭐ Administrar Reseñas</h2>
+                @if (reviews.length > 0) {
+                    <span class="header-count">{{ reviews.length }} en total</span>
+                }
             </div>
 
             @if (reviews.length > 0) {
+                <div class="table-scroll">
                 <table class="review">
-                    <thead class="container-header">
+                    <thead>
                         <tr>
                             <th>Cliente</th>
                             <th>Rating</th>
@@ -25,15 +32,19 @@
                         @for (review of reviews; track review.id) {
                             <tr>
                                 <td>{{ review.clientName }}</td>
-                                <td>{{ review.rating }}</td>
-                                <td>{{ review.message }}</td>
+                                <td class="rating-cell">⭐ {{ review.rating }}</td>
+                                <td class="message-cell">{{ review.message }}</td>
                                 <td>{{ review.createdAt }}</td>
                             </tr>
                         }
                     </tbody>
                 </table>
+                </div>
             } @else {
-              <p>No hay reviews registradas</p>
+              <div class="empty-state">
+                <span class="empty-icon">⭐</span>
+                <p>No hay reviews registradas</p>
+              </div>
             }
         </section>
     </main>

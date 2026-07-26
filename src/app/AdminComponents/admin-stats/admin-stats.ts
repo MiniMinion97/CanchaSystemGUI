@@ -20,14 +20,38 @@ export class AdminStats {
   protected fromDate = signal<string>('');
   protected untilDate = signal<string>('');
 
+  // NUEVO: señal que SÍ cambia de valor cada vez que se detecta un cambio de tema
+  private readonly themeTick = signal<number>(0);
+
+  private getThemeTextColor(): string {
+    return getComputedStyle(document.documentElement)
+      .getPropertyValue('--text-primary').trim() || '#221F20';
+  }
+
+  private getThemeSecondaryColor(): string {
+    return getComputedStyle(document.documentElement)
+      .getPropertyValue('--text-secondary').trim() || '#6B6B68';
+  }
+
+  private getThemeGridColor(): string {
+    return getComputedStyle(document.documentElement)
+      .getPropertyValue('--surface-sunken').trim() || '#E9E8E5';
+  }
+
   // ---- Pie chart: canchas por tipo ----
   protected pieChartType: ChartConfiguration<'pie'>['type'] = 'pie';
-  protected pieChartOptions: ChartConfiguration<'pie'>['options'] = {
-    responsive: true,
-    plugins: {
-      legend: { position: 'bottom', labels: { color: '#fff' } }
-    }
-  };
+
+  protected pieChartOptions = computed<ChartConfiguration<'pie'>['options']>(() => {
+    this.themeTick(); // dependencia explícita: fuerza recálculo cuando cambia el tema
+    const textColor = this.getThemeTextColor();
+    return {
+      responsive: true,
+      plugins: {
+        legend: { position: 'bottom', labels: { color: textColor } }
+      }
+    };
+  });
+
   protected pieChartData = computed<ChartData<'pie'>>(() => {
     const s = this.stats();
     if (!s) return { labels: [], datasets: [{ data: [] }] };
@@ -57,17 +81,31 @@ export class AdminStats {
 
   // ---- Bar chart: top 5 establecimientos ----
   protected barChartType: ChartConfiguration<'bar'>['type'] = 'bar';
-  protected barChartOptions: ChartConfiguration<'bar'>['options'] = {
-    responsive: true,
-    indexAxis: 'y',
-    plugins: {
-      legend: { display: false }
-    },
-    scales: {
-      x: { ticks: { color: '#fff' } },
-      y: { ticks: { color: '#fff' } }
-    }
-  };
+
+  protected barChartOptions = computed<ChartConfiguration<'bar'>['options']>(() => {
+    this.themeTick(); // dependencia explícita: fuerza recálculo cuando cambia el tema
+    const textColor = this.getThemeTextColor();
+    const gridColor = this.getThemeGridColor();
+
+    return {
+      responsive: true,
+      indexAxis: 'y',
+      plugins: {
+        legend: { display: false }
+      },
+      scales: {
+        x: {
+          ticks: { color: textColor },
+          grid: { color: gridColor }
+        },
+        y: {
+          ticks: { color: textColor },
+          grid: { color: gridColor }
+        }
+      }
+    };
+  });
+
   protected barChartData = computed<ChartData<'bar'>>(() => {
     const s = this.stats();
     if (!s) return { labels: [], datasets: [{ data: [] }] };
@@ -84,6 +122,12 @@ export class AdminStats {
 
   constructor() {
     this.loadStats();
+
+    // Detecta cambios en data-theme y avanza el contador para forzar recálculo real
+    const observer = new MutationObserver(() => {
+      this.themeTick.update(v => v + 1);
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
   }
 
   private loadStats(from?: string, until?: string) {

@@ -87,7 +87,7 @@ main {
     flex-direction: column;
     width: 78vw;
     max-width: 1800px;
-    height: 75vh;
+    height: 85vh;
     background-color: var(--surface);
     border: 1px solid var(--border-color);
     color: var(--text-primary);

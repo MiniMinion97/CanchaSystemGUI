@@ -1,16 +1,21 @@
 <form [formGroup]="form" (ngSubmit)="handleSubmit()">
+  <div class="form-header">
+    <span class="header-tag">🏷️ Marca</span>
+    <h3>{{ this.isEditing() ? 'Editar marca' : 'Crear marca' }}</h3>
+  </div>
+
   <label>
-    Nombre de marca  
-    <input type="text" formControlName="brandName" />  
+    Nombre de marca
+    <input type="text" formControlName="brandName" placeholder="Ej: La Bombonerita" />
 
     @if(form.get('brandName')?.touched || form.get('brandName')?.dirty){
       @if(form.get('brandName')?.hasError('required')){
-        <span>El nombre de la marca es obligatorio</span>
+        <span class="field-error">El nombre de la marca es obligatorio</span>
       }@else if(form.get('brandName')?.hasError('minlength')){
-        <span>El nombre debe tener al menos 3 caracteres</span>
+        <span class="field-error">El nombre debe tener al menos 3 caracteres</span>
       }
     }
-  </label>  
+  </label>
 
   <button type="submit" [disabled]="form.invalid">
     {{ this.isEditing() ? 'Editar marca' : 'Crear marca' }}
