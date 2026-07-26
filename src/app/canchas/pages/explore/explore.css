@@ -221,6 +221,10 @@ main {
 .filter-select:focus {
     outline: none;
 }
+.filter-select option {
+    background-color: var(--surface);
+    color: var(--text-primary);
+}
 
 .clear-filters-btn {
     background: var(--danger-soft);
