@@ -8,7 +8,7 @@ export class MapService {
   private readonly http = inject(HttpClient);
 
   getAutocomplete(address: string) {
-    return this.http.get<AddressRequest[]>(`${this.url}/autocomplete/${address}`);
+    return this.http.get<AddressRequest[]>(`${this.url}/autocomplete/${encodeURIComponent(address)}`);
   }
 
   getReverseGeocoding(lat: number, lng: number) {
