@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, output} from '@angular/core';
 import * as L from 'leaflet';
 import {Map} from '../map/map';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
@@ -14,10 +14,12 @@ import {switchMap} from 'rxjs/operators';
   styleUrl: './address-input.css',
 })
 export class AddressInput implements OnInit, OnDestroy {
-  addressControl = new FormControl('');
-  suggestions: AddressRequest[] = [];
-  selectedAddress?: AddressRequest;
+  protected addressControl = new FormControl('');
+  protected suggestions: AddressRequest[] = [];
 
+  selection = output<AddressRequest>();
+
+  private selectedAddress?: AddressRequest;
   protected uploadedAddress?: AddressRequest;
   private destroy$ = new Subject<void>();
 
@@ -54,6 +56,7 @@ export class AddressInput implements OnInit, OnDestroy {
   }
 
   updateSuggestion(address: AddressRequest) {
+    this.selection.emit(address);
     this.selectedAddress = address;
     this.addressControl.setValue(address.street, {});
   }
