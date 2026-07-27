@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, output} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, output} from '@angular/core';
 import * as L from 'leaflet';
 import {Map} from '../map/map';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
@@ -19,7 +19,7 @@ export class AddressInput implements OnInit, OnDestroy {
 
   selection = output<AddressRequest>();
 
-  private selectedAddress?: AddressRequest;
+  @Input() selectedAddress?: AddressRequest;
   protected uploadedAddress?: AddressRequest;
   private destroy$ = new Subject<void>();
 
@@ -28,6 +28,10 @@ export class AddressInput implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    if (this.selectedAddress) {
+      this.addressControl.setValue(this.selectedAddress.street)
+    }
+
     this.addressControl.valueChanges.pipe(
       debounceTime(300),
       distinctUntilChanged(),
@@ -58,7 +62,7 @@ export class AddressInput implements OnInit, OnDestroy {
   updateSuggestion(address: AddressRequest) {
     this.selection.emit(address);
     this.selectedAddress = address;
-    this.addressControl.setValue(address.street, {});
+    this.addressControl.setValue(address.street);
   }
 
   selectSuggestion(address: AddressRequest) {
