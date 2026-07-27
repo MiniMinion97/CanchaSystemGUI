@@ -1,6 +1,7 @@
 import {inject, Service} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {AddressRequest} from '../../models/address-request';
+import {AddressResponse} from '../../models/address-response';
 
 @Service()
 export class AddressService {
@@ -8,10 +9,14 @@ export class AddressService {
   private readonly http = inject(HttpClient);
 
   getAddress(id: number) {
-    return this.http.get<AddressRequest[]>(`${this.url}/find/${id}`);
+    return this.http.get<AddressResponse>(`${this.url}/find/${id}`);
   }
 
   insertAddress(addressRequest: AddressRequest) {
     return this.http.post<AddressRequest>(`${this.url}/insert`, addressRequest);
+  }
+
+  deleteAddress(id: number) {
+    return this.http.delete<AddressRequest>(`${this.url}/delete/${id}`);
   }
 }
