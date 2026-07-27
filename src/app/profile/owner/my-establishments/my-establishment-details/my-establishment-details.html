@@ -2,47 +2,58 @@
 
 @if (est) {
   <div class="establishment-details">
-    <h1>{{ est.name }}</h1>
 
-    <p>
-      🕒 Horario:
-      {{ est.openingHour }} -
-      {{ est.closingHour }}
-    </p>
+    <div class="details-hero">
+      <span class="hero-tag">🏟️ Sucursal</span>
+      <h1>{{ est.name }}</h1>
+    </div>
 
-    <p [class.active]="est.active" [class.inactive]="!est.active">
-      Estado: {{ est.active ? 'Activo' : 'Inactivo' }}
-    </p>
+    <div class="details-card">
+      <div class="detail-row">
+        <span class="label">🕒 Horario</span>
+        <span class="value">{{ est.openingHour }} - {{ est.closingHour }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">📌 Estado</span>
+        <span class="value" [class.status-ok]="est.active" [class.status-off]="!est.active">
+          {{ est.active ? 'Activo' : 'Inactivo' }}
+        </span>
+      </div>
+      <div class="detail-row">
+        <span class="label">🚿 Duchas</span>
+        <span class="value">{{ est.canShower ? 'Disponible' : 'No disponible' }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">📍 Dirección</span>
+        <span class="value">{{ est.address }}</span>
+      </div>
+    </div>
 
-    <p>
-      🚿 Duchas: {{ est.canShower ? 'Disponible' : 'No disponible' }}
-    </p>
-
-    <p>
-      📍 Dirección: {{ est.address }}
-    </p>
-
-    <button (click)="toggleCreate()">Crear cancha</button>
+    <button class="primary-action" (click)="toggleCreate()">➕ Crear cancha</button>
 
     @if (creating()) {
-      <app-cancha-form [establishmentId]="est.id"></app-cancha-form>
+      <div class="form-wrap">
+        <app-cancha-form [establishmentId]="est.id"></app-cancha-form>
+      </div>
     }
 
     <hr />
 
     <div class="btnActions">
-      <button (click)="handleDelete()">Borrar</button>
-      <button (click)="toggleEdit()">Editar</button>
-
-      @if (isEditing()) {
-        <app-establishment-form [brandId]="est.brandId" [estData]="est" [estId]="est.id" [isEditing]="true" (estEdited)="handleEdit($event)"></app-establishment-form>
-      }
+      <button class="danger-btn" (click)="handleDelete()">🗑️ Borrar</button>
+      <button class="edit-btn" (click)="toggleEdit()">✏️ Editar</button>
     </div>
+
+    @if (isEditing()) {
+      <div class="form-wrap">
+        <app-establishment-form [brandId]="est.brandId" [estData]="est" [estId]="est.id" [isEditing]="true" (estEdited)="handleEdit($event)"></app-establishment-form>
+      </div>
+    }
 
     <hr />
 
-    <button (click)="toggleShow()">
-      {{ showAll() ? 'Esconder canchas' : 'Mostrar canchas' }}
+    <button class="toggle-btn" (click)="toggleShow()">
+      {{ showAll() ? '⬆️ Esconder canchas' : '⬇️ Mostrar canchas' }}
     </button>
     @if (this.showAll()){
       <h2>⚽ Canchas del establecimiento</h2>
@@ -50,29 +61,29 @@
     }
 
     <hr />
-    
-    <button (click)="toggleShowReservations()">
-      {{ showReservations() ? 'Esconder reservas' : 'Mostrar reservas' }}
+
+    <button class="toggle-btn" (click)="toggleShowReservations()">
+      {{ showReservations() ? '⬆️ Esconder reservas' : '⬇️ Mostrar reservas' }}
     </button>
-    
+
     @if (this.showReservations()){
       <h2>🗓️ Reservas del establecimiento</h2>
-      <app-my-owner-reservations 
-        [idEst]="est.id" 
+      <app-my-owner-reservations
+        [idEst]="est.id"
         [isInsideEst]="true">
       </app-my-owner-reservations>
     }
 
     <hr />
-    
-    <button (click)="toggleShowReviews()">
-      {{ showReviews() ? 'Esconder reviews' : 'Mostrar reviews' }}
+
+    <button class="toggle-btn" (click)="toggleShowReviews()">
+      {{ showReviews() ? '⬆️ Esconder reviews' : '⬇️ Mostrar reviews' }}
     </button>
-    
+
     @if (this.showReviews()){
-      <h2>🗓️ Reviews del establecimiento</h2>
-      <app-my-owner-reviews 
-        [idEst]="est.id" 
+      <h2>⭐ Reviews del establecimiento</h2>
+      <app-my-owner-reviews
+        [idEst]="est.id"
         [isInsideEst]="true">
       </app-my-owner-reviews>
     }

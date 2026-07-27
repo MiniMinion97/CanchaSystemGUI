@@ -2,33 +2,35 @@
 @let loading = this.loading();
 
 @if (loading) {
-    <p>Cargando marca...</p>
+    <p class="status-msg">Cargando marca...</p>
 } @else if (!brand) {
-    <p>La marca buscada no existe.</p>
+    <p class="status-msg">La marca buscada no existe.</p>
 } @else {
     <main>
-        <section class="brand-container">
+        <section class="crud-container">
             <div class="container-header">
-                <h2>Datos de la marca {{brand.brandName}}</h2>
+                <span class="header-tag">🏷️ Marca</span>
+                <h2>{{brand.brandName}}</h2>
             </div>
-
 
             <form [formGroup]="form" (ngSubmit)="handleSubmit()">
                 <label>Nombre
                     <input type="text" formControlName="brandName" [placeholder]="brand.brandName || 'Nombre de la Marca'">
                     @if(form.get('brandName')?.hasError('required') && (form.get('brandName')?.touched || form.get('brandName')?.dirty) ){
-                        <span>El nombre es obligatorio</span>
+                        <span class="field-error">El nombre es obligatorio</span>
                     }
                 </label>
 
-                <button type="reset">Limpiar</button>
-                <button type="submit">Guardar</button>
+                <div class="form-actions">
+                    <button type="reset" class="reset-btn">Limpiar</button>
+                    <button type="submit" class="save-btn">Guardar</button>
+                </div>
             </form>
 
-            <button (click)="handleDelete()">Borrar Marca</button>
+            <button class="delete-btn" (click)="handleDelete()">🗑️ Borrar Marca</button>
         </section>
-        
-        <section>
+
+        <section class="nested-section">
             <app-admin-establishments [type]="'brand'" [targetId]="id"></app-admin-establishments>
         </section>
     </main>

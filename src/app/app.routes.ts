@@ -29,11 +29,11 @@ import { AdminReservation } from './AdminComponents/admin-reservation/admin-rese
 import { AdminReviews } from './AdminComponents/admin-reviews/admin-reviews';
 import { NotFound } from './canchas/pages/not-found/not-found';
 import { Verify } from './auth/verify/verify';
-import { Map } from './canchas/map/map';
+import { AdminStats } from './AdminComponents/admin-stats/admin-stats';
+
+import { OwnerMetrics } from './dashboard/owner-metrics/owner-metrics';
 
 export const routes: Routes = [
-    {path: 'mapa', component: Map},
-
     {path: 'explorar', component: Explore},
 
     {path: 'verificar/:token', component: Verify},
@@ -52,6 +52,8 @@ export const routes: Routes = [
 
     {path: 'perfil/mis-sucursales/mis-owner-reviews/:id', component: MyOwnerReviews, canActivate: [isOwnerGuard, isAuthenticatedGuard]},
     {path: 'perfil/mis-sucursales/mis-owner-reservations/:id', component: MyOwnerReservations, canActivate: [isOwnerGuard, isAuthenticatedGuard]},
+
+    {path: 'perfil/estadisticas', component: OwnerMetrics, canActivate: [isOwnerGuard, isAuthenticatedGuard]},
 
 
     {path: 'perfil/mis-reseñas', component: MyReviewsComponent, canActivate: [isClientGuard, isAuthenticatedGuard]},
@@ -74,7 +76,7 @@ export const routes: Routes = [
     {path: 'admin/sucursales/:id', component: AdminEstablishmentDetails, canActivate: [isAdminGuard, isAuthenticatedGuard]},
     {path: 'admin/reservation/:id', component: AdminReservation, canActivate: [isAdminGuard, isAuthenticatedGuard]},
     {path: 'admin/review/:id', component: AdminReviews, canActivate: [isAdminGuard, isAuthenticatedGuard]},
-
+    {path: 'admin/estadisticas', component: AdminStats, canActivate: [isAdminGuard, isAuthenticatedGuard]},
     {path: '', redirectTo: 'explorar', pathMatch: 'full'},
     {path: '**', component: NotFound}
 ];

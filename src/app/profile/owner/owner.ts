@@ -29,6 +29,10 @@ export class Owner {
     this.router.navigateByUrl("perfil/mis-canchas");
   }
 
+  goToStatistics(){
+    this.router.navigateByUrl("perfil/estadisticas");
+  }
+
   toggleFormBrand(){
     this.creating.update(value => !value);
   }

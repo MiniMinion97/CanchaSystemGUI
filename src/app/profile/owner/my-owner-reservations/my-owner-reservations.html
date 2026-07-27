@@ -2,7 +2,10 @@
 @let loading = this.loading();
 
 @if (loading) {
-  <p>Cargando reservas...</p>
+  <div class="loading-state">
+    <div class="spinner"></div>
+    <p>Cargando reservas...</p>
+  </div>
 } @else {
   @if (reservations.length > 0) {
     <div class="reservations-container">
@@ -42,6 +45,9 @@
       </table>
     </div>
   } @else {
-    <p class="no-reservations">No hay reservas registradas aún.</p>
+    <div class="empty-state">
+      <span class="empty-icon">🗓️</span>
+      <p class="no-reservations">No hay reservas registradas aún.</p>
+    </div>
   }
 }

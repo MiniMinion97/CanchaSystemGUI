@@ -2,18 +2,25 @@
 @let loading = this.loading();
 
 @if (loading) {
-    <p>Cargando dueños...</p>
+    <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Cargando dueños...</p>
+    </div>
 } @else {
     <main>
         <section class="owner-container">
 
             <div class="container-header">
-                <h2>Administrar Dueños</h2>
+                <h2>🏢 Administrar Dueños</h2>
+                @if (owners.length > 0) {
+                    <span class="header-count">{{ owners.length }} en total</span>
+                }
             </div>
 
             @if (owners.length > 0) {
+                <div class="table-scroll">
                 <table class="owner-item">
-                    <thead class="container-header">
+                    <thead>
                         <tr>
                             <th>Nombre</th>
                             <th>Apellido</th>
@@ -32,14 +39,18 @@
                                 <td>{{ owner.mail }}</td>
                                 <td>{{ owner.cellNumber }}</td>
                                 <td>
-                                    <button (click)="handleDetails(owner.id!)">Ver más &RightArrow;</button>
+                                    <button class="details-btn" (click)="handleDetails(owner.id!)">Ver más →</button>
                                 </td>
                             </tr>
                         }
                     </tbody>
                 </table>
+                </div>
             } @else {
-              <p>No hay dueños registrados</p>
+              <div class="empty-state">
+                <span class="empty-icon">🏢</span>
+                <p>No hay dueños registrados</p>
+              </div>
             }
         </section>
     </main>

@@ -1,21 +1,26 @@
 <form [formGroup]="form" (ngSubmit)="handleSubmit()">
+  <div class="form-header">
+    <span class="header-tag">⚽ Cancha</span>
+    <h3>{{ this.isEditing() ? 'Editar cancha' : 'Crear cancha' }}</h3>
+  </div>
+
   <label>
     Precio total
-    <input type="number" formControlName="totalAmount" />
+    <input type="number" formControlName="totalAmount" placeholder="Ej: 15000" />
     @if(form.get('totalAmount')?.touched || form.get('totalAmount')?.dirty){
       @if(form.get('totalAmount')?.hasError('required')){
-        <span>El precio total es obligatorio</span>
+        <span class="field-error">El precio total es obligatorio</span>
       }@else if(form.get('totalAmount')?.hasError('min')){
-        <span>El precio tiene que ser mayor a 1$</span>
+        <span class="field-error">El precio tiene que ser mayor a 1$</span>
       }
     }
   </label>
 
-  <label>
-    ¿Tiene techo?
+  <label class="checkbox-label">
     <input type="checkbox" formControlName="hasRoof" />
+    ¿Tiene techo?
     @if(form.get('hasRoof')?.hasError('required') && (form.get('hasRoof')?.touched || form.get('hasRoof')?.dirty)){
-      <span>Debe indicar si la cancha tiene techo</span>
+      <span class="field-error">Debe indicar si la cancha tiene techo</span>
     }
   </label>
 
@@ -29,15 +34,15 @@
       <option value="FUTBOL_11">Fútbol 11 (22 jugadores)</option>
     </select>
     @if(form.get('canchaType')?.hasError('required') && (form.get('canchaType')?.touched || form.get('canchaType')?.dirty)){
-      <span>Debe seleccionar un tipo de cancha</span>
+      <span class="field-error">Debe seleccionar un tipo de cancha</span>
     }
   </label>
 
-  <label>
-    ¿Está en funcionamiento?
+  <label class="checkbox-label">
     <input type="checkbox" formControlName="working" />
+    ¿Está en funcionamiento?
     @if(form.get('working')?.hasError('required') && (form.get('working')?.touched || form.get('working')?.dirty)){
-      <span>Debe indicar si la cancha está en funcionamiento</span>
+      <span class="field-error">Debe indicar si la cancha está en funcionamiento</span>
     }
   </label>
 

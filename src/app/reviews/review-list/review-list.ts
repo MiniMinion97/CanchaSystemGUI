@@ -10,6 +10,7 @@ import { ReviewItem } from '../review-item/review-item';
   imports: [ReviewItem],
   changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './review-list.html',
+  styleUrls: ['./review-list.css']
 })
 export class ReviewList {
   readonly reviews = input.required<ReviewResponse[]>();

@@ -1,29 +1,34 @@
 <form [formGroup]="form" (ngSubmit)="handleSubmit()">
+  <div class="form-header">
+    <span class="header-tag">🏟️ Sucursal</span>
+    <h3>{{ this.isEditing() ? 'Editar establecimiento' : 'Crear establecimiento' }}</h3>
+  </div>
+
   <label>
     Nombre establecimiento
-    <input type="text" formControlName="name" />
+    <input type="text" formControlName="name" placeholder="Ej: Sede Central" />
     @if(form.get('name')?.touched || form.get('name')?.dirty){
       @if(form.get('name')?.hasError('required')){
-        <span>El nombre es obligatorio</span>
+        <span class="field-error">El nombre es obligatorio</span>
       }@else if(form.get('name')?.hasError('minlength')){
-        <span>Debe tener al menos 3 caracteres</span>
+        <span class="field-error">Debe tener al menos 3 caracteres</span>
       }
     }
   </label>
 
   <label>
     Dirección
-    <input type="text" formControlName="address" />
+    <input type="text" formControlName="address" placeholder="Ej: Av. Siempre Viva 123" />
     @if(form.get('address')?.hasError('required') && (form.get('address')?.touched || form.get('address')?.dirty)){
-      <span>La dirección es obligatoria</span>
+      <span class="field-error">La dirección es obligatoria</span>
     }
   </label>
 
-  <label>
-    Tiene duchas?
+  <label class="checkbox-label">
     <input type="checkbox" formControlName="canShower" />
+    ¿Tiene duchas?
     @if(form.get('canShower')?.hasError('required') && (form.get('canShower')?.touched || form.get('canShower')?.dirty)){
-      <span>Debe indicar si el establecimiento tiene duchas</span>
+      <span class="field-error">Debe indicar si el establecimiento tiene duchas</span>
     }
   </label>
 
@@ -32,9 +37,9 @@
     <input type="time" formControlName="openingHour" required />
     @if(form.get('openingHour')?.touched || form.get('openingHour')?.dirty){
       @if(form.get('openingHour')?.hasError('required')){
-        <span>La hora de apertura es obligatoria</span>
+        <span class="field-error">La hora de apertura es obligatoria</span>
       } @else if (form.get('openingHour')?.hasError('defaultTime')) {
-        <span>Por favor seleccioná la hora de apertura (no usar el valor por defecto)</span>
+        <span class="field-error">Por favor seleccioná la hora de apertura (no usar el valor por defecto)</span>
       }
     }
   </label>
@@ -44,42 +49,43 @@
     <input type="time" formControlName="closingHour" required />
     @if(form.get('closingHour')?.touched || form.get('closingHour')?.dirty){
       @if(form.get('closingHour')?.hasError('required')){
-        <span>La hora de cierre es obligatoria</span>
+        <span class="field-error">La hora de cierre es obligatoria</span>
       } @else if (form.get('closingHour')?.hasError('defaultTime')) {
-        <span>Por favor seleccioná la hora de cierre (no usar el valor por defecto)</span>
+        <span class="field-error">Por favor seleccioná la hora de cierre (no usar el valor por defecto)</span>
       }
     }
   </label>
 
-  <label>
+  <label class="file-label">
     Imágenes
-    <input type="file" enctype="multipart/form-data" multiple accept="image/*" (change)="onImagesSelected($event)" />
+    <div class="file-drop">
+      <input type="file" enctype="multipart/form-data" multiple accept="image/*" (change)="onImagesSelected($event)" />
+      <span class="file-drop-text">📷 Elegí una o más imágenes</span>
+    </div>
   </label>
 
-  <section class="pictures">
-    <div class="picture-container">
-      @if (isEditing() && existingImages.length > 0) {
-        @for (img of existingImages; track $index) {
-          <div class="picture-instance">
-            <div class="picture-filler">
+  @if ((isEditing() && existingImages.length > 0) || selectedPreviews.length > 0) {
+    <section class="pictures">
+      <div class="picture-container">
+        @if (isEditing() && existingImages.length > 0) {
+          @for (img of existingImages; track $index) {
+            <div class="picture-instance">
               <img class="picture-content" [src]="getImage(img)" [alt]="`Imagen existente ${$index}`" />
-              <button type="button" (click)="removeExistingImage(img)">Eliminar</button>
+              <button type="button" class="remove-img-btn" (click)="removeExistingImage(img)">✕</button>
             </div>
-          </div>
+          }
         }
-      }
-      @if (selectedPreviews.length > 0) {
-        @for (preview of selectedPreviews; track $index) {
-          <div class="picture-instance">
-            <div class="picture-filler">
+        @if (selectedPreviews.length > 0) {
+          @for (preview of selectedPreviews; track $index) {
+            <div class="picture-instance">
               <img class="picture-content" [src]="preview" [alt]="`Imagen nueva ${$index}`" />
-              <button type="button" (click)="removeSelectedImage($index)">Eliminar</button>
+              <button type="button" class="remove-img-btn" (click)="removeSelectedImage($index)">✕</button>
             </div>
-          </div>
+          }
         }
-      }
-    </div>
-  </section>
+      </div>
+    </section>
+  }
 
   <button type="submit" [disabled]="form.invalid">
     {{ this.isEditing() ? 'Editar establecimiento' : 'Crear establecimiento' }}

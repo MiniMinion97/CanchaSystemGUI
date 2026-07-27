@@ -2,24 +2,32 @@
 @let loading = this.loading();
 
 @if (loading) {
-  <p>Cargando reviews...</p>
-}@else {
+  <div class="loading-state">
+    <div class="spinner"></div>
+    <p>Cargando reviews...</p>
+  </div>
+} @else {
     @if(reviews){
     @if (this.reviews().length > 0) {
       <div class="reviews-list">
         @for (review of this.reviews(); track review.id) {
           <div class="review-card">
-            <p>🏟️ Usuario: {{ review.clientName }}</p>
-            <p>📅 Valoracion: {{ review.rating }}</p>
-            <p>📅 Fecha de la review: {{ review.createdAt }}</p>
-            <p>Mensaje: {{ review.message }}</p>
+            <div class="review-card-header">
+              <span class="review-avatar">{{ (review.clientName || 'U').charAt(0).toUpperCase() }}</span>
+              <span class="review-user">{{ review.clientName }}</span>
+            </div>
+            <span class="review-rating">⭐ {{ review.rating }} / 5</span>
+            <p class="review-message">{{ review.message }}</p>
+            <span class="review-date">📅 {{ review.createdAt }}</span>
           </div>
         }
       </div>
     } @else {
-      <p class="no-reservations">No hay reviews registradas aún.</p>
+      <div class="empty-state">
+        <span class="empty-icon">⭐</span>
+        <p class="no-reservations">No hay reviews registradas aún.</p>
+      </div>
     }
 }
 
 }
-

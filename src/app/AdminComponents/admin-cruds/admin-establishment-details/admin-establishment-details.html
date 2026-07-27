@@ -2,61 +2,65 @@
 @let loading = this.loading();
 
 @if (loading) {
-    <p>Cargando sucursal...</p>
+    <p class="status-msg">Cargando sucursal...</p>
 } @else if (!establishment) {
-    <p>La sucursal buscada no existe.</p>
+    <p class="status-msg">La sucursal buscada no existe.</p>
 } @else {
     <main>
-        <section class="establishment-container">
+        <section class="crud-container">
             <div class="container-header">
-                <h2>Datos de la sucursal {{establishment.name}}</h2>
+                <span class="header-tag">🏟️ Sucursal</span>
+                <h2>{{establishment.name}}</h2>
             </div>
 
             <form [formGroup]="form" (ngSubmit)="handleSubmit()">
                 <label>Nombre
                     <input type="text" formControlName="name" [placeholder]="establishment.name || 'Nombre'">
                     @if(form.get('name')?.hasError('required') && (form.get('name')?.touched || form.get('name')?.dirty) ){
-                        <span>El nombre es obligatorio</span>
+                        <span class="field-error">El nombre es obligatorio</span>
                     }
                 </label>
 
                 <label>Dirección
                     <input type="text" formControlName="address" [placeholder]="establishment.address || 'Dirección'">
                     @if(form.get('address')?.hasError('required') && (form.get('address')?.touched || form.get('address')?.dirty) ){
-                        <span>La dirección es obligatoria</span>
+                        <span class="field-error">La dirección es obligatoria</span>
                     }
                 </label>
 
-                <label>¿Tiene duchas?
+                <label class="checkbox-label">
                     <input type="checkbox" formControlName="canShower" [placeholder]="establishment.canShower">
+                    ¿Tiene duchas?
                 </label>
 
                 <label>Hora de apertura
                     <input type="time" formControlName="openingHour" [placeholder]="establishment.openingHour">
                     @if(form.get('openingHour')?.hasError('required') && (form.get('openingHour')?.touched || form.get('openingHour')?.dirty) ){
-                        <span>La hora de apertura es obligatoria</span>
+                        <span class="field-error">La hora de apertura es obligatoria</span>
                     }
                 </label>
 
                 <label>Hora de cierre
                     <input type="time" formControlName="closingHour" [placeholder]="establishment.closingHour">
                     @if(form.get('closingHour')?.hasError('required') && (form.get('closingHour')?.touched || form.get('closingHour')?.dirty) ){
-                        <span>La hora de cierre es obligatoria</span>
+                        <span class="field-error">La hora de cierre es obligatoria</span>
                     }
                 </label>
 
-                <button type="reset">Limpiar</button>
-                <button type="submit">Guardar</button>
+                <div class="form-actions">
+                    <button type="reset" class="reset-btn">Limpiar</button>
+                    <button type="submit" class="save-btn">Guardar</button>
+                </div>
             </form>
 
-            <button (click)="handleDelete()">Borrar Sucursal</button>
+            <button class="delete-btn" (click)="handleDelete()">🗑️ Borrar Sucursal</button>
         </section>
 
-        <section>
+        <section class="nested-section">
             <app-admin-reservation [id]="establishment.id" type="establishment"></app-admin-reservation>
         </section>
 
-        <section>
+        <section class="nested-section">
             <app-admin-reviews [id]="establishment.id" type="establishment"></app-admin-reviews>
         </section>
     </main>
