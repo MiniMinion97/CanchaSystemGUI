@@ -15,7 +15,7 @@ export class Map {
 
   ngOnChanges() {
     if (this.coords) {
-      this.putMarker(this.coords);
+      this.putMarkerInternal(this.coords);
     }
   }
 
@@ -58,21 +58,27 @@ export class Map {
     }
 
     if (this.coords) {
-      this.putMarker(this.coords);
+      this.putMarkerInternal(this.coords);
       map.setView(this.coords);
-      if (this.coords instanceof L.LatLng) {
-        this.markerClicked.emit(this.coords);
-      } else {
-        this.markerClicked.emit(L.latLng(this.coords));
-      }
     }
   }
 
-  putMarker(coords: LatLngExpression): void { // When non-editable, should be called only once with set latitude and longitude
+  putMarkerInternal(coords: LatLngExpression): void {
     if (this.selectedMarker) {
       this.selectedMarker.remove();
     }
     this.selectedMarker = L.marker(coords);
     this.map.addLayer(this.selectedMarker);
+  }
+
+  putMarker(coords: LatLngExpression): void { // When non-editable, should be called only once with set latitude and longitude
+
+    this.putMarkerInternal(coords);
+
+    if (coords instanceof L.LatLng) {
+      this.markerClicked.emit(coords);
+    } else {
+      this.markerClicked.emit(L.latLng(coords));
+    }
   }
 }
