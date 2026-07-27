@@ -11,6 +11,6 @@
 
 <app-map
   [editable]="true"
-  [coords]="[selectedAddress?.lat!, selectedAddress?.lng!]"
+  [coords]="uploadedAddress ? [uploadedAddress.lat, uploadedAddress.lng] : undefined"
   (markerClicked)="onMapClick($event)">
 </app-map>
