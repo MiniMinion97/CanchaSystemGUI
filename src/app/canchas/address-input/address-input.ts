@@ -18,6 +18,7 @@ export class AddressInput implements OnInit, OnDestroy {
   suggestions: AddressRequest[] = [];
   selectedAddress?: AddressRequest;
 
+  protected uploadedAddress?: AddressRequest;
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -28,12 +29,14 @@ export class AddressInput implements OnInit, OnDestroy {
     this.addressControl.valueChanges.pipe(
       debounceTime(300),
       distinctUntilChanged(),
-      filter(value => !!value && value.length > 2),
+      filter(value => {
+        return !!value && value.length > 2;
+      }),
       switchMap(street => {
-          if (street === null) {
-            console.error("Text is null!")
-          }
-          return this.mapService.getAutocomplete(street!)
+        if (street === null) {
+          console.error("Text is null!")
+        }
+        return this.mapService.getAutocomplete(street!)
       }),
       takeUntil(this.destroy$)
     ).subscribe(addresses => {
@@ -46,19 +49,23 @@ export class AddressInput implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+  querySuggestion() {
+    this.uploadedAddress = this.selectedAddress;
+  }
+
   updateSuggestion(address: AddressRequest) {
     this.selectedAddress = address;
-    this.addressControl.setValue(address.street, {
-      emitEvent: false
-    });
+    this.addressControl.setValue(address.street, {});
   }
 
   selectSuggestion(address: AddressRequest) {
     this.updateSuggestion(address);
+    this.querySuggestion();
     this.suggestions = [];
   }
 
   onMapClick(coords: L.LatLng) {
+    this.suggestions = [];
     this.mapService.getReverseGeocoding(coords.lat, coords.lng)
       .subscribe(address => this.updateSuggestion(address));
   }
