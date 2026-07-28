@@ -13,7 +13,7 @@ export class AddressService {
   }
 
   insertAddress(addressRequest: AddressRequest) {
-    return this.http.post<AddressRequest>(`${this.url}/insert`, addressRequest);
+    return this.http.post<AddressResponse>(`${this.url}/insert`, addressRequest);
   }
 
   deleteAddress(id: number) {

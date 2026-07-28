@@ -13,12 +13,6 @@ export class Map {
   @Input() editable = false;
   @Input() coords?: LatLngExpression;
 
-  ngOnChanges() {
-    if (this.coords) {
-      this.putMarkerInternal(this.coords);
-    }
-  }
-
   markerClicked = output<LatLng>();
 
   map!: L.Map;
@@ -38,6 +32,13 @@ export class Map {
 
   layers: L.Layer[] = [];
 
+  ngOnChanges() {
+    if (this.coords) {
+      this.putMarkerInternal(this.coords);
+      this.map.setView(this.coords);
+    }
+  }
+
   onMapReady(map: L.Map): void {
     this.map = map;
 
@@ -54,7 +55,9 @@ export class Map {
         map.tapHold.disable();
       }
     } else {
-      map.on('click', e => this.putMarker(e.latlng));
+      map.on('click', e => {
+        this.putMarker(e.latlng);
+      });
     }
 
     if (this.coords) {
@@ -72,7 +75,6 @@ export class Map {
   }
 
   putMarker(coords: LatLngExpression): void { // When non-editable, should be called only once with set latitude and longitude
-
     this.putMarkerInternal(coords);
 
     if (coords instanceof L.LatLng) {
