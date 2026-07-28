@@ -21,12 +21,10 @@
                     }
                 </label>
 
-                <label>Dirección
-                    <input type="text" formControlName="address" [placeholder]="establishment.address || 'Dirección'">
-                    @if(form.get('address')?.hasError('required') && (form.get('address')?.touched || form.get('address')?.dirty) ){
-                        <span class="field-error">La dirección es obligatoria</span>
-                    }
-                </label>
+                <app-address-input
+                  (selection)="onAddressSelected($event)"
+                  [selectedAddress]="address"
+                  ></app-address-input>
 
                 <label class="checkbox-label">
                     <input type="checkbox" formControlName="canShower" [placeholder]="establishment.canShower">

@@ -18,10 +18,11 @@
 
   <label>
     Dirección
-    <input type="text" formControlName="address" placeholder="Ej: Av. Siempre Viva 123" />
-    @if(form.get('address')?.hasError('required') && (form.get('address')?.touched || form.get('address')?.dirty)){
-      <span class="field-error">La dirección es obligatoria</span>
-    }
+    <app-address-input
+      (selection)="onAddressSelected($event)"
+      [selectedAddress]="address"
+    >
+    </app-address-input>
   </label>
 
   <label class="checkbox-label">
