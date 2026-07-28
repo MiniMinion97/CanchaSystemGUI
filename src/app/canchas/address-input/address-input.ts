@@ -20,6 +20,7 @@ export class AddressInput implements OnInit, OnDestroy {
   selection = output<AddressRequest>();
 
   @Input() selectedAddress?: AddressRequest;
+  private wasEmpty = true;
   protected uploadedAddress?: AddressRequest;
   private destroy$ = new Subject<void>();
 
@@ -29,7 +30,7 @@ export class AddressInput implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (this.selectedAddress) {
-      this.addressControl.setValue(this.selectedAddress.street)
+      this.addressControl.setValue(this.selectedAddress.street);
     }
 
     this.addressControl.valueChanges.pipe(
@@ -48,6 +49,14 @@ export class AddressInput implements OnInit, OnDestroy {
     ).subscribe(addresses => {
       this.suggestions = addresses;
     });
+  }
+
+  ngOnChanges(): void {
+    if (this.wasEmpty && this.selectedAddress) {
+      this.wasEmpty = false;
+      this.addressControl.setValue(this.selectedAddress.street);
+      this.querySuggestion();
+    }
   }
 
   ngOnDestroy() {
