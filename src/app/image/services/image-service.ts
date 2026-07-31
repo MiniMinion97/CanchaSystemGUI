@@ -18,7 +18,7 @@ export class ImageService {
   getImageUrl(imageId: number | string) {
     return `${this.url}/${imageId}`;
   }
-  
+
   getImagesByEstablishment(establishmentId: number) {
     return this.http.get<Image[]>(`${this.url}/establishment/${establishmentId}`);
   }
@@ -37,6 +37,9 @@ export class ImageService {
     return this.http.post(`${this.url}/insert/${uploadData}`, formData);
   }
 
+  getImagePreviews(estalishmentIds: number[]) {
+    return this.http.post<Image[]>(`${this.url}/establishment/preview`, estalishmentIds);
+  }
 
   updateImage(id: string, image: Image) {
     return this.http.put<Image>(`${this.url}/update/${id}`, image);

@@ -5,7 +5,7 @@
   <div class="page-wrap">
 
     <section class="hero">
-     
+
       <h1>Encontrá la cancha perfecta para tu partido</h1>
       <p class="hero-subtitle">
         Explorá establecimientos de fútbol 5, 7, 9 y 11, compará precios y reservá en minutos.
@@ -107,7 +107,11 @@
           @for (establishment of establishments; track establishment.id) {
             <div class="establishment-item">
               <div class="establishment-pictures">
-                <span class="placeholder-text">🏟️</span>
+                @if (doesEstablishmentHavePreview(establishment.id)) {
+                  <img class="" [src]="getImage(establishment.id)" [alt]="" />
+                } @else {
+                  <span class="placeholder-text">🏟️</span>
+                }
                 @if (establishment.averageRating) {
                   <div class="rating-badge">
                     <app-star-rating
