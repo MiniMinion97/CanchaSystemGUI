@@ -1,27 +1,32 @@
-
 @if(!logged()){
   <div class="auth-trigger">
-  <span (click)="togglePanel('login')">Login</span> <hr>
-  <span (click)="togglePanel('register')">Register</span>
-</div>
-
-<div class="auth-panel" [class.open]="isOpen()">
-  <div class="auth-header">
-    <h3>{{ activeTab === 'login' ? 'Login' : 'Register' }}</h3>
-    <button class="close-btn" (click)="closePanel()">✖</button>
+    <button class="auth-trigger-btn" (click)="togglePanel('login')">
+      <span class="line">Iniciar</span>
+      <span class="line">Sesión</span>
+    </button>
+    <div class="trigger-divider"></div>
+    <button class="auth-trigger-btn" (click)="togglePanel('register')">
+      <span class="line-single">Registrarse</span>
+    </button>
   </div>
 
-  <div class="auth-body">
-    @if (activeTab === 'login') {
-      <app-login></app-login>
-      
-    }
-    @if (activeTab === 'register') {
-      <app-register></app-register>
-    }    
+  <div class="auth-panel" [class.open]="isOpen()">
+    <div class="auth-header">
+      <h3>{{ activeTab === 'login' ? 'Iniciar sesión' : 'Crear cuenta' }}</h3>
+      <button class="close-btn" (click)="closePanel()">✖</button>
     </div>
-</div>
-}@else {
-  <span class="auth-trigger" (click)="handleLogout()">Logout</span>
-}
 
+    <div class="auth-body">
+      @if (activeTab === 'login') {
+        <app-login></app-login>
+      }
+      @if (activeTab === 'register') {
+        <app-register></app-register>
+      }
+    </div>
+  </div>
+}@else {
+  <button class="auth-trigger logout-trigger" (click)="handleLogout()">
+    <span class="line-single">Cerrar sesión</span>
+  </button>
+}

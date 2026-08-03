@@ -1,4 +1,4 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { BrandService } from '../../../canchas/services/brand/brand-service';
 import { AuthService } from '../../../auth/services/authservice';  // ✅ Importar
 import { Router } from '@angular/router';
@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [],
   templateUrl: './my-brands.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './my-brands.component.css'
 })
 export class MyBrandsComponent {

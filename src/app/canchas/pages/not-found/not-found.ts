@@ -1,12 +1,13 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-not-found',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './not-found.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './not-found.css'
 })
 export class NotFound {

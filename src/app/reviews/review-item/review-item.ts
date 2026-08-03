@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { ReviewResponse } from '../models/review-response';
 
@@ -7,6 +7,7 @@ import { ReviewResponse } from '../models/review-response';
   standalone: true,
   imports: [CommonModule, DatePipe],
   templateUrl: './review-item.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./review-item.css'],
 })
 export class ReviewItem {

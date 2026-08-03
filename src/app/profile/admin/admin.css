@@ -3,76 +3,170 @@
 main {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: start;
+    align-items: center;
     min-height: 100%;
-    padding: 0 0;
-    gap: 1.5rem;
+    padding: 2.5rem 1rem 3rem;
+    gap: 2rem;
 }
 
-/* Navigation buttons */
-main > button {
-    position: relative;
+.admin-hero {
     width: 60vw;
     max-width: 1200px;
-    padding: 1.5rem;
-    background-color: var(--background-color);
-    border: 2px solid var(--border-color);
-    border-radius: 13px;
-    color: var(--font-color);
-    font-size: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+}
+
+.hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background-color: var(--primary-soft);
+    color: var(--primary-dark);
     font-weight: 600;
+    font-size: 0.85rem;
+    padding: 0.35rem 0.9rem;
+    border-radius: var(--radius-xl);
+}
+
+.admin-hero h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.hero-subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.menu-grid {
+    width: 60vw;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+main > .menu-grid > button,
+.menu-grid button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    width: 100%;
+    padding: 1.5rem 1.75rem;
+    background-color: var(--surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
     cursor: pointer;
-    transition: all 0.3s ease;
-    text-align: center;
-    user-select: none;
+    transition: var(--transition-base);
+    text-align: left;
+    color: var(--text-primary);
 }
 
-main > button:hover {
-    transform: translateY(-5px);
-    border-color: var(--green-accent);
-    box-shadow: 0 8px 20px rgba(95, 125, 54, 0.25);
-    background-color: var(--background-color-dark);
+.menu-grid button:hover {
+    transform: translateY(-3px);
+    border-color: var(--primary-light);
+    box-shadow: var(--shadow-md);
+    background-color: var(--primary-soft);
 }
 
-main > button:active {
-    transform: translateY(-2px);
+.menu-grid button:active {
+    transform: translateY(-1px);
 }
 
-main > button:focus {
+.menu-grid button:focus {
     outline: none;
-    border-color: var(--green-accent);
+    border-color: var(--primary);
+}
+
+.menu-icon {
+    font-size: 1.9rem;
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--surface-alt);
+    border-radius: var(--radius-md);
+}
+
+.menu-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.menu-text h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.menu-text p {
+    margin: 0;
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+}
+
+.menu-arrow {
+    font-size: 1.3rem;
+    color: var(--text-secondary);
+    transition: transform 0.25s ease, color 0.25s ease;
+    flex-shrink: 0;
+}
+
+.menu-grid button:hover .menu-arrow {
+    transform: translateX(4px);
+    color: var(--primary);
 }
 
 /* Responsive */
 @media (max-width: 1200px) {
-    main > button {
+    .admin-hero,
+    .menu-grid {
         width: 75vw;
     }
 }
 
 @media (max-width: 768px) {
     main {
-        padding: 1rem 0;
+        padding: 1.5rem 1rem 2rem;
+        gap: 1.5rem;
+    }
+
+    .admin-hero,
+    .menu-grid {
+        width: 90vw;
+    }
+
+    .admin-hero h1 {
+        font-size: 1.6rem;
+    }
+
+    .menu-grid button {
+        padding: 1.2rem 1.35rem;
         gap: 1rem;
     }
 
-    main > button {
-        width: 90vw;
-        padding: 1.25rem;
-        font-size: 1rem;
+    .menu-icon {
+        font-size: 1.6rem;
+        width: 44px;
+        height: 44px;
     }
 }
 
 @media (max-width: 480px) {
-    main {
-        padding: 0.75rem 0;
-        gap: 0.75rem;
-    }
-
-    main > button {
+    .admin-hero,
+    .menu-grid {
         width: 95vw;
-        padding: 1rem;
-        font-size: 0.95rem;
     }
 }

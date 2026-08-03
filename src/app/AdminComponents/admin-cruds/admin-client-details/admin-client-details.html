@@ -2,36 +2,36 @@
 @let loading = this.loading();
 
 @if (loading) {
-    <p>Cargando cliente...</p>
+    <p class="status-msg">Cargando cliente...</p>
 } @else if (!client) {
-    <p>El cliente buscado no existe.</p>
+    <p class="status-msg">El cliente buscado no existe.</p>
 } @else {
     <main>
-        <section class="client-container">
+        <section class="crud-container">
             <div class="container-header">
-                <h2>Datos del cliente {{client.name}} {{client.lastName}}</h2>
+                <span class="header-tag">👤 Cliente</span>
+                <h2>{{client.name}} {{client.lastName}}</h2>
             </div>
-
 
             <form [formGroup]="form" (ngSubmit)="handleSubmit()">
                 <label>Nombre
                     <input type="text" formControlName="name" [placeholder]="client.name || 'Nombre'">
                     @if(form.get('name')?.hasError('required') && (form.get('name')?.touched || form.get('name')?.dirty) ){
-                        <span>El nombre es obligatorio</span>
+                        <span class="field-error">El nombre es obligatorio</span>
                     }
                 </label>
 
                 <label>Apellido
                     <input type="text" formControlName="lastName" [placeholder]="client.lastName || 'Apellido'">
                     @if(form.get('lastName')?.hasError('required') && (form.get('lastName')?.touched || form.get('lastName')?.dirty) ){
-                        <span>El apellido es obligatorio</span>
+                        <span class="field-error">El apellido es obligatorio</span>
                     }
                 </label>
 
                 <label>Nombre de usuario
                     <input type="text" formControlName="username" [placeholder]="client.username || 'Nombre de usuario'">
                     @if(form.get('username')?.hasError('required') && (form.get('username')?.touched || form.get('username')?.dirty) ){
-                        <span>El nombre de usuario es obligatorio</span>
+                        <span class="field-error">El nombre de usuario es obligatorio</span>
                     }
                 </label>
 
@@ -40,9 +40,9 @@
                     @let email = form.get('mail');
                     @if (email?.touched || email?.dirty) {
                         @if (email?.hasError('required')) {
-                            <span>El mail es obligatorio</span>
+                            <span class="field-error">El mail es obligatorio</span>
                         } @else if (email?.hasError('email')) {
-                            <span>Debe ser tipo mail</span>
+                            <span class="field-error">Debe ser tipo mail</span>
                         }
                     }
                 </label>
@@ -50,22 +50,24 @@
                 <label>Número de teléfono
                     <input type="text" formControlName="cellNumber" [placeholder]="client.cellNumber || 'Número de teléfono'">
                     @if(form.get('cellNumber')?.hasError('required') && (form.get('cellNumber')?.touched || form.get('cellNumber')?.dirty) ){
-                        <span>El celular es obligatorio</span>
+                        <span class="field-error">El celular es obligatorio</span>
                     }
                 </label>
 
-                <button type="reset">Limpiar</button>
-                <button type="submit">Guardar</button>
+                <div class="form-actions">
+                    <button type="reset" class="reset-btn">Limpiar</button>
+                    <button type="submit" class="save-btn">Guardar</button>
+                </div>
             </form>
 
-            <button (click)="handleDelete()">Borrar Cliente</button>
+            <button class="delete-btn" (click)="handleDelete()">🗑️ Borrar Cliente</button>
         </section>
 
-        <section>
+        <section class="nested-section">
             <app-admin-reservation [id]="client.id" type="client"></app-admin-reservation>
         </section>
 
-        <section>
+        <section class="nested-section">
             <app-admin-reviews [id]="client.id" type="client"></app-admin-reviews>
         </section>
     </main>

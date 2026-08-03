@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { VerificationService } from '../services/verification-service';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   selector: 'app-verify',
   imports: [],
   templateUrl: './verify.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './verify.css',
 })
 export class Verify {

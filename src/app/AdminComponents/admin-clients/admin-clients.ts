@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { ClientService } from '../client-service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/services/authservice';
@@ -8,6 +8,7 @@ import { AdminService } from '../admin-service';
   selector: 'app-admin-clients',
   imports: [],
   templateUrl: './admin-clients.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './admin-clients.css'
 })
 export class AdminClients {

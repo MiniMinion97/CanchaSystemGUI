@@ -2,27 +2,39 @@
     <nav>
         <a routerLink="/explorar" routerLinkActive="active" class="nav-item">
             <img src="/cancha home blanco.png" draggable="false">
+            <span class="nav-label">Inicio</span>
         </a>
 
         <a routerLink="/perfil" routerLinkActive="active" class="nav-item">
-            <img src="/botin blanco.png" routerLink="/perfil" routerLinkActive="active" draggable="false">
-        </a >
+            <img src="/botin blanco.png" draggable="false">
+            <span class="nav-label">Perfil</span>
+        </a>
 
-        <div></div>
         <div class="logo-container">
             <img src="/logo.png" class="logo" draggable="false">
         </div>
 
-
         <a routerLink="/contacto" routerLinkActive="active" class="nav-item">
             <img src="/dueño blanco.png" draggable="false">
+            <span class="nav-label">Contacto</span>
         </a>
 
         <a routerLink="/FAQ" routerLinkActive="active" class="nav-item">
             <img src="/faq blanco.png" draggable="false">
+            <span class="nav-label">FAQ</span>
         </a>
-
     </nav>
 </header>
 
 <div class="header-padding"></div>
+
+<button
+    class="theme-toggle-fab"
+    (click)="toggleTheme()"
+    [attr.aria-label]="isDarkMode() ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'">
+    @if (isDarkMode()) {
+        <span>☀️</span>
+    } @else {
+        <span>🌙</span>
+    }
+</button>

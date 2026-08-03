@@ -1,6 +1,6 @@
 export interface EstablishmentRequest {
     name: string;
-    address: string;
+    addressId: number;
     canShower: boolean;
     openingHour: Date | string;
     closingHour: Date | string;

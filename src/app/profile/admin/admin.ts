@@ -1,10 +1,11 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
   imports: [],
   templateUrl: './admin.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './admin.css'
 })
 export class Admin {
@@ -25,6 +26,10 @@ export class Admin {
 
   goToEstablishments(){
     this.router.navigateByUrl("admin/sucursales");
+  }
+
+  goToStats(){
+    this.router.navigateByUrl("admin/estadisticas");
   }
 
 }

@@ -1,16 +1,17 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../auth/services/authservice';
 import { HttpClient } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
+
 import { Image } from '../../image/models/image';
 import { ImageService } from '../../image/services/image-service';
 
 @Component({
   selector: 'app-my-data',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './my-data.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './my-data.component.css'
 })
 export class MyDataComponent {

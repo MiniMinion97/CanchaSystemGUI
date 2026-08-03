@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, input, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { ReservationService } from '../../../reservation/services/reservation/reservation-service';
 import { AuthService } from '../../../auth/services/authservice';
@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
   selector: 'app-my-owner-reservations',
   imports: [CommonModule, DatePipe],
   templateUrl: './my-owner-reservations.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './my-owner-reservations.css'
 })
 export class MyOwnerReservations {

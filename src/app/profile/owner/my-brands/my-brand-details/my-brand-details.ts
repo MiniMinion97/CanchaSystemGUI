@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { BrandService } from '../../../../canchas/services/brand/brand-service';
 import { EstablishmentForm } from '../../../../canchas/pages/establishment-form/establishment-form';
 import { EstablishmentService } from '../../../../canchas/services/establishment/establishment-service';
@@ -13,6 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   selector: 'app-my-brand-details',
   imports: [EstablishmentForm, BrandForm,MyEstablishmentsComponent],
   templateUrl: './my-brand-details.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './my-brand-details.css'
 })
 export class MyBrandDetails {

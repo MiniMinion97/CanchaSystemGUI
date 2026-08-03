@@ -1,50 +1,57 @@
-import { Component, effect, inject, input, output } from '@angular/core';
+import { Component, effect, inject, input, output, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { EstablishmentService } from '../../services/establishment/establishment-service';
 import { EstablishmentRequest } from '../../models/establishment-request';
 import { ImageService } from '../../../image/services/image-service';
 import { ImageProviderType } from '../../../image/models/image-provider-type';
+import {AddressInput} from '../../address-input/address-input';
+import {AddressRequest} from '../../models/address-request';
+import {AddressService} from '../../services/address/address-service';
 
 // Validador que verifica si el input time tiene valor real (no el placeholder --:--)
 function timeInputRequired(control: AbstractControl): ValidationErrors | null {
   const value = control.value;
-  
+
   // Si el input está vacío o es el valor por defecto
   if (!value || value === '') {
     return { required: true };
   }
-  
+
   return null;
 }
 
 @Component({
   selector: 'app-establishment-form',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, AddressInput],
   templateUrl: './establishment-form.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './establishment-form.css'
 })
 export class EstablishmentForm {
   private readonly formBuilder = inject(FormBuilder);
   private readonly establishmentService = inject(EstablishmentService);
   private readonly imageService = inject(ImageService);
+  private readonly addressService = inject(AddressService);
 
   private selectedImages: File[] = [];
 
   protected existingImages: string[] = [];
   protected imagesToDelete: string[] = [];
   protected selectedPreviews: string[] = [];
-  
+
+  private previousAddress?: AddressRequest;
+  protected address?: AddressRequest;
+
   protected readonly form = this.formBuilder.nonNullable.group({
     name: ['', [Validators.required, Validators.minLength(3)]],
-    address: ['', Validators.required],
     canShower: [false, Validators.required],
     openingHour: ['', timeInputRequired],  // String vacío para validar correctamente
     closingHour: ['', timeInputRequired],  // String vacío para validar correctamente
   });
-  
+
   readonly brandId = input<number>();
   readonly estData = input<EstablishmentRequest>();
-  readonly isEditing = input(false);
+  public readonly isEditing = input(false);
   readonly estEdited = output<EstablishmentRequest>();
   readonly estId = input<number>();
 
@@ -55,32 +62,43 @@ export class EstablishmentForm {
         // Si vienen como Date desde el backend, convertirlos a string para el formulario
         this.form.patchValue({
           name: data.name,
-          address: data.address,
           canShower: data.canShower,
           openingHour: typeof data.openingHour === 'string' ? data.openingHour : this.dateToTimeString(data.openingHour as any),
           closingHour: typeof data.closingHour === 'string' ? data.closingHour : this.dateToTimeString(data.closingHour as any)
         });
 
         this.loadImages();
+        this.loadAddress();
       }
     });
   }
 
   handleSubmit() {
-    if (!this.form.valid) return;
-    
+    if (!this.form.valid || !this.address) return;
+
+    if (this.address === this.previousAddress) {
+      this.submit(this.estData()?.addressId!);
+    } else {
+      this.addressService.insertAddress(this.address!).subscribe({
+        next: address => {
+          this.submit(address.id);
+        }
+      });
+    }
+  }
+
+  private submit(addressId: number) {
     const formData = this.form.getRawValue();
-    
+
     // Enviar directamente los strings "HH:MM" - Spring Boot los deserializa a LocalTime
     const establishmentData: EstablishmentRequest = {
       name: formData.name,
-      address: formData.address,
+      addressId: addressId,
       canShower: formData.canShower,
       openingHour: formData.openingHour as any,  // String "HH:MM"
       closingHour: formData.closingHour as any,  // String "HH:MM"
       brandId: this.brandId()!
     };
-    
 
     if (this.isEditing()) {
       this.establishmentService.updateEstablishment(this.estId()!, establishmentData).subscribe({
@@ -102,11 +120,14 @@ export class EstablishmentForm {
         }
       });
     } else {
-      this.establishmentService.createEstablishment(establishmentData).subscribe({  
+      this.establishmentService.createEstablishment(establishmentData).subscribe({
         next: (res) => {
           this.submitImages(res.id);
         },
-        error: (err) => console.error('Error al crear establecimiento', err)
+        error: (err) => {
+          console.error('Error al crear establecimiento', err)
+          this.addressService.deleteAddress(establishmentData.addressId).subscribe({});
+        }
       });
     }
   }
@@ -133,7 +154,7 @@ export class EstablishmentForm {
 
   private loadImages() {
     this.imageService.getImagesByEstablishment(this.estId()!).subscribe({
-      next: (data) => this.existingImages = data.map(img => img.id),
+      next: data => this.existingImages = data.map(img => img.id),
       error: (err) => {
         console.error('❌ Error loading images:', err);
       }
@@ -159,6 +180,23 @@ export class EstablishmentForm {
       next: () => alert('Imágenes subidas con éxito'),
       error: (err) => console.error('Error subiendo imágenes', err)
     });
+  }
+
+  private loadAddress() {
+    this.addressService.getAddress(this.estData()?.addressId!).subscribe({
+      next: address => {
+        this.address = address;
+        this.previousAddress = address;
+      },
+      error: (err) => {
+        console.error('❌ Error loading address:', err);
+      }
+    });
+  }
+
+  protected onAddressSelected(address: AddressRequest) {
+    console.log(address);
+    this.address = address;
   }
 
   // Convierte Date a string "HH:MM" para el input (solo para edición)

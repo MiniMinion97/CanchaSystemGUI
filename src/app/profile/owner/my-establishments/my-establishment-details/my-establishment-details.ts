@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EstablishmentService } from '../../../../canchas/services/establishment/establishment-service';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -8,19 +8,23 @@ import { EstablishmentForm } from '../../../../canchas/pages/establishment-form/
 import { EstablishmentResponse } from '../../../../canchas/models/establishment-response';
 import { EstablishmentRequest } from '../../../../canchas/models/establishment-request';
 import { MyCanchasComponent } from '../../my-canchas/my-canchas.component';
-import { MyOwnerReservations } from '../../my-owner-reservations/my-owner-reservations'; 
+import { MyOwnerReservations } from '../../my-owner-reservations/my-owner-reservations';
 import { MyOwnerReviews } from '../../my-owner-reviews/my-owner-reviews';
+import {AddressService} from '../../../../canchas/services/address/address-service';
 
 @Component({
   selector: 'app-my-establishment-details',
   imports: [CanchaForm, EstablishmentForm, MyCanchasComponent, MyOwnerReservations, MyOwnerReviews],
   templateUrl: './my-establishment-details.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './my-establishment-details.css'
 })
 export class MyEstablishmentDetails {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly establishmentService = inject(EstablishmentService);
+  private readonly addressService = inject(AddressService);
+  protected address? : string;
   private readonly canchaService = inject(CanchaService);
   private readonly id = Number(this.route.snapshot.paramMap.get('id'));
 
@@ -31,12 +35,19 @@ export class MyEstablishmentDetails {
   protected readonly isEditing = signal(false);
   readonly est = signal<EstablishmentResponse | null>(null);
 
-  protected readonly showReservations = signal(false); 
+  protected readonly showReservations = signal(false);
   protected readonly showReviews = signal(false);
-  
+
   constructor() {
     this.establishmentService.getEstablishmentById(this.id).subscribe({
-      next: (res) => this.est.set(res),
+      next: (res) => {
+        this.est.set(res)
+        this.addressService.getAddress(res.addressId).subscribe({
+          next: (addr) => {
+            this.address = addr.street;
+          }
+        })
+      },
       error: (err) => console.error('Error fetching brand:', err)
     });
   }

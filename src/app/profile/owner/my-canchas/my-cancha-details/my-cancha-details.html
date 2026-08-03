@@ -2,21 +2,42 @@
 
 @if (cancha) {
     <div class="cancha-details">
-        <h1>Detalles de la cancha</h1>
-    
-        <p>⚽ Tipo de cancha: {{ cancha.canchaType.replace('_', ' ') }}</p>
-        <p>💵 Precio: ${{ cancha.totalAmount }}</p>
-        <p>🏠 Techo: {{ cancha.hasRoof ? 'Sí' : 'No' }}</p>
-        <p>
-            Estado: {{ cancha.working ? 'En funcionamiento' : 'Fuera de servicio' }}
-        </p>
+
+        <div class="details-hero">
+            <span class="hero-tag">⚽ Cancha</span>
+            <h1>Detalles de la cancha</h1>
+        </div>
+
+        <div class="details-card">
+            <div class="detail-row">
+                <span class="label">⚽ Tipo de cancha</span>
+                <span class="value">{{ cancha.canchaType.replace('_', ' ') }}</span>
+            </div>
+            <div class="detail-row">
+                <span class="label">💵 Precio</span>
+                <span class="value">${{ cancha.totalAmount }}</span>
+            </div>
+            <div class="detail-row">
+                <span class="label">🏠 Techo</span>
+                <span class="value">{{ cancha.hasRoof ? 'Sí' : 'No' }}</span>
+            </div>
+            <div class="detail-row">
+                <span class="label">📌 Estado</span>
+                <span class="value" [class.status-ok]="cancha.working" [class.status-off]="!cancha.working">
+                    {{ cancha.working ? 'En funcionamiento' : 'Fuera de servicio' }}
+                </span>
+            </div>
+        </div>
+
         <div class="btnActions">
-            <button (click)="handleDelete()">Borrar</button>
-            <button (click)="toggleEdit()">Editar</button>
-    
-            @if (isEditing()) {
+            <button class="danger-btn" (click)="handleDelete()">🗑️ Borrar</button>
+            <button class="edit-btn" (click)="toggleEdit()">✏️ Editar</button>
+        </div>
+
+        @if (isEditing()) {
+            <div class="form-wrap">
                 <app-cancha-form [canchaData]="cancha" [canchaId]="cancha.id" [isEditing]="true" (canchaEdited)="handleEdit($event)"></app-cancha-form>
-            }
-        </div>    
+            </div>
+        }
     </div>
 }

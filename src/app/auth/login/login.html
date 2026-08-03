@@ -1,24 +1,32 @@
-<form [formGroup] = "form" (ngSubmit) = "handleSubmit()">
-    <label>    Nombre de Usuario    
-        <input type="text" formControlName="username" /> 
+<form [formGroup]="form" (ngSubmit)="handleSubmit()">
+
+    <div class="field">
+        <label for="username">
+            <span class="field-icon">👤</span> Nombre de usuario
+        </label>
+        <input id="username" type="text" formControlName="username" placeholder="Tu usuario">
         @if(form.get('username')?.hasError('required') && (form.get('username')?.touched || form.get('username')?.dirty) ){
-        <span>El nombre de usuario es obligatorio</span>
-    }
-    </label>  
-    <label>    Contraseña    
-        <input type="password" formControlName="password" />  
-        @if( form.get('password')?.touched || form.get('password')?.dirty){
-        @if(form.get('password')?.hasError('required')){
-            <span>La contraseña es obligatoria</span>
-        }@else if (form.get('password')?.hasError('minlength')) {
-        <span>Mínimo 2 caracteres para la contraseña</span>
+            <span class="field-error">El nombre de usuario es obligatorio</span>
         }
-    }
-    </label>  
-    <a routerLink="/recovery">¿Olvidaste tu contraseña?</a>
-    <button type="submit">Iniciar sesión</button>
+    </div>
+
+    <div class="field">
+        <label for="password">
+            <span class="field-icon">🔒</span> Contraseña
+        </label>
+        <input id="password" type="password" formControlName="password" placeholder="••••••••">
+        @if( form.get('password')?.touched || form.get('password')?.dirty){
+            @if(form.get('password')?.hasError('required')){
+                <span class="field-error">La contraseña es obligatoria</span>
+            }@else if (form.get('password')?.hasError('minlength')) {
+                <span class="field-error">Mínimo 2 caracteres para la contraseña</span>
+            }
+        }
+    </div>
+
+    <button type="submit" class="submit-btn">Iniciar sesión</button>
 
     @if (hasError()) {
-        <span>{{errorMessage}}</span>
+        <span class="form-error">{{errorMessage}}</span>
     }
 </form>

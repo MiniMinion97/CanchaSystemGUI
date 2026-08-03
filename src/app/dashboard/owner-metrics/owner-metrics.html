@@ -1,1 +1,66 @@
-<p>owner-metrics works!</p>
+<main>
+  <div class="metrics-hero">
+    <h1>Rendimiento de tu negocio</h1>
+    <p class="hero-subtitle">Métricas de tus sucursales, reservas y reseñas.</p>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Cargando estadísticas...</p>
+    </div>
+  } @else if (!hasData()) {
+    <div class="empty-state">
+      <span class="empty-icon">📊</span>
+      <p>Todavía no hay datos suficientes para mostrar estadísticas.</p>
+    </div>
+  } @else {
+
+    <div class="metrics-grid">
+      <section class="metric-block">
+        <h3>⭐ Sucursales por promedio de reviews</h3>
+        <canvas baseChart
+          [data]="ratingData()"
+          [options]="horizontalBarOptions()"
+          type="bar">
+        </canvas>
+      </section>
+
+      <section class="metric-block">
+        <h3>📅 Sucursales por cantidad de reservas</h3>
+        <canvas baseChart
+          [data]="reservationData()"
+          [options]="horizontalBarOptions()"
+          type="bar">
+        </canvas>
+      </section>
+
+      <section class="metric-block">
+        <h3>🕒 Horas pico de reservas</h3>
+        <canvas baseChart
+          [data]="peakHoursData()"
+          [options]="barOptions()"
+          type="bar">
+        </canvas>
+      </section>
+
+      <section class="metric-block">
+        <h3>❌ Tasa de cancelación por sucursal (%)</h3>
+        <canvas baseChart
+          [data]="cancellationData()"
+          [options]="horizontalBarOptions()"
+          type="bar">
+        </canvas>
+      </section>
+
+      <section class="metric-block metric-block-wide">
+        <h3>💵 Ingresos por sucursal</h3>
+        <canvas baseChart
+          [data]="revenueData()"
+          [options]="horizontalBarOptions()"
+          type="bar">
+        </canvas>
+      </section>
+    </div>
+  }
+</main>

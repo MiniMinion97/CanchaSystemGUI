@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, signal } from '@angular/core';
+import { Component, effect, inject, input, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CanchaService } from '../../../canchas/services/cancha/cancha-service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../auth/services/authservice';
@@ -8,6 +8,7 @@ import { AuthService } from '../../../auth/services/authservice';
   standalone: true,
   imports: [],
   templateUrl: './my-canchas.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './my-canchas.component.css'
 })
 export class MyCanchasComponent {

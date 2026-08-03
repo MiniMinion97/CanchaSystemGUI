@@ -1,14 +1,15 @@
-import { Component, HostListener, inject, signal,effect} from '@angular/core';
+import { Component, HostListener, inject, signal, effect, ChangeDetectionStrategy } from '@angular/core';
 import { Login } from '../../auth/login/login';
 import { Register } from '../../auth/register/register';
-import { CommonModule } from '@angular/common';
+
 import { AuthService } from '../../auth/services/authservice';
 
 @Component({
   selector: 'app-auth-tab',
   standalone: true,
-  imports: [CommonModule, Login, Register],
+  imports: [Login, Register],
   templateUrl: './auth-tab.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./auth-tab.css']
 })
 export class AuthTab {

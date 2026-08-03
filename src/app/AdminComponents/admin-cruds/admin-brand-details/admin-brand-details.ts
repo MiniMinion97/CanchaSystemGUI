@@ -1,4 +1,4 @@
-import { Component, inject, input, OnInit, signal } from '@angular/core';
+import { Component, inject, input, OnInit, signal, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../auth/services/authservice';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -12,6 +12,7 @@ import { Location } from '@angular/common';
   selector: 'app-admin-brand-details',
   imports: [ReactiveFormsModule, AdminEstablishments],
   templateUrl: './admin-brand-details.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './admin-brand-details.css'
 })
 export class AdminBrandDetails implements OnInit {

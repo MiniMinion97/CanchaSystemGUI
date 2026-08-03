@@ -1,0 +1,16 @@
+<div class="address-picker">
+  <input type="text" [formControl]="addressControl" placeholder="Ej: Av. Siempre Viva 123">
+  @if (suggestions.length) {
+    @for (suggestion of suggestions; track $index) {
+      <li (click)="selectSuggestion(suggestion)">
+        {{ suggestion.street }}
+      </li>
+    }
+  }
+</div>
+
+<app-map
+  [editable]="true"
+  [coords]="uploadedAddress ? [uploadedAddress.lat, uploadedAddress.lng] : undefined"
+  (markerClicked)="onMapClick($event)">
+</app-map>

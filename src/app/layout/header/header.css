@@ -1,82 +1,170 @@
-
-header{
+header {
     position: fixed;
     display: flex;
     justify-content: center;
     width: 100%;
-    top: 25px;
+    top: 18px;
     z-index: 100;
     user-select: none;
 }
 
-nav{
-    width: 60%;
-    min-height: 8vh;
+nav {
+    width: 56%;
+    min-width: 420px;
+    height: 74px;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
-    border-radius: 50px;
-    background-color: var(--background-color-dark);
-    border: var(--border-color) 1px solid;
-    box-shadow: 0 4px 8px var(--shadow-color);
+    border-radius: 40px;
+    background-color: var(--surface);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+    padding: 0 0.5rem;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .nav-item {
-  padding: 8px;
-  border-radius: 10px;
-  transition: background-color 0.25s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    padding: 6px 14px;
+    border-radius: 14px;
+    transition: background-color 0.2s ease;
+    z-index: 1;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+}
+
+.nav-item img {
+    max-width: 36px;
+    max-height: 36px;
+    transition: filter 0.2s ease, opacity 0.2s ease;
+}
+
+[data-theme="light"] .nav-item.active img {
+    filter: brightness(0);
+    opacity: 1;
+}
+
+[data-theme="dark"] .nav-item:not(.active) img {
+    filter: none;
+    opacity: 0.85;
+}
+
+.nav-label {
+    font-size: 0.95rem;
+    font-weight: 1000;
+    color: var(--text-secondary);
+    transition: color 0.2s ease;
 }
 
 .logo-container {
     position: absolute;
-    left: 50%;
-    top: -25px; /* Ajusta según necesites */
+    left: 49.2%;
+    top: -14px;
     transform: translateX(-50%);
     z-index: 10;
-    background-color: var(--background-color-dark);
+    background-color: var(--surface);
     border-radius: 50%;
-    padding: 10px;
-
-    box-shadow: 0 4px 8px var(--shadow-color);
+    padding: 6px;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border-color);
 }
 
-.logo{
-    height: 120px !important; /* Más grande que los otros íconos */
+.logo {
+    height: 66px !important;
     width: auto;
+    display: block;
 }
-
-
-/*
 .nav-item.active {
-    background-color: #5F7D36;
-    border-radius: 45px;
-}*/
-
-.nav-item img {
-    max-width: 80px;
-    max-height: 80px;
-    transition: filter 0.25s ease;
-    /*filter: brightness(0) invert(1);  Mantiene íconos blancos */
+    border: 1.5px solid var(--primary);
+    background-color: transparent;
 }
 
-.nav-item.active img{
-  filter: brightness(0.45) sepia(1) hue-rotate(54deg) saturate(2.5);
+
+.nav-item.active img {
+    filter: none;
+    opacity: 1;
+}
+
+.nav-item.active .nav-label {
+    color: var(--primary);
+    font-weight: 700;
 }
 
 .nav-item:hover:not(.active) {
-    background-color: rgba(95, 125, 54, 0.1);
-    border-radius: 47px;
+    background-color: var(--primary-soft);
 }
 
 .nav-item:hover:not(.active) img {
-    filter: brightness(0.8) invert(1);
+    opacity: 1;
 }
 
+.nav-item:hover:not(.active) .nav-label {
+    color: var(--primary);
+}
+
+
 div.header-padding {
-    height: 18vh;
+    height: 100px;
+}
+
+/* ===== Botón flotante de dark mode ===== */
+.theme-toggle-fab {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background-color: var(--surface);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    cursor: pointer;
+    z-index: 200;
+    transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.theme-toggle-fab:hover {
+    transform: translateY(-3px) scale(1.05);
+    background-color: var(--primary-soft);
+}
+.nav-item:focus,
+.nav-item:focus-visible {
+    outline: none;
+}
+
+@media (max-width: 768px) {
+    nav {
+        width: 88%;
+        min-width: unset;
+        height: 56px;
+    }
+
+    .nav-label {
+        display: none;
+    }
+
+    .logo {
+        height: 44px !important;
+    }
+
+    div.header-padding {
+        height: 80px;
+    }
+
+    .theme-toggle-fab {
+        bottom: 16px;
+        right: 16px;
+        width: 46px;
+        height: 46px;
+    }
 }

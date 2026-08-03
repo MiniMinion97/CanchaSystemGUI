@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, signal } from '@angular/core';
+import { Component, effect, inject, input, signal, ChangeDetectionStrategy } from '@angular/core';
 import { EstablishmentService } from '../../../canchas/services/establishment/establishment-service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
@@ -9,6 +9,7 @@ import { AuthService } from '../../../auth/services/authservice';
   standalone: true,
   imports: [],
   templateUrl: './my-establishments.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './my-establishments.component.css'
 })
 export class MyEstablishmentsComponent {

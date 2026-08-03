@@ -1,35 +1,51 @@
 /* canchas-list.css */
 
-p {
+.loading-state,
+.empty-state {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    align-items: start;
-    min-height: 100%;
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--font-color);
+    gap: 0.75rem;
+    min-height: 40vh;
+    padding: 2rem;
     text-align: center;
-    padding: 0 2rem;
+}
+
+.spinner {
+    width: 46px;
+    height: 46px;
+    border: 4px solid var(--surface-sunken);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.loading-state p {
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.empty-icon {
+    font-size: 3.5rem;
+    opacity: 0.4;
 }
 
 .no-canchas {
-    display: flex;
-    justify-content: center;
-    align-items: start;
-    min-height: 100%;
-    font-size: 1.2rem;
+    font-size: 1.05rem;
     font-weight: 600;
-    color: var(--font-color);
-    text-align: center;
-    padding: 0 2rem;
+    color: var(--text-secondary);
 }
 
 .canchas-list {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     flex-wrap: wrap;
-    min-height: 100vh;
     padding: 2rem;
     gap: 1.5rem;
     max-width: 1400px;
@@ -43,155 +59,105 @@ p {
     min-width: 240px;
     max-width: 320px;
     padding: 1.5rem;
-    background-color: var(--background-color);
-    border: 2px solid var(--border-color);
-    border-radius: 13px;
-    color: var(--font-color);
-    transition: all 0.3s ease;
-    gap: 0.75rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: var(--surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    color: var(--text-primary);
+    transition: var(--transition-base);
+    gap: 1rem;
+    box-shadow: var(--shadow-sm);
 }
 
 .cancha-card:hover {
-    transform: translateY(-8px);
-    border-color: var(--green-accent);
-    box-shadow: 0 12px 28px rgba(95, 125, 54, 0.25);
-    background-color: var(--background-color-dark);
+    transform: translateY(-6px);
+    border-color: var(--primary-light);
+    box-shadow: var(--shadow-md);
+}
+
+.cancha-card-top {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.cancha-icon {
+    font-size: 1.6rem;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary-soft);
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
 }
 
 .cancha-card h3 {
     margin: 0;
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     font-weight: 700;
-    color: var(--font-color);
-    word-break: break-word;
+    color: var(--text-primary);
+    text-transform: capitalize;
     overflow: hidden;
     text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    text-transform: capitalize;
+    white-space: nowrap;
 }
 
-.cancha-card p {
-    display: block;
-    margin: 0;
-    padding: 0;
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: var(--font-color);
-    min-height: auto;
-}
-
-.canchas-list > button {
-    align-self: flex-start;
-    padding: 0.6rem 1.2rem;
-    background-color: white;
-    border: 2px solid var(--green-accent);
-    border-radius: 8px;
-    color: var(--green-accent);
-    font-size: 0.9rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
+.cancha-info {
+    display: flex;
+    flex-wrap: wrap;
     gap: 0.5rem;
 }
 
-.canchas-list > button:hover {
-    background-color: var(--green-accent);
-    color: white;
-    transform: translateX(3px);
-    box-shadow: 0 4px 12px rgba(95, 125, 54, 0.3);
+.info-chip {
+    background-color: var(--surface-alt);
+    color: var(--text-secondary);
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 0.35rem 0.7rem;
+    border-radius: var(--radius-xl);
 }
 
-.canchas-list > button:active {
-    transform: translateX(1px);
+.cancha-card button {
+    margin-top: auto;
+    padding: 0.6rem 1.2rem;
+    background-color: var(--surface);
+    border: 1.5px solid var(--primary);
+    border-radius: var(--radius-sm);
+    color: var(--primary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-base);
+}
+
+.cancha-card button:hover {
+    background-color: var(--primary);
+    color: white;
+    box-shadow: var(--shadow-sm);
 }
 
 /* Responsive */
 @media (max-width: 1400px) {
-    .cancha-card {
-        width: 22vw;
-    }
+    .cancha-card { width: 22vw; }
 }
 
 @media (max-width: 1200px) {
-    .canchas-list {
-        padding: 0 1.5rem;
-        gap: 1.25rem;
-    }
-
-    .cancha-card {
-        width: 25vw;
-        min-width: 220px;
-    }
+    .canchas-list { padding: 1.5rem; gap: 1.25rem; }
+    .cancha-card { width: 25vw; min-width: 220px; }
 }
 
 @media (max-width: 992px) {
-    .cancha-card {
-        width: 30vw;
-        min-width: 200px;
-    }
+    .cancha-card { width: 30vw; min-width: 200px; }
 }
 
 @media (max-width: 768px) {
-    .canchas-list {
-        padding: 1rem;
-        gap: 1rem;
-    }
-
-    .cancha-card {
-        width: 45vw;
-        min-width: 180px;
-        padding: 1.25rem;
-    }
-
-    .cancha-card h3 {
-        font-size: 1.1rem;
-    }
-
-    .cancha-card p {
-        font-size: 0.9rem;
-    }
-
-    .canchas-list > button {
-        padding: 0.5rem 1rem;
-        font-size: 0.85rem;
-    }
+    .canchas-list { padding: 1rem; gap: 1rem; }
+    .cancha-card { width: 45vw; min-width: 180px; padding: 1.25rem; }
+    .cancha-card h3 { font-size: 1rem; }
 }
 
 @media (max-width: 480px) {
-    .canchas-list {
-        padding: 0.75rem;
-        gap: 0.75rem;
-        justify-content: center;
-    }
-
-    .cancha-card {
-        width: 90vw;
-        min-width: auto;
-        max-width: none;
-        padding: 1rem;
-    }
-
-    .cancha-card h3 {
-        font-size: 1rem;
-    }
-
-    .cancha-card p {
-        font-size: 0.85rem;
-    }
-
-    .canchas-list > button {
-        padding: 0.5rem 0.8rem;
-        font-size: 0.8rem;
-    }
-
-    p,
-    .no-canchas {
-        font-size: 1rem;
-        padding: 1rem;
-    }
+    .canchas-list { padding: 0.75rem; gap: 0.75rem; justify-content: center; }
+    .cancha-card { width: 90vw; min-width: auto; max-width: none; padding: 1.1rem; }
 }

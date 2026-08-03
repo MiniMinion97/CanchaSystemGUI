@@ -1,5 +1,5 @@
-import { Component, inject, signal, computed, effect } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject, signal, computed, effect, ChangeDetectionStrategy } from '@angular/core';
+
 import { Router } from '@angular/router';
 import { Form } from '../../../reviews/form/form';
 import { StarRatingComponent } from '../../../layout/star-rating/star-rating';
@@ -14,8 +14,9 @@ import { switchMap, catchError } from 'rxjs/operators';
 @Component({
   selector: 'app-my-reviews',
   standalone: true,
-  imports: [CommonModule, Form, ReviewList],
+  imports: [Form, ReviewList],
   templateUrl: './my-reviews.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './my-reviews.component.css'
 })
 export class MyReviewsComponent {

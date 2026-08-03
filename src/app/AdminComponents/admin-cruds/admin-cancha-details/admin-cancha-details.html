@@ -2,40 +2,44 @@
 @let loading = this.loading();
 
 @if (loading) {
-    <p>Cargando cancha...</p>
+    <p class="status-msg">Cargando cancha...</p>
 } @else if (!cancha) {
-    <p>La cancha buscada no existe.</p>
+    <p class="status-msg">La cancha buscada no existe.</p>
 } @else {
     <main>
-        <section class="cancha-container">
+        <section class="crud-container">
             <div class="container-header">
+                <span class="header-tag">⚽ Cancha</span>
                 <h2>Datos de cancha</h2>
             </div>
-
 
             <form [formGroup]="form" (ngSubmit)="handleSubmit()">
                 <label>Nombre
                     <input type="text" formControlName="name" [placeholder]="cancha.canchaType">
                     @if(form.get('name')?.hasError('required') && (form.get('name')?.touched || form.get('name')?.dirty) ){
-                        <span>El nombre es obligatorio</span>
+                        <span class="field-error">El nombre es obligatorio</span>
                     }
                 </label>
 
                 <label>Dirección
                     <input type="text" formControlName="address" [placeholder]="cancha.working || 'Dirección'">
                     @if(form.get('address')?.hasError('required') && (form.get('address')?.touched || form.get('address')?.dirty) ){
-                        <span>La dirección es obligatoria</span>
+                        <span class="field-error">La dirección es obligatoria</span>
                     }
                 </label>
 
-                <label>¿Tiene duchas?
+                <label class="checkbox-label">
                     <input type="checkbox" formControlName="canShower">
+                    ¿Tiene duchas?
                 </label>
-                <button type="reset">Limpiar</button>
-                <button type="submit">Guardar</button>
+
+                <div class="form-actions">
+                    <button type="reset" class="reset-btn">Limpiar</button>
+                    <button type="submit" class="save-btn">Guardar</button>
+                </div>
             </form>
 
-            <button (click)="handleDelete()">Borrar Sucursal</button>
+            <button class="delete-btn" (click)="handleDelete()">🗑️ Borrar Sucursal</button>
         </section>
     </main>
 }

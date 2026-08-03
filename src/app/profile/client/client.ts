@@ -1,10 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-client',
   imports: [],
   templateUrl: './client.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './client.css'
 })
 export class Client {

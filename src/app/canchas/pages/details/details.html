@@ -1,107 +1,111 @@
-<main>
-  <!-- Contenedor principal: 2 columnas -->
-  <div class="main-layout">
-    
-    <!-- COLUMNA IZQUIERDA: scrolleable -->
-    <div class="left-column">
-      
-      <!-- DETALLES DEL ESTABLECIMIENTO -->
-      <section id="establishmentSection">
-        <div class="establishment-header">
-          <h1> {{ establishment().name }} </h1>
-        </div>
-        
-        <!-- Espacio reservado para fotos (2/3 del ancho) -->
-        <div class="pictures">
-          <button (click)="previousImage()">‹</button>
-          <div class="picture-container" [style.transform]="'translateX(-' + imageIndex * 100 + '%)'">
-            @for (image of images(); track $index) {
-              <div class="picture-filler">
-                <img class="picture-content" [src]="getImage(image.id)" [alt]="image.fileName" />
+  <main>
+    <!-- Contenedor principal: 2 columnas -->
+    <div class="main-layout">
+
+      <!-- COLUMNA IZQUIERDA: scrolleable -->
+      <div class="left-column">
+
+        <!-- DETALLES DEL ESTABLECIMIENTO -->
+        <section id="establishmentSection">
+          <div class="establishment-header">
+            <h1> {{ establishment().name }} </h1>
+          </div>
+
+          <!-- Espacio reservado para fotos (2/3 del ancho) -->
+          <div class="pictures">
+            <button (click)="previousImage()">‹</button>
+            <div class="picture-container" [style.transform]="'translateX(-' + imageIndex * 100 + '%)'">
+              @for (image of images(); track $index) {
+                <div class="picture-filler">
+                  <img class="picture-content" [src]="getImage(image.id)" [alt]="image.fileName" />
+                </div>
+              }
+            </div>
+            <button (click)="nextImage()">›</button>
+          </div>
+
+          <!-- Detalles del establecimiento -->
+          <div class="establishment-details">
+            <h3>Detalles</h3>
+            <p><strong>Horario:</strong> {{ establishment().openingHour }} - {{ establishment().closingHour }} </p>
+            <p><strong>Dirección:</strong> {{ address?.street }} </p>
+            <app-map
+              [editable]="false"
+              [coords]="address ? [address.lat, address.lng] : undefined"
+              ></app-map>
+          </div>
+        </section>
+
+        <!-- SECCIÓN DE REVIEWS -->
+        <section id="reviewSection">
+          <div class="reviews-header">
+            <h2>Reseñas</h2>
+            <div class="average-rating">
+              <app-star-rating
+                [rating]="establishment().averageRating"
+                [size]="18"
+                [showNumber]="false"
+                color="#F5B301"
+                emptyColor="#DDDDDD">
+              </app-star-rating>
+
+              <span class="rating-text"> {{ establishment().averageRating }} / 5</span>
+              <span class="review-count"> ({{ reviews().length }}) </span>
+
+
+            </div>
+          </div>
+
+          <!-- Formulario de review (si está logueado) -->
+          <!-- Formulario de review (si está logueado) -->
+          @if(loggedIn() && role() === 'ROLE_CLIENT'){
+
+            @if(checkingReview()) {
+              <p class="loading">⏳ Verificando...</p>
+            }
+
+            @else if(hasReviewed() && !editingReview()) {
+              <div class="info-box">
+                <p>✅ Ya has dejado una reseña en este establecimiento.</p>
+                <p class="hint">Puedes editarla o eliminarla desde la lista de reseñas abajo.</p>
               </div>
             }
-          </div>
-          <button (click)="nextImage()">›</button>
-        </div>
-        
-        <!-- Detalles del establecimiento -->
-        <div class="establishment-details">
-          <h3>Detalles</h3>
-          <p><strong>Dirección:</strong> {{ establishment().address }} </p>
-          <p><strong>Horario:</strong> {{ establishment().openingHour }} - {{ establishment().closingHour }} </p>
-        </div>
-      </section>
-      
-      <!-- SECCIÓN DE REVIEWS -->
-      <section id="reviewSection">
-        <div class="reviews-header">
-          <h2>Reseñas</h2>
-          <div class="average-rating">
-            <app-star-rating
-              [rating]="establishment().averageRating"
-              [size]="18"
-              [showNumber]="false"
-              color="#F5B301"
-              emptyColor="#DDDDDD">
-            </app-star-rating>
 
-            <span class="rating-text"> {{ establishment().averageRating }} / 5</span>
-            <span class="review-count"> ({{ reviews().length }}) </span>
+            @else {
+              <app-form
+                [establishmentId]="establishmentId"
+                [isEditing]="!!editingReview()"
+                [review]="editingReview()"
+                (edited)="onReviewEdited($event)"
+                (created)="onReviewCreated($event)"
+              ></app-form>
+            }
+          }
 
-            
-          </div>
-        </div>
-        
-        <!-- Formulario de review (si está logueado) -->
-        <!-- Formulario de review (si está logueado) -->
+          <!-- Lista de reviews -->
+          @if(this.reviews()){
+            <app-review-list
+              [reviews]="reviews()"
+              [currentUserId]="authService.getCurrentClientId()"
+              [isLoggedIn]="loggedIn()"
+              (edit)="startEdit($event)"
+              (delete)="deleteReview($event)"
+            ></app-review-list>
+          }
+        </section>
+      </div>
+
+      <!-- COLUMNA DERECHA: sticky (no scroll) -->
+      <aside class="right-column">
         @if(loggedIn() && role() === 'ROLE_CLIENT'){
-          
-          @if(checkingReview()) {
-            <p class="loading">⏳ Verificando...</p>
-          }
-          
-          @else if(hasReviewed() && !editingReview()) {
-            <div class="info-box">
-              <p>✅ Ya has dejado una reseña en este establecimiento.</p>
-              <p class="hint">Puedes editarla o eliminarla desde la lista de reseñas abajo.</p>
-            </div>
-          }
-          
-          @else {
-            <app-form
+          <div id="reservationSection">
+            <app-make
               [establishmentId]="establishmentId"
-              [isEditing]="!!editingReview()"
-              [review]="editingReview()"
-              (edited)="onReviewEdited($event)"
-              (created)="onReviewCreated($event)"
-            ></app-form>
-          }
+              (reserved)="onReservationCreated($event)"
+            ></app-make>
+          </div>
         }
-        
-        <!-- Lista de reviews -->
-        @if(this.reviews()){
-          <app-review-list
-            [reviews]="reviews()"
-            [currentUserId]="authService.getCurrentClientId()"
-            [isLoggedIn]="loggedIn()"
-            (edit)="startEdit($event)"
-            (delete)="deleteReview($event)"
-          ></app-review-list>
-        }
-      </section>
+      </aside>
+
     </div>
-    
-    <!-- COLUMNA DERECHA: sticky (no scroll) -->
-    <aside class="right-column">
-      @if(loggedIn() && role() === 'ROLE_CLIENT'){
-        <div id="reservationSection">
-          <app-make
-            [establishmentId]="establishmentId"
-            (reserved)="onReservationCreated($event)"
-          ></app-make>
-        </div>
-      }
-    </aside>
-    
-  </div>
-</main>
+  </main>

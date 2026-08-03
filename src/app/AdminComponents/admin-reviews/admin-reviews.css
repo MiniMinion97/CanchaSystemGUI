@@ -3,7 +3,42 @@ main {
     justify-content: center;
     align-items: center;
     min-height: 100%;
-    padding: 0;
+    padding: 0 1rem;
+}
+
+.loading-state,
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 2.5rem;
+    text-align: center;
+}
+
+.spinner {
+    width: 42px;
+    height: 42px;
+    border: 4px solid var(--surface-sunken);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.loading-state p,
+.empty-state p {
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.empty-icon {
+    font-size: 3rem;
+    opacity: 0.4;
 }
 
 .review-container {
@@ -13,104 +48,114 @@ main {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    height: auto;
     max-height: 400px;
-    background-color: var(--background-color-dark);
-    border: var(--green-accent) 2px solid;
-    color: var(--font-color);
-    border-radius: 15px;
-    overflow: auto;
-    box-shadow: 0 8px 24px var(--shadow-color);
+    background-color: var(--surface);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
 }
 
 .container-header {
-    padding: 1rem 1.5rem;
-    background-color: var(--green-accent);
-    color: var(--background-color);
-    border-bottom: 2px solid var(--green-accent);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.1rem 1.5rem;
+    background: linear-gradient(120deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: var(--text-inverse);
     flex-shrink: 0;
 }
 
 .container-header h2 {
     margin: 0;
-    font-size: 1.5rem;
-    font-weight: 600;
+    font-size: 1.25rem;
+    font-weight: 700;
 }
 
-/* Tabla de reviews */
+.header-count {
+    font-size: 0.78rem;
+    opacity: 0.85;
+    font-weight: 500;
+}
+
+.table-scroll {
+    overflow: auto;
+    flex: 1;
+}
+
 .review {
     width: 100%;
     border-collapse: collapse;
-    flex: 1;
 }
 
 .review thead {
     position: sticky;
     top: 0;
-    z-index: 10;
+    background-color: var(--surface-alt);
 }
 
 .review thead th {
-    padding: 1rem 1.5rem;
+    padding: 0.85rem 1.5rem;
     text-align: left;
-    font-weight: 600;
-    background-color: var(--green-accent);
-    color: var(--background-color);
-    border-bottom: 2px solid var(--green-accent);
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: var(--text-secondary);
+    border-bottom: 2px solid var(--surface-sunken);
 }
 
 .review tbody tr {
-    border-bottom: 1px solid var(--border-color);
-    transition: background-color 0.08s ease;
+    border-bottom: 1px solid var(--surface-sunken);
+    transition: background-color 0.2s ease;
 }
 
 .review tbody tr:hover {
-    background-color: rgba(var(--green-accent-rgb), 0.1);
-    cursor: pointer;
+    background-color: var(--primary-soft);
+}
+
+.review tbody tr:last-child {
+    border-bottom: none;
 }
 
 .review td {
-    padding: 1rem 1.5rem;
-    color: var(--font-color);
+    padding: 0.9rem 1.5rem;
+    color: var(--text-primary);
+    font-size: 0.9rem;
 }
 
-.review td:nth-child(2) {
-    font-weight: 600;
-    color: var(--green-accent);
+.rating-cell {
+    font-weight: 700;
+    color: var(--accent-amber);
+    white-space: nowrap;
 }
 
-.review td:nth-child(3) {
-    max-width: 250px;
+.message-cell {
+    max-width: 280px;
     word-wrap: break-word;
     white-space: normal;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    color: var(--text-secondary);
 }
 
-/* Scrollbar styling */
-.review-container::-webkit-scrollbar {
+.review-container::-webkit-scrollbar,
+.table-scroll::-webkit-scrollbar {
     width: 8px;
+    height: 8px;
 }
 
-.review-container::-webkit-scrollbar-track {
-    margin: 10px;
-    background: #d0cfc9;
+.review-container::-webkit-scrollbar-track,
+.table-scroll::-webkit-scrollbar-track {
+    background: var(--surface-alt);
+}
+
+.review-container::-webkit-scrollbar-thumb,
+.table-scroll::-webkit-scrollbar-thumb {
+    background: var(--primary-light);
     border-radius: 10px;
 }
 
-.review-container::-webkit-scrollbar-thumb {
-    background: var(--green-accent);
-    border-radius: 10px;
-}
-
-.review-container::-webkit-scrollbar-thumb:hover {
-    background: var(--green-accent);
-}
-
-/* Mensajes de estado */
-p {
-    text-align: center;
-    color: var(--font-color);
-    padding: 2rem;
-    font-size: 1rem;
+@media (max-width: 768px) {
+    .container-header { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
+    .review th, .review td { padding: 0.7rem 1rem; font-size: 0.85rem; }
 }

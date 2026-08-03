@@ -2,7 +2,7 @@ export interface EstablishmentResponse {
     id: number;
     name: string;
     brandId: number;
-    address: string;
+    addressId: number;
     canShower: boolean;
     openingHour: Date;
     closingHour: Date;

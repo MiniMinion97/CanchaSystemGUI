@@ -1,4 +1,4 @@
-import { Component, inject, signal, effect } from '@angular/core';
+import { Component, inject, signal, effect, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EstablishmentService } from '../../services/establishment/establishment-service';
 import { ReviewService } from '../../../reviews/review-service';
@@ -10,11 +10,15 @@ import { Make } from '../../../reservation/pages/make/make';
 import { StarRatingComponent } from "../../../layout/star-rating/star-rating";
 import { Image } from '../../../image/models/image';
 import { ImageService } from '../../../image/services/image-service';
+import {Map} from '../../map/map';
+import {AddressRequest} from '../../models/address-request';
+import {AddressService} from '../../services/address/address-service';
 
 @Component({
   selector: 'app-details',
-  imports: [Form, ReviewList, Make, StarRatingComponent],
+  imports: [Form, ReviewList, Make, StarRatingComponent, Map],
   templateUrl: './details.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './details.css'
 })
 export class Details {
@@ -22,6 +26,7 @@ export class Details {
   private readonly reviewService = inject(ReviewService);
   private readonly imageService = inject(ImageService)
   protected readonly authService = inject(AuthService);
+  private readonly addressService = inject(AddressService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
 
@@ -37,6 +42,8 @@ export class Details {
 
   protected readonly hasReviewed = signal<boolean>(false);
   protected readonly checkingReview = signal<boolean>(false);
+
+  protected address?: AddressRequest;
 
   constructor() {
     // Cargar datos al iniciar el componente
@@ -65,6 +72,7 @@ export class Details {
     this.establishmentService.getEstablishmentById(this.establishmentId).subscribe({
       next: (data) => {
         this.establishment.set(data);
+        this.loadAddress();
       },
       error: (err) => {
         console.error('❌ Error loading establishment:', err);
@@ -75,7 +83,7 @@ export class Details {
   private loadReviews() {
     this.reviewService.getReviewsByEstablishment(this.establishmentId).subscribe({
       next: (data) => {
-        
+
         this.reviews.set(data);
       },
       error: (err) => {
@@ -91,6 +99,17 @@ export class Details {
       },
       error: (err) => {
         console.error('❌ Error loading images:', err);
+      }
+    });
+  }
+
+  private loadAddress() {
+    this.addressService.getAddress(this.establishment().addressId).subscribe({
+      next: address => {
+        this.address = address;
+      },
+      error: (err) => {
+        console.error('❌ Error loading address:', err);
       }
     });
   }
@@ -111,7 +130,7 @@ export class Details {
 
   private checkIfClientReviewed() {
     const clientId = this.authService.getCurrentClientId();
-    
+
     if (!clientId) {
       console.warn('⚠️ No hay clientId disponible');
       this.hasReviewed.set(false);
@@ -120,7 +139,7 @@ export class Details {
     }
 
     this.checkingReview.set(true);
-    
+
     // pasar clientId como string (UUID), no como Number
     this.reviewService.clientAlreadyReviewed(this.establishmentId, clientId)
       .subscribe({
@@ -142,21 +161,20 @@ export class Details {
 
   /** Called when a review form emits `edited` */
   protected onReviewEdited(updated: ReviewResponse) {
-    
+
     const updatedList = this.reviews().map((r) =>
       r.id === updated.id ? updated : r
     );
     this.reviews.set(updatedList);
     this.editingReview.set(null);
-    
   }
 
 
   protected onReviewCreated(newReview: ReviewResponse) {
-    
+
     this.reviews.set([newReview, ...this.reviews()]);
     this.editingReview.set(null);
-    
+
     // actualizar estado: ahora sí tiene review
     this.hasReviewed.set(true);
   }
@@ -168,10 +186,10 @@ export class Details {
 
     this.reviewService.deleteReview(reviewId).subscribe({
       next: () => {
-        
+
         const filtered = this.reviews().filter((r) => r.id !== reviewId);
         this.reviews.set(filtered);
-        
+
         // actualizar estado: ya no tiene review
         this.hasReviewed.set(false);
         this.editingReview.set(null);

@@ -1,5 +1,5 @@
-import { Component, computed, input, output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, computed, input, output, ChangeDetectionStrategy } from '@angular/core';
+
 import { ReviewResponse } from '../models/review-response';
 import { ReviewItem } from '../review-item/review-item';
 
@@ -7,8 +7,10 @@ import { ReviewItem } from '../review-item/review-item';
 @Component({
   selector: 'app-review-list',
   standalone: true,
-  imports: [CommonModule, ReviewItem],
+  imports: [ReviewItem],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './review-list.html',
+  styleUrls: ['./review-list.css']
 })
 export class ReviewList {
   readonly reviews = input.required<ReviewResponse[]>();

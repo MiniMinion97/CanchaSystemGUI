@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/services/authservice';
 import { OwnerService } from '../owner-service';
@@ -7,6 +7,7 @@ import { OwnerService } from '../owner-service';
   selector: 'app-admin-owners',
   imports: [],
   templateUrl: './admin-owners.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './admin-owners.css'
 })
 export class AdminOwners {

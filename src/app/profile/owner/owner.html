@@ -1,11 +1,69 @@
 <main>
-    <section (click)="goToMyData()">Informacion Personal</section>
-    <section (click)="goToMyBrands()">Mis Marcas</section>
-    <section (click)="goToMyEstablishments()">Mis Sucursales</section>
-    <section (click)="goToMyCanchas()">Mis Canchas</section>
+  <div class="profile-hero">
     
-    <section (click)="toggleFormBrand()">Crear Marca</section>
-    @if (creating()){
-        <app-brand-form></app-brand-form>
-    }
+    <h1>Tu perfil</h1>
+    <p class="hero-subtitle">Gestioná tus marcas, sucursales, canchas y estadísticas desde acá.</p>
+  </div>
+
+  <div class="menu-grid">
+    <section class="menu-card" (click)="goToMyData()">
+      <span class="menu-icon">🧾</span>
+      <div class="menu-text">
+        <h3>Información Personal</h3>
+        <p>Actualizá tus datos de contacto y cuenta</p>
+      </div>
+      <span class="menu-arrow">→</span>
+    </section>
+
+    <section class="menu-card" (click)="goToMyBrands()">
+      <span class="menu-icon">🏷️</span>
+      <div class="menu-text">
+        <h3>Mis Marcas</h3>
+        <p>Administrá las marcas que tenés registradas</p>
+      </div>
+      <span class="menu-arrow">→</span>
+    </section>
+
+    <section class="menu-card" (click)="goToMyEstablishments()">
+      <span class="menu-icon">🏟️</span>
+      <div class="menu-text">
+        <h3>Mis Sucursales</h3>
+        <p>Gestioná tus establecimientos y horarios</p>
+      </div>
+      <span class="menu-arrow">→</span>
+    </section>
+
+    <section class="menu-card" (click)="goToMyCanchas()">
+      <span class="menu-icon">⚽</span>
+      <div class="menu-text">
+        <h3>Mis Canchas</h3>
+        <p>Revisá el estado de tus canchas</p>
+      </div>
+      <span class="menu-arrow">→</span>
+    </section>
+
+    <section class="menu-card" (click)="goToStatistics()">
+      <span class="menu-icon">📊</span>
+      <div class="menu-text">
+        <h3>Estadísticas</h3>
+        <p>Mirá el rendimiento de tu negocio</p>
+      </div>
+      <span class="menu-arrow">→</span>
+    </section>
+  </div>
+
+  <section class="menu-card create-card" (click)="toggleFormBrand()">
+    <span class="menu-icon">➕</span>
+    <div class="menu-text">
+      <h3>Crear Marca</h3>
+      <p>Registrá una nueva marca para empezar a operar</p>
+    </div>
+    <span class="menu-arrow">→</span>
+  </section>
+
+  @if (creating()){
+    <div class="form-wrap">
+      <app-brand-form></app-brand-form>
+    </div>
+  }
 </main>

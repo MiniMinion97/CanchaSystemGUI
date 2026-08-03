@@ -2,35 +2,63 @@
 @let loading = this.loading();
 
 <main>
-  <section class="establishment-container">
-    
-    <div class="container-header">
-      <h2>Explorar Establecimientos</h2>
-      <button 
-        class="refresh-btn" 
-        (click)="establishmentStore.refresh()"
-        [disabled]="loading">
-        🔄 {{ loading ? 'Actualizando...' : 'Actualizar' }}
-      </button>
-    </div>
-    
-    <div class="filter-bar">
-      <div class="filter-item search-box">
-        <label>
+  <div class="page-wrap">
+
+    <section class="hero">
+
+      <h1>Encontrá la cancha perfecta para tu partido</h1>
+      <p class="hero-subtitle">
+        Explorá establecimientos de fútbol 5, 7, 9 y 11, compará precios y reservá en minutos.
+      </p>
+
+      <div class="hero-highlights">
+        <div class="highlight-chip">
+          <span class="highlight-icon">📍</span>
+          <span>Cerca tuyo</span>
+        </div>
+        <div class="highlight-chip">
+          <span class="highlight-icon">⏱️</span>
+          <span>Reserva instantánea</span>
+        </div>
+        <div class="highlight-chip">
+          <span class="highlight-icon">⭐</span>
+          <span>Con reseñas reales</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="establishment-container">
+
+      <div class="container-header">
+        <div class="header-title-group">
+          <h2>Establecimientos disponibles</h2>
+          @if (!loading) {
+            <span class="header-count">{{ this.establishments().length }} en total</span>
+          }
+        </div>
+        <button
+          class="refresh-btn"
+          (click)="establishmentStore.refresh()"
+          [disabled]="loading">
+          <span class="refresh-icon" [class.spinning]="loading">🔄</span>
+          {{ loading ? 'Actualizando...' : 'Actualizar' }}
+        </button>
+      </div>
+
+      <div class="filter-bar">
+        <div class="filter-item search-box">
           <span class="filter-icon">🔍</span>
-          <input 
-            type="text" 
+          <input
+            type="text"
             placeholder="Buscar por nombre..."
             [(ngModel)]="searchText"
             (ngModelChange)="searchText.set($event)"
             class="search-input">
-        </label>
-      </div>
-      
-      <div class="filter-item">
-        <label>
+        </div>
+
+        <div class="filter-item">
           <span class="filter-icon">⭐</span>
-          <select 
+          <select
             [(ngModel)]="sortBy"
             (ngModelChange)="sortBy.set($event)"
             class="filter-select">
@@ -38,13 +66,11 @@
             <option value="highest">Mayor rating</option>
             <option value="lowest">Menor rating</option>
           </select>
-        </label>
-      </div>
-      
-      <div class="filter-item">
-        <label>
+        </div>
+
+        <div class="filter-item">
           <span class="filter-icon">⚽</span>
-          <select 
+          <select
             [(ngModel)]="canchaTypeFilter"
             (ngModelChange)="canchaTypeFilter.set($event)"
             class="filter-select">
@@ -52,81 +78,97 @@
               <option [value]="type.value">{{ type.label }}</option>
             }
           </select>
-        </label>
-      </div>
-      
-      @if (hasActiveFilters()) {
-        <button class="clear-filters-btn" (click)="clearFilters()">
-          ✕ Limpiar filtros
-        </button>
-      }
-    </div>
-    
-    @if (!loading && this.establishments().length > 0) {
-      <div class="results-info">
-        <span class="results-count">
-          {{ establishments.length }} de {{ this.establishments().length }} establecimientos
-        </span>
-      </div>
-    }
-    
-    @if (loading && (!this.establishments() || this.establishments().length === 0)) {
-      <div class="loading-container">
-        <div class="spinner"></div>
-        <p>Cargando establecimientos...</p>
-      </div>
-    }
-    
-    @if (establishments && establishments.length > 0) {
-      <div class="establishments-wrapper">
-        @for (establishment of establishments; track establishment.id) {
-          <div class="establishment-item">
-            <div class="establishment-pictures">
-              <span class="placeholder-text">🏟️</span>
-            </div>
-            <div class="establishment-footer">
-              <div class="establishment-explore-data">
-                <p>{{ establishment.name }}</p>
-                <app-star-rating
-                  [rating]="establishment.averageRating"
-                  [size]="18"
-                  [showNumber]="false"
-                  color="#F5B301"
-                  emptyColor="#DDDDDD">
-                </app-star-rating>
-              </div>
-              <button (click)="navigateToEstablishmentDetails(establishment.id!)">
-                Ver más
-              </button>
-            </div>
-          </div>
+        </div>
+
+        @if (hasActiveFilters()) {
+          <button class="clear-filters-btn" (click)="clearFilters()">
+            ✕ Limpiar filtros
+          </button>
         }
       </div>
-    }
-    
-    @if (!loading && this.establishments().length > 0 && establishments.length === 0) {
-      <div class="empty-container">
-        <div class="empty-icon">🔍</div>
-        <h3>No se encontraron resultados</h3>
-        <p>Intenta cambiar los filtros de búsqueda</p>
-        <button class="refresh-btn-large" (click)="clearFilters()">
-          ✕ Limpiar filtros
-        </button>
-      </div>
-    }
-    
-    @if (!loading && this.establishments().length === 0) {
-      <div class="empty-container">
-        <div class="empty-icon">🏟️</div>
-        <h3>No hay establecimientos disponibles</h3>
-        <p>Intenta actualizar más tarde</p>
-        <button 
-          class="refresh-btn-large" 
-          (click)="establishmentStore.refresh()">
-          🔄 Actualizar
-        </button>
-      </div>
-    }
-    
-  </section>
+
+      @if (!loading && this.establishments().length > 0) {
+        <div class="results-info">
+          <span class="results-count">
+            Mostrando {{ establishments.length }} de {{ this.establishments().length }} establecimientos
+          </span>
+        </div>
+      }
+
+      @if (loading && (!this.establishments() || this.establishments().length === 0)) {
+        <div class="loading-container">
+          <div class="spinner"></div>
+          <p>Cargando establecimientos...</p>
+        </div>
+      }
+
+      @if (establishments && establishments.length > 0) {
+        <div class="establishments-wrapper">
+          @for (establishment of establishments; track establishment.id) {
+            <div class="establishment-item">
+              <div class="establishment-pictures">
+                @if (doesEstablishmentHavePreview(establishment.id)) {
+                  <img class="" [src]="getImage(establishment.id)" [alt]="" />
+                } @else {
+                  <span class="placeholder-text">🏟️</span>
+                }
+                @if (establishment.averageRating) {
+                  <div class="rating-badge">
+                    <app-star-rating
+                      [rating]="establishment.averageRating"
+                      [size]="14"
+                      [showNumber]="true"
+                      color="#C98A2E"
+                      emptyColor="#E4E1DB">
+                    </app-star-rating>
+                  </div>
+                }
+              </div>
+
+              <div class="establishment-footer">
+                <p class="establishment-name">{{ establishment.name }}</p>
+
+                @if (establishment.types && establishment.types.length > 0) {
+                  <div class="type-chips">
+                    @for (type of establishment.types; track type) {
+                      <span class="type-chip">{{ formatType(type) }}</span>
+                    }
+                  </div>
+                }
+
+                <button class="details-btn" (click)="navigateToEstablishmentDetails(establishment.id!)">
+                  Ver más →
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      }
+
+      @if (!loading && this.establishments().length > 0 && establishments.length === 0) {
+        <div class="empty-container">
+          <div class="empty-icon">🔍</div>
+          <h3>No se encontraron resultados</h3>
+          <p>Intenta cambiar los filtros de búsqueda</p>
+          <button class="refresh-btn-large" (click)="clearFilters()">
+            ✕ Limpiar filtros
+          </button>
+        </div>
+      }
+
+      @if (!loading && this.establishments().length === 0) {
+        <div class="empty-container">
+          <div class="empty-icon">🏟️</div>
+          <h3>No hay establecimientos disponibles</h3>
+          <p>Intenta actualizar más tarde</p>
+          <button
+            class="refresh-btn-large"
+            (click)="establishmentStore.refresh()">
+            🔄 Actualizar
+          </button>
+        </div>
+      }
+
+    </section>
+  </div>
 </main>

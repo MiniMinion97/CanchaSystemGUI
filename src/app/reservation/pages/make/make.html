@@ -1,24 +1,30 @@
 <form [formGroup]="form" (ngSubmit)="handleSubmit()" class="reservation-form">
-  <!-- Tipo de cancha -->
+
+  <div class="form-header">
+   
+    <h3>{{ isEditing() ? 'Actualizar reserva' : 'Hacer una reserva' }}</h3>
+  </div>
+
   <fieldset>
-    <legend>Seleccionar tipo de cancha</legend>
-    @for (type of canchaTypes(); track type) {
-      <div class="radio-option">
-        <input
-          type="radio"
-          [id]="'cancha-' + type"
-          formControlName="canchaType"
-          [value]="type"
-          (change)="onCanchaTypeChange()"
-        />
-        <label [for]="'cancha-' + type">{{ type }}</label>
-      </div>
-    }
+    <legend>Tipo de cancha</legend>
+    <div class="radio-group">
+      @for (type of canchaTypes(); track type) {
+        <div class="radio-option">
+          <input
+            type="radio"
+            [id]="'cancha-' + type"
+            formControlName="canchaType"
+            [value]="type"
+            (change)="onCanchaTypeChange()"
+          />
+          <label [for]="'cancha-' + type">{{ type }}</label>
+        </div>
+      }
+    </div>
   </fieldset>
 
-  <!-- Fecha -->
   <div class="form-group">
-    <label for="date">Seleccionar fecha:</label>
+    <label for="date">📅 Fecha</label>
     <input
       id="date"
       type="date"
@@ -28,10 +34,9 @@
     />
   </div>
 
-  <!-- Horarios disponibles -->
   @if (availableHours().length) {
     <div class="form-group">
-      <label for="hour">Horarios disponibles:</label>
+      <label for="hour">🕒 Horarios disponibles</label>
       <select id="hour" formControlName="hour">
         <option value="">Seleccionar hora</option>
         @for (hour of availableHours(); track $index) {

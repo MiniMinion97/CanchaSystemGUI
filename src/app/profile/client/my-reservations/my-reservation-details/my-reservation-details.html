@@ -7,25 +7,28 @@
   @if (res && this.auth.isLoggedIn()) {
 
     <div class="reservation-detail-card">
-      <h2>Detalles de la Reserva #{{ res.id }}</h2>
-      
-      <div class="detail-row">
-        <span class="label"> Tipo de cancha:</span>
-        <span>{{ getCanchaTypeLabel(res.canchaType) }}</span>
+      <div class="detail-card-header">
+        <span class="header-tag">🎟️ Reserva</span>
+        <h2>Detalles de la Reserva #{{ res.id }}</h2>
       </div>
 
       <div class="detail-row">
-        <span class="label">📅 Fecha de reserva:</span>
-        <span>{{ res.reservationDate | date: 'dd/MM/yyyy HH:mm' }}</span>
+        <span class="label">⚽ Tipo de cancha</span>
+        <span class="value">{{ getCanchaTypeLabel(res.canchaType) }}</span>
       </div>
 
       <div class="detail-row">
-        <span class="label">🏆 Fecha del partido:</span>
-        <span>{{ res.matchDate | date: 'dd/MM/yyyy HH:mm' }}</span>
+        <span class="label">📅 Fecha de reserva</span>
+        <span class="value">{{ res.reservationDate | date: 'dd/MM/yyyy HH:mm' }}</span>
       </div>
 
       <div class="detail-row">
-        <span class="label">Estado:</span>
+        <span class="label">🏆 Fecha del partido</span>
+        <span class="value">{{ res.matchDate | date: 'dd/MM/yyyy HH:mm' }}</span>
+      </div>
+
+      <div class="detail-row">
+        <span class="label">📌 Estado</span>
         <span [class]="'status ' + res.status.toLowerCase()">
           {{ getStatusLabel(res.status) }}
         </span>
@@ -49,8 +52,8 @@
         <app-make
           [isEditing]="isEditing()"
           [reservationData]="reservation()!"
-          [establishmentId]="reservation()?.establishmentId"
-          [reservationId]="reservation()?.id"
+          [establishmentId]="$safeNavigationMigration(reservation()?.establishmentId)"
+          [reservationId]="$safeNavigationMigration(reservation()?.id)"
           (reservationEdited)="handleEdit($event)"
         ></app-make>
       }

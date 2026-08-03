@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { EstablishmentService } from '../../../canchas/services/establishment/establishment-service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../auth/services/authservice';
@@ -7,27 +7,34 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AdminReservation } from '../../admin-reservation/admin-reservation';
 import { AdminReviews } from '../../admin-reviews/admin-reviews';
 import { Location } from '@angular/common';
+import {AddressRequest} from '../../../canchas/models/address-request';
+import {AddressService} from '../../../canchas/services/address/address-service';
+import {AddressInput} from '../../../canchas/address-input/address-input';
 
 @Component({
   selector: 'app-admin-establishment-details',
-  imports: [ReactiveFormsModule, AdminReservation, AdminReviews],
+  imports: [ReactiveFormsModule, AdminReservation, AdminReviews, AddressInput],
   templateUrl: './admin-establishment-details.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './admin-establishment-details.css'
 })
 export class AdminEstablishmentDetails {
   private readonly establishmentService = inject(EstablishmentService);
   private readonly route = inject(ActivatedRoute);
   private readonly authService = inject(AuthService);
+  private readonly addressService = inject(AddressService);
 
   protected loading = signal<boolean>(true);
   protected establishment = signal<EstablishmentResponse | undefined>(undefined);
 
   protected readonly isEditing = signal(false);
 
+  private previousAddress?: AddressRequest;
+  protected address?: AddressRequest;
+
   private readonly formBuilder = inject(FormBuilder);
   protected readonly form = this.formBuilder.nonNullable.group({
     name: ['',Validators.required],
-    address: ['',Validators.required],
     canShower: [false],
     openingHour: [new Date(),Validators.required],
     closingHour: [new Date(),Validators.required]
@@ -53,6 +60,7 @@ export class AdminEstablishmentDetails {
       next: (res) => {
         this.establishment.set(res);
         this.loading.set(false);
+        this.loadAddress();
 
         this.form.patchValue({ ...res });
       },
@@ -66,21 +74,33 @@ export class AdminEstablishmentDetails {
   }
 
   handleSubmit() {
-    if (this.form.invalid) {
+    if (this.form.invalid || !this.address) {
       console.error("❌ Formulario inválido");
       alert('El formulario es inválido. Revise nuevamente los datos ingresados.');
       return;
     }
-    
+
+    if (this.address === this.previousAddress) {
+      this.submit(this.establishment()?.addressId!);
+    } else {
+      this.addressService.insertAddress(this.address!).subscribe({
+        next: address => {
+          this.submit(address.id);
+        }
+      });
+    }
+  }
+
+  private submit(addrId: number) {
     const value = this.form.getRawValue();
 
-    this.establishmentService.updateEstablishment(this.establishment()?.id!, { ...value, brandId: this.establishment()?.brandId! }).subscribe({
-        next: (res) => {
-          alert('La sucursal fue editada con éxito.');
-        },
-        error: (err) => {
-          console.error('❌ Error editando sucursal:', err);
-        }
+    this.establishmentService.updateEstablishment(this.establishment()?.id!, { ...value, addressId: addrId, brandId: this.establishment()?.brandId! }).subscribe({
+      next: () => {
+        alert('La sucursal fue editada con éxito.');
+      },
+      error: (err) => {
+        console.error('❌ Error editando sucursal:', err);
+      }
     });
   }
 
@@ -88,7 +108,7 @@ export class AdminEstablishmentDetails {
     if (!confirm(`¿Seguro que quiere eliminar la sucursal ${this.establishment()?.name}?`)) return;
 
     this.establishmentService.deleteEstablishment(this.establishment()?.id!).subscribe({
-        next: (res) => {
+        next: () => {
           alert("Sucursal eliminada con éxito.")
           this.goBack();
         },
@@ -97,6 +117,23 @@ export class AdminEstablishmentDetails {
           alert("Hubo un error al eliminar la sucursal.")
           this.goBack();
         }
+    });
+  }
+
+  protected onAddressSelected(address: AddressRequest) {
+    console.log(address);
+    this.address = address;
+  }
+
+  private loadAddress() {
+    this.addressService.getAddress(this.establishment()?.addressId!).subscribe({
+      next: address => {
+        this.address = address;
+        this.previousAddress = address;
+      },
+      error: (err) => {
+        console.error('❌ Error loading address:', err);
+      }
     });
   }
 
