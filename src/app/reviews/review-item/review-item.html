@@ -1,8 +1,12 @@
 <article class="review-card" [class.own-review]="isOwner() && isLoggedIn()">
-  
+
   <header class="review-header">
     <div class="review-user-block">
-      <div class="review-avatar">{{ (review()!.clientName || 'U').charAt(0).toUpperCase() }}</div>
+      @if (profilePicture()) {
+        <img class="review-avatar" [src]="getImage($safeNavigationMigration(profilePicture()?.id)!)" alt="Imagen de perfil">
+      } @else {
+        <div class="review-avatar">{{ (review()!.clientName || 'U').charAt(0).toUpperCase() }}</div>
+      }
       <div class="review-meta">
         <span class="review-user">
           {{ review()!.clientName || 'Usuario Anónimo' }}
