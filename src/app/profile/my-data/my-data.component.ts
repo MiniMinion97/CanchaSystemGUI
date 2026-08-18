@@ -22,6 +22,7 @@ export class MyDataComponent {
 
   readonly loading = signal(false);
   readonly success = signal(false);
+  readonly errorMessage = signal<string | null>(null);
 
   protected profilePicture = signal<Image | null>(null);
   protected newProfilePicture: File | null = null;
@@ -90,6 +91,7 @@ export class MyDataComponent {
 
     this.loading.set(true);
     this.success.set(false);
+    this.errorMessage.set(null);
 
     const requestBody = {
       ...this.form.getRawValue(),
@@ -123,6 +125,7 @@ export class MyDataComponent {
       },
       error: (err) => {
         console.error('❌ Error al actualizar', err);
+        this.errorMessage.set(err?.error?.error || 'No se pudo actualizar tus datos. Intentá nuevamente.');
         this.loading.set(false);
       }
     });

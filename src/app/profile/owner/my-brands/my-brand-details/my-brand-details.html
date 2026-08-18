@@ -12,7 +12,7 @@
 
     @if (creating()) {
       <div class="form-wrap">
-        <app-establishment-form [brandId]="brand.id"></app-establishment-form>
+        <app-establishment-form [brandId]="brand.id" (estCreated)="handleCreate()"></app-establishment-form>
       </div>
     }
 

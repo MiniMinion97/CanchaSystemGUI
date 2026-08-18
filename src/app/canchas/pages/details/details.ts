@@ -202,7 +202,7 @@ export class Details {
   }
 
   protected onReservationCreated(reservation: any) {
-    alert("reserva creada con éxito!")
+    // ya avisa app-make, evito el doble alert
   }
 
   protected get currentUserId() {
@@ -213,4 +213,3 @@ export class Details {
     return this.loggedIn();
   }
 }
-

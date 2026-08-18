@@ -59,9 +59,13 @@
         @if (success()) {
           <p class="success">✅ Datos actualizados correctamente.</p>
         }
+
+        @if (errorMessage()) {
+          <p class="error">❌ {{ errorMessage() }}</p>
+        }
       </form>
     }
   </div>
 }
 
-</main> 
+</main>

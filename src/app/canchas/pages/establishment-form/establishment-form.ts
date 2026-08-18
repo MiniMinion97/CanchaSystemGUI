@@ -53,6 +53,7 @@ export class EstablishmentForm {
   readonly estData = input<EstablishmentRequest>();
   public readonly isEditing = input(false);
   readonly estEdited = output<EstablishmentRequest>();
+  readonly estCreated = output<EstablishmentRequest>();
   readonly estId = input<number>();
 
   constructor() {
@@ -74,7 +75,15 @@ export class EstablishmentForm {
   }
 
   handleSubmit() {
-    if (!this.form.valid || !this.address) return;
+    if (!this.form.valid) {
+      alert('Completá todos los campos requeridos del formulario');
+      return;
+    }
+
+    if (!this.address) {
+      alert('Seleccioná una dirección en el mapa antes de continuar');
+      return;
+    }
 
     if (this.address === this.previousAddress) {
       this.submit(this.estData()?.addressId!);
@@ -82,6 +91,10 @@ export class EstablishmentForm {
       this.addressService.insertAddress(this.address!).subscribe({
         next: address => {
           this.submit(address.id);
+        },
+        error: (err) => {
+          console.error('Error al guardar la dirección', err);
+          alert('Error al guardar la dirección, probá de nuevo');
         }
       });
     }
@@ -122,10 +135,13 @@ export class EstablishmentForm {
     } else {
       this.establishmentService.createEstablishment(establishmentData).subscribe({
         next: (res) => {
+          alert('Establecimiento creado con éxito');
+          this.estCreated.emit(res);
           this.submitImages(res.id);
         },
         error: (err) => {
           console.error('Error al crear establecimiento', err)
+          alert('Error al crear el establecimiento');
           this.addressService.deleteAddress(establishmentData.addressId).subscribe({});
         }
       });

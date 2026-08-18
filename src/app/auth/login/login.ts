@@ -55,7 +55,7 @@ export class Login {
       },
       error: (err) => {
         console.error('❌ Login fallido:', err);
-        this.errorMessage = 'Usuario o contraseña incorrectos';
+        this.errorMessage = err?.error?.message || 'Usuario o contraseña incorrectos';
         this.isLoading = false;
       }
     });

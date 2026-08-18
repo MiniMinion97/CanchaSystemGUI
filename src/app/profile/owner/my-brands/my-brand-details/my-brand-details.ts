@@ -42,6 +42,16 @@ export class MyBrandDetails {
     this.creating.update(v => !v);
   }
 
+  handleCreate() {
+    this.creating.set(false);
+
+    // refresca la lista si está visible
+    if (this.showAll()) {
+      this.showAll.set(false);
+      setTimeout(() => this.showAll.set(true));
+    }
+  }
+
   handleDetails(id: number) {
     this.router.navigateByUrl(`/perfil/mis-sucursales/${id}`);
   }
@@ -64,9 +74,16 @@ export class MyBrandDetails {
   }
 
   handleDelete() {
+    if (!confirm('¿Seguro que querés eliminar esta marca? Se eliminarán también todas sus sucursales.')) {
+      return;
+    }
+
     this.brandService.deleteBrand(this.id).subscribe({
       next: () => this.router.navigateByUrl('/perfil/mis-marcas'),
-      error: (err) => console.error('Error deleting brand:', err)
+      error: (err) => {
+        console.error('Error deleting brand:', err);
+        alert('Error al eliminar la marca. Probá de nuevo.');
+      }
     });
   }
 }
